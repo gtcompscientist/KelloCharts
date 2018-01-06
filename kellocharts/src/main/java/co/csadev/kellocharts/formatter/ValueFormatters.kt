@@ -5,19 +5,19 @@ import co.csadev.kellocharts.model.*
 open class ValueFormatter(decimalDigitsNumber: Int = Int.MIN_VALUE, appendedText: CharArray = CharArray(0), prependedText: CharArray = CharArray(0), decimalSeparator: Char = '.') {
     internal val valueFormatterHelper = ValueFormatterHelper(decimalDigitsNumber, appendedText, prependedText, decimalSeparator)
 
-    var decimalDigitsNumber: Int
+    open var decimalDigitsNumber: Int
         get() = valueFormatterHelper.decimalDigitsNumber
         set(value) { valueFormatterHelper.decimalDigitsNumber = value }
 
-    var appendedText: CharArray
+    open var appendedText: CharArray
         get() = valueFormatterHelper.appendedText
         set(value) { valueFormatterHelper.appendedText = value }
 
-    var prependedText: CharArray
+    open var prependedText: CharArray
         get() = valueFormatterHelper.prependedText
         set(value) { valueFormatterHelper.prependedText = value }
 
-    var decimalSeparator: Char
+    open var decimalSeparator: Char
         get() = valueFormatterHelper.decimalSeparator
         set(value) { valueFormatterHelper.decimalSeparator = value }
 
