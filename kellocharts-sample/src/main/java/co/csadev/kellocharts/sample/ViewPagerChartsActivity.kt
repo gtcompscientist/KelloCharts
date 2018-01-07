@@ -57,7 +57,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
         // a reference to the Tab.
         mViewPager?.setOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
-                actionBar.setSelectedNavigationItem(position)
+                supportActionBar?.setSelectedNavigationItem(position)
             }
         })
 
