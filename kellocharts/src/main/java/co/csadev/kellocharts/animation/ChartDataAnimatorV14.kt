@@ -11,7 +11,7 @@ import co.csadev.kellocharts.view.Chart
 @SuppressLint("NewApi")
 class ChartDataAnimatorV14(private val chart: Chart) : ChartDataAnimator, AnimatorListener, AnimatorUpdateListener {
     private val animator: ValueAnimator
-    private var animationListener: ChartAnimationListener = DummyChartAnimationListener()
+    private var animationListener: ChartAnimationListener? = DummyChartAnimationListener()
 
     override val isAnimationStarted: Boolean
         get() = animator.isStarted
@@ -43,21 +43,17 @@ class ChartDataAnimatorV14(private val chart: Chart) : ChartDataAnimator, Animat
 
     override fun onAnimationEnd(animation: Animator) {
         chart.animationDataFinished()
-        animationListener.onAnimationFinished()
+        animationListener?.onAnimationFinished()
     }
 
     override fun onAnimationRepeat(animation: Animator) {}
 
     override fun onAnimationStart(animation: Animator) {
-        animationListener.onAnimationStarted()
+        animationListener?.onAnimationStarted()
     }
 
-    override fun setChartAnimationListener(animationListener: ChartAnimationListener) {
-        if (null == animationListener) {
-            this.animationListener = DummyChartAnimationListener()
-        } else {
-            this.animationListener = animationListener
-        }
+    override fun setChartAnimationListener(animationListener: ChartAnimationListener?) {
+        this.animationListener = animationListener
     }
 
 }

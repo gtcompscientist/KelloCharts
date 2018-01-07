@@ -7,6 +7,7 @@ import android.support.v4.widget.ScrollerCompat
 
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.set
 
 /**
  * Encapsulates scrolling functionality.

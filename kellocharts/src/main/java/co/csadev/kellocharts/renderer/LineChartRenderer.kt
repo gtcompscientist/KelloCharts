@@ -9,13 +9,9 @@ import android.graphics.Paint.Cap
 import android.graphics.Path
 import android.graphics.PorterDuff.Mode
 import android.graphics.Rect
+import co.csadev.kellocharts.model.*
 
-import co.csadev.kellocharts.model.Line
-import co.csadev.kellocharts.model.LineChartData
-import co.csadev.kellocharts.model.PointValue
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
-import co.csadev.kellocharts.model.ValueShape
-import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.provider.LineChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
@@ -154,7 +150,7 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
     }
 
     private fun calculateMaxViewport() {
-        tempMaximumViewport[java.lang.Float.MAX_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MIN_VALUE] = java.lang.Float.MAX_VALUE
+        tempMaximumViewport.set(java.lang.Float.MAX_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MAX_VALUE)
         val data = dataProvider.lineChartData
 
         for (line in data.lines) {

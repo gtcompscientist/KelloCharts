@@ -78,34 +78,6 @@ class Viewport(var left: Float = 0f, var top: Float = 0f, var right: Float = 0f,
     }
 
     /**
-     * Set the viewport's coordinates to the specified values. Note: no range checking is performed, so it is up to the
-     * caller to ensure that `left <= right and bottom <= top`.
-     *
-     * @param left   The X coordinate of the left side of the viewport
-     * @param top    The Y coordinate of the top of the viewport
-     * @param right  The X coordinate of the right side of the viewport
-     * @param bottom The Y coordinate of the bottom of the viewport
-     */
-    operator fun set(left: Float, top: Float, right: Float, bottom: Float) {
-        this.left = left
-        this.top = top
-        this.right = right
-        this.bottom = bottom
-    }
-
-    /**
-     * Copy the coordinates from src into this viewport.
-     *
-     * @param src The viewport whose coordinates are copied into this viewport.
-     */
-    fun set(src: Viewport) {
-        this.left = src.left
-        this.top = src.top
-        this.right = src.right
-        this.bottom = src.bottom
-    }
-
-    /**
      * Offset the viewport by adding dx to its left and right coordinates, and adding dy to its top and bottom
      * coordinates.
      *
@@ -325,15 +297,6 @@ class Viewport(var left: Float = 0f, var top: Float = 0f, var right: Float = 0f,
         bottom = `in`.readFloat()
     }
 
-    fun copy() = Viewport(left, top, right, bottom)
-
-    /**
-     * Create a new viewport, initialized with the values in the specified viewport (which is left unmodified).
-     *
-     * @param v The viewport whose coordinates are copied into the new viewport.
-     */
-    fun fromViewport(v: Viewport?) = Viewport()
-
     companion object {
         val CREATOR: Parcelable.Creator<Viewport> = object : Parcelable.Creator<Viewport> {
             /**
@@ -354,3 +317,38 @@ class Viewport(var left: Float = 0f, var top: Float = 0f, var right: Float = 0f,
         }
     }
 }
+
+/**
+ * Set the viewport's coordinates to the specified values. Note: no range checking is performed, so it is up to the
+ * caller to ensure that `left <= right and bottom <= top`.
+ *
+ * @param left   The X coordinate of the left side of the viewport
+ * @param top    The Y coordinate of the top of the viewport
+ * @param right  The X coordinate of the right side of the viewport
+ * @param bottom The Y coordinate of the bottom of the viewport
+ */
+fun Viewport?.set(left: Float? = this?.left ?: 0f, top: Float? = this?.top ?: 0f, right: Float? = this?.right ?: 0f, bottom: Float? = this?.bottom ?: 0f) : Viewport {
+    val v = this ?: Viewport()
+    v.left = left ?: v.left
+    v.top = top ?: v.top
+    v.right = right ?: v.right
+    v.bottom = bottom ?: v.bottom
+    return v
+}
+
+/**
+ * Copy the coordinates from src into this viewport.
+ *
+ * @param src The viewport whose coordinates are copied into this viewport.
+ */
+fun Viewport?.set(src: Viewport? = Viewport()) : Viewport {
+    val v = this ?: Viewport()
+    v.left = src?.left ?: v.left
+    v.top = src?.top ?: v.left
+    v.right = src?.right ?: v.left
+    v.bottom = src?.bottom ?: v.left
+    return v
+}
+
+fun Viewport?.copy() = if (this == null) Viewport() else Viewport(left, top, right, bottom)
+

@@ -7,6 +7,8 @@ import java.util.Arrays
  * of number but value formatter implementation have to handle it.
  */
 class AxisValue(var value: Float = 0f, var label: CharArray? = null) {
+    constructor(value: Int, label: CharArray? = null) : this(value.toFloat(), label)
+    constructor(value: Int, label: String) : this(value.toFloat(), label.toCharArray())
 
     fun copy() = AxisValue(this.value, this.label)
 

@@ -7,6 +7,7 @@ import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.annotation.SuppressLint
 
 import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.view.Chart
 
 @SuppressLint("NewApi")
@@ -15,7 +16,7 @@ class ChartViewportAnimatorV14(private val chart: Chart) : ChartViewportAnimator
     private val startViewport = Viewport()
     private val targetViewport = Viewport()
     private val newViewport = Viewport()
-    private var animationListener: ChartAnimationListener = DummyChartAnimationListener()
+    private var animationListener: ChartAnimationListener? = DummyChartAnimationListener()
 
     override val isAnimationStarted: Boolean
         get() = animator.isStarted
@@ -50,7 +51,7 @@ class ChartViewportAnimatorV14(private val chart: Chart) : ChartViewportAnimator
         val diffTop = (targetViewport.top - startViewport.top) * scale
         val diffRight = (targetViewport.right - startViewport.right) * scale
         val diffBottom = (targetViewport.bottom - startViewport.bottom) * scale
-        newViewport[startViewport.left + diffLeft, startViewport.top + diffTop, startViewport.right + diffRight] = startViewport.bottom + diffBottom
+        newViewport.set(startViewport.left + diffLeft, startViewport.top + diffTop, startViewport.right + diffRight, startViewport.bottom + diffBottom)
         chart.currentViewport = newViewport
     }
 
@@ -58,16 +59,16 @@ class ChartViewportAnimatorV14(private val chart: Chart) : ChartViewportAnimator
 
     override fun onAnimationEnd(animation: Animator) {
         chart.currentViewport = targetViewport
-        animationListener.onAnimationFinished()
+        animationListener?.onAnimationFinished()
     }
 
     override fun onAnimationRepeat(animation: Animator) {}
 
     override fun onAnimationStart(animation: Animator) {
-        animationListener.onAnimationStarted()
+        animationListener?.onAnimationStarted()
     }
 
-    override fun setChartAnimationListener(animationListener: ChartAnimationListener) {
+    override fun setChartAnimationListener(animationListener: ChartAnimationListener?) {
         this.animationListener = animationListener
     }
 

@@ -15,11 +15,8 @@ import android.graphics.RectF
 import android.text.TextUtils
 
 import co.csadev.kellocharts.formatter.PieChartValueFormatter
-import co.csadev.kellocharts.model.PieChartData
-import co.csadev.kellocharts.model.SelectedValue
+import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
-import co.csadev.kellocharts.model.SliceValue
-import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.provider.PieChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
@@ -440,7 +437,7 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
      * coordinates instead. This method also calculates sum of all SliceValues.
      */
     private fun calculateMaxViewport() {
-        tempMaximumViewport[0f, MAX_WIDTH_HEIGHT, MAX_WIDTH_HEIGHT] = 0f
+        tempMaximumViewport.set(0f, MAX_WIDTH_HEIGHT, MAX_WIDTH_HEIGHT, 0f)
         maxSum = 0.0f
         for (sliceValue in dataProvider.pieChartData.values) {
             maxSum += Math.abs(sliceValue.value)

@@ -9,14 +9,14 @@ import co.csadev.kellocharts.view.Chart
 /**
  * Data for BubbleChart.
  */
-class BubbleChartData(var formatter: BubbleChartValueFormatter = SimpleBubbleChartValueFormatter(), var values: MutableList<BubbleValue> = ArrayList(), hasLabels: Boolean = false, var hasLabelsOnlyForSelected: Boolean = false, var minBubbleRadius: Int = DEFAULT_MIN_BUBBLE_RADIUS_DP, var bubbleScale: Float = DEFAULT_BUBBLE_SCALE) : AbstractChartData() {
+class BubbleChartData(var values: MutableList<BubbleValue> = ArrayList(), var formatter: BubbleChartValueFormatter = SimpleBubbleChartValueFormatter(), hasLabels: Boolean = false, var hasLabelsOnlyForSelected: Boolean = false, var minBubbleRadius: Int = DEFAULT_MIN_BUBBLE_RADIUS_DP, var bubbleScale: Float = DEFAULT_BUBBLE_SCALE) : AbstractChartData() {
     var hasLabels = hasLabels
         set(value) {
             field = value
             if (field) hasLabelsOnlyForSelected = false
         }
 
-    fun copy() = BubbleChartData(formatter, values.map { it.copy() }.toMutableList(), hasLabels, hasLabelsOnlyForSelected, minBubbleRadius, bubbleScale)
+    fun copy() = BubbleChartData(values.map { it.copy() }.toMutableList(), formatter, hasLabels, hasLabelsOnlyForSelected, minBubbleRadius, bubbleScale)
 
     override fun update(scale: Float) {
         for (value in values) {

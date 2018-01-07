@@ -8,6 +8,9 @@ import co.csadev.kellocharts.view.Chart
  * Single point coordinates, used for LineChartData.
  */
 class PointValue(x: Float = 0f, y: Float = 0f, var label: CharArray? = null) {
+    constructor(x: Int, y: Int, label: CharArray? = null) : this(x.toFloat(), y.toFloat(), label)
+    constructor(x: Int, y: Int, label: String) : this(x.toFloat(), y.toFloat(), label.toCharArray())
+    constructor(x: Float, y: Float, label: String) : this(x, y, label.toCharArray())
 
     var x: Float = x
         private set

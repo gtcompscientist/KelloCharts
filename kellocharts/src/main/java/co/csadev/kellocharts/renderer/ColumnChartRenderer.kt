@@ -7,12 +7,9 @@ import android.graphics.Paint.Cap
 import android.graphics.PointF
 import android.graphics.Rect
 import android.graphics.RectF
+import co.csadev.kellocharts.model.*
 
-import co.csadev.kellocharts.model.Column
-import co.csadev.kellocharts.model.ColumnChartData
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
-import co.csadev.kellocharts.model.SubcolumnValue
-import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.provider.ColumnChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
@@ -118,9 +115,9 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         // extra 0.5 to the each side, that margins will be negative scaled according to number of columns, so for more
         // columns there will be less margin.
         if (data.isHorizontal)
-            tempMaximumViewport[baseValue, data.columns.size - 0.5f, baseValue] = -0.5f
+            tempMaximumViewport.set(baseValue, data.columns.size - 0.5f, baseValue, -0.5f)
         else
-            tempMaximumViewport[-0.5f, baseValue, data.columns.size - 0.5f] = baseValue
+            tempMaximumViewport.set(-0.5f, baseValue, data.columns.size - 0.5f, baseValue)
         if (data.isStacked) {
             calculateMaxViewportForStacked(data)
         } else {

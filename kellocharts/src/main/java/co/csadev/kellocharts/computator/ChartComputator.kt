@@ -7,6 +7,7 @@ import android.graphics.Rect
 import co.csadev.kellocharts.listener.DummyViewportChangeListener
 import co.csadev.kellocharts.listener.ViewportChangeListener
 import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.set
 
 /**
  * Computes raw points coordinates(in pixels), holds content area dimensions and chart viewport.
@@ -66,7 +67,7 @@ open class ChartComputator {
      * Warning! Viewport listener is disabled for all charts beside preview charts to avoid additional method calls
      * during animations.
      */
-    var viewportChangeListener: ViewportChangeListener = DummyViewportChangeListener()
+    var viewportChangeListener: ViewportChangeListener? = DummyViewportChangeListener()
         internal set
 
     /**
@@ -150,7 +151,7 @@ open class ChartComputator {
         currentViewport.right = Math.min(maximumViewport.right, right)
         currentViewport.bottom = Math.max(maximumViewport.bottom, bottom)
 
-        viewportChangeListener.onViewportChanged(currentViewport)
+        viewportChangeListener?.onViewportChanged(currentViewport)
     }
 
     /**

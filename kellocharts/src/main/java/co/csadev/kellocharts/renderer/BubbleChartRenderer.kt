@@ -11,6 +11,7 @@ import co.csadev.kellocharts.model.BubbleValue
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
 import co.csadev.kellocharts.model.ValueShape
 import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.BubbleChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
@@ -281,7 +282,7 @@ class BubbleChartRenderer(context: Context, chart: Chart, private val dataProvid
 
     private fun calculateMaxViewport() {
         var maxZ = java.lang.Float.MIN_VALUE
-        tempMaximumViewport[java.lang.Float.MAX_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MIN_VALUE] = java.lang.Float.MAX_VALUE
+        tempMaximumViewport.set(java.lang.Float.MAX_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MAX_VALUE)
         val data = dataProvider.bubbleChartData
         // TODO: Optimize.
         for (bubbleValue in data.values) {

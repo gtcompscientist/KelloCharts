@@ -19,6 +19,8 @@ import co.csadev.kellocharts.gesture.ZoomType
 import co.csadev.kellocharts.listener.ViewportChangeListener
 import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.copy
+import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.renderer.*
 import co.csadev.kellocharts.util.ChartUtils
 
@@ -187,15 +189,15 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
         ViewCompat.postInvalidateOnAnimation(this)
     }
 
-    override fun setDataAnimationListener(animationListener: ChartAnimationListener) {
+    override fun setDataAnimationListener(animationListener: ChartAnimationListener?) {
         dataAnimator.setChartAnimationListener(animationListener)
     }
 
-    override fun setViewportAnimationListener(animationListener: ChartAnimationListener) {
+    override fun setViewportAnimationListener(animationListener: ChartAnimationListener?) {
         viewportAnimator.setChartAnimationListener(animationListener)
     }
 
-    override fun setViewportChangeListener(viewportChangeListener: ViewportChangeListener) {
+    override fun setViewportChangeListener(viewportChangeListener: ViewportChangeListener?) {
         chartComputator.viewportChangeListener = viewportChangeListener
     }
 
@@ -280,7 +282,7 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
 
             val zoomType = zoomType
             when {
-                ZoomType.HORIZONTAL_AND_VERTICAL === zoomType -> zoomViewport[left, top, right] = bottom
+                ZoomType.HORIZONTAL_AND_VERTICAL === zoomType -> zoomViewport.set(left, top, right, bottom)
                 ZoomType.HORIZONTAL === zoomType -> {
                     zoomViewport.left = left
                     zoomViewport.right = right

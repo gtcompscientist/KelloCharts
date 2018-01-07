@@ -29,7 +29,7 @@ import co.csadev.kellocharts.renderer.PieChartRenderer
  * @author Leszek Wach
  */
 class PieChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AbstractChartView(context, attrs, defStyle), PieChartDataProvider {
-    protected var onValueTouchListener: PieChartOnValueSelectListener = DummyPieChartOnValueSelectListener()
+    var onValueTouchListener: PieChartOnValueSelectListener = DummyPieChartOnValueSelectListener()
     protected var pieChartRenderer: PieChartRenderer = PieChartRenderer(context, this, this)
     protected var rotationAnimator: PieChartRotationAnimator
 

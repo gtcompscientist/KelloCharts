@@ -19,7 +19,7 @@ class LineChartData(var lines: MutableList<Line> = ArrayList(),  var baseValue: 
         }
     }
 
-    fun copy() = LineChartData(lines.map { it.copy() }.toMutableList(), baseValue).withData(this)
+    fun copy() = LineChartData(lines.map { it.copy() }.toMutableList(), baseValue).withData(this) as LineChartData
 
     companion object {
         val DEFAULT_BASE_VALUE = 0.0f

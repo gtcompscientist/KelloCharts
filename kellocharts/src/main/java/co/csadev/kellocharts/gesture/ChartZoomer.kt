@@ -6,6 +6,7 @@ import android.view.MotionEvent
 
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.set
 
 /**
  * Encapsulates zooming functionality.
