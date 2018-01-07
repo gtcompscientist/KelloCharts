@@ -8,10 +8,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        versionName "1.0.0"
     }
 
     buildTypes {
@@ -25,13 +22,44 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'com.android.support:appcompat-v7:27.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()
 }
+
+ext {
+    bintrayRepo = 'KelloCharts'
+    bintrayName = 'KelloCharts'
+
+    publishedGroupId = 'co.csadev'
+    libraryName = 'KelloCharts'
+    artifact = 'kellocharts'
+
+    libraryDescription = 'Kotlin Charts/graphs library for Android compatible with API 21+, several chart types with support for scaling, scrolling and animations'
+
+    siteUrl = 'https://github.com/gtcompscientist/KelloCharts'
+    gitUrl = 'https://github.com/gtcompscientist/KelloCharts.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'gtcompscientist'
+    developerName = 'Charles Anderson'
+    developerEmail = 'csadevapps@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+tasks.withType(Javadoc) {
+    // Ignores errors from mavenAndroidJavadocs task
+    // (reference: github.com/novoda/bintray-release/issues/71#issuecomment-164324255)
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    excludes = ['**/*.kt'] // < ---- Exclude all kotlin files from javadoc file.
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
