@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                     "Presents tempo and height values on a signle chart. Example of multiple axes and reverted Y axis" + " with time format [mm:ss].",
                     ChartType.OTHER))
             list.add(ChartSampleDescription("Speed Chart",
-                    "Presents speed and height values on a signle chart. Exapmle of multiple axes inside chart area.",
+                    "Presents speed and height values on a single chart. Example of multiple axes inside chart area.",
                     ChartType.OTHER))
             list.add(ChartSampleDescription("Good/Bad Chart",
                     "Example of filled area line chart with custom labels", ChartType.OTHER))
