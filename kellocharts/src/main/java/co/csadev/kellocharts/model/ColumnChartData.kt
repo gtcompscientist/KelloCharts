@@ -15,10 +15,39 @@ class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStac
         }
     var baseValue = DEFAULT_BASE_VALUE
 
-    override var axisXBottom: Axis? = if (isHorizontal) super.axisYLeft else super.axisXBottom
-    override var axisYLeft: Axis? = if (isHorizontal) super.axisXBottom?.apply { isReversed = true } else super.axisYLeft
-    override var axisXTop: Axis? = if (isHorizontal) super.axisYRight else super.axisXTop
-    override var axisYRight: Axis? = if (isHorizontal) super.axisXTop?.apply { isReversed = true } else super.axisYRight
+
+    var _axisXTop: Axis? = null
+    override var axisXTop: Axis?
+        get() {
+            return if (isHorizontal) {
+                _axisYRight
+            } else _axisXTop
+        }
+        set(value) { _axisXTop = value }
+    var _axisXBottom: Axis? = null
+    override var axisXBottom: Axis?
+        get() {
+            return if (isHorizontal) {
+                _axisYLeft
+            } else _axisXBottom
+        }
+        set(value) { _axisXBottom = value }
+    var _axisYLeft: Axis? = null
+    override var axisYLeft: Axis?
+        get() {
+            return if (isHorizontal) {
+                _axisXBottom
+            } else _axisYLeft
+        }
+        set(value) { _axisYLeft = value }
+    var _axisYRight: Axis? = null
+    override var axisYRight: Axis?
+        get() {
+            return if (isHorizontal) {
+                _axisXTop
+            } else _axisYRight
+        }
+        set(value) { _axisYRight = value }
 
     fun copy() = ColumnChartData(columns.map { it.copy() }.toMutableList(), isStacked, isHorizontal).withData(this) as ColumnChartData
 
