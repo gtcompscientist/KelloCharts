@@ -39,16 +39,10 @@
               <option value="plugin:org.jetbrains.kotlin.android:experimental=false" />
               <option value="plugin:org.jetbrains.kotlin.android:enabled=true" />
               <option value="plugin:org.jetbrains.kotlin.android:defaultCacheImplementation=hashMap" />
-              <option value="plugin:org.jetbrains.kotlin.android:package=co.csadev.kellocharts.sample" />
-              <option value="plugin:org.jetbrains.kotlin.android:variant=main;/Users/charles/GitHub/KelloCharts/kellocharts-sample/src/main/res" />
-              <option value="plugin:org.jetbrains.kotlin.android:package=co.csadev.kellocharts.sample" />
-              <option value="plugin:org.jetbrains.kotlin.android:variant=main;/Users/charles/GitHub/KelloCharts/kellocharts-sample/src/main/res" />
             </array>
           </option>
           <option name="pluginClasspaths">
             <array>
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.10/10eb9a3d66aa7c5e17afdf93116082018d0d4643/kotlin-android-extensions-1.2.10.jar" />
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.10/10eb9a3d66aa7c5e17afdf93116082018d0d4643/kotlin-android-extensions-1.2.10.jar" />
               <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.10/10eb9a3d66aa7c5e17afdf93116082018d0d4643/kotlin-android-extensions-1.2.10.jar" />
             </array>
           </option>
@@ -118,7 +112,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/splits-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/kotlin" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
@@ -143,8 +136,6 @@
     <orderEntry type="library" name="android.arch.lifecycle:runtime-1.0.3" level="project" />
     <orderEntry type="library" name="com.android.support:support-vector-drawable-27.0.2" level="project" />
     <orderEntry type="library" name="com.android.support:support-v4-27.0.2" level="project" />
-    <orderEntry type="module" module-name="kellocharts" />
-    <orderEntry type="module" module-name="kellocharts" />
     <orderEntry type="module" module-name="kellocharts" />
   </component>
 </module>
