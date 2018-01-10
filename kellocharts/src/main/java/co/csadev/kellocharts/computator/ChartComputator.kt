@@ -117,39 +117,39 @@ open class ChartComputator {
      * Checks if new viewport doesn't exceed max available viewport.
      */
     open fun constrainViewport(left: Float, top: Float, right: Float, bottom: Float) {
-        var left = left
-        var top = top
-        var right = right
-        var bottom = bottom
+        var l = left
+        var t = top
+        var r = right
+        var b = bottom
 
-        if (right - left < minimumViewportWidth) {
+        if (r - l < minimumViewportWidth) {
             // Minimum width - constrain horizontal zoom!
-            right = left + minimumViewportWidth
-            if (left < maximumViewport.left) {
-                left = maximumViewport.left
-                right = left + minimumViewportWidth
-            } else if (right > maximumViewport.right) {
-                right = maximumViewport.right
-                left = right - minimumViewportWidth
+            r = l + minimumViewportWidth
+            if (l < maximumViewport.left) {
+                l = maximumViewport.left
+                r = l + minimumViewportWidth
+            } else if (r > maximumViewport.right) {
+                r = maximumViewport.right
+                l = r - minimumViewportWidth
             }
         }
 
-        if (top - bottom < minimumViewportHeight) {
+        if (t - b < minimumViewportHeight) {
             // Minimum height - constrain vertical zoom!
-            bottom = top - minimumViewportHeight
-            if (top > maximumViewport.top) {
-                top = maximumViewport.top
-                bottom = top - minimumViewportHeight
-            } else if (bottom < maximumViewport.bottom) {
-                bottom = maximumViewport.bottom
-                top = bottom + minimumViewportHeight
+            b = t - minimumViewportHeight
+            if (t > maximumViewport.top) {
+                t = maximumViewport.top
+                b = t - minimumViewportHeight
+            } else if (b < maximumViewport.bottom) {
+                b = maximumViewport.bottom
+                t = b + minimumViewportHeight
             }
         }
 
-        currentViewport.left = Math.max(maximumViewport.left, left)
-        currentViewport.top = Math.min(maximumViewport.top, top)
-        currentViewport.right = Math.min(maximumViewport.right, right)
-        currentViewport.bottom = Math.max(maximumViewport.bottom, bottom)
+        currentViewport.left = Math.max(maximumViewport.left, l)
+        currentViewport.top = Math.min(maximumViewport.top, t)
+        currentViewport.right = Math.min(maximumViewport.right, r)
+        currentViewport.bottom = Math.max(maximumViewport.bottom, b)
 
         viewportChangeListener?.onViewportChanged(currentViewport)
     }

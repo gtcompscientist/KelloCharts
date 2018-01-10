@@ -2,7 +2,6 @@ package co.csadev.kellocharts.gesture
 
 import android.content.Context
 import android.graphics.Point
-import android.graphics.Rect
 import android.support.v4.widget.ScrollerCompat
 
 import co.csadev.kellocharts.computator.ChartComputator
