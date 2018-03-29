@@ -81,7 +81,7 @@ Yes:) If you found a bug, have an idea how to improve library or have a question
 
 # License
 
-	HelloCharts	
+	KelloCharts	
     Copyright 2018 Charles Anderson
 
     Licensed under the Apache License, Version 2.0 (the "License");
