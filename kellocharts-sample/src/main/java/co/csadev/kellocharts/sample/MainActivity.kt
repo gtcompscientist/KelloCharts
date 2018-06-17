@@ -3,8 +3,8 @@ package co.csadev.kellocharts.sample
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * A placeholder fragment containing a simple view.
      */
-    class PlaceholderFragment : Fragment(), OnItemClickListener {
+    class PlaceholderFragment : androidx.fragment.app.Fragment(), OnItemClickListener {
 
         private var listView: ListView? = null
         private var adapter: ChartSamplesAdapter? = null

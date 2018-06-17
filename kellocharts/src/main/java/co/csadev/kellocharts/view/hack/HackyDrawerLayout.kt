@@ -1,14 +1,14 @@
 package co.csadev.kellocharts.view.hack
 
 import android.content.Context
-import android.support.v4.widget.DrawerLayout
+import androidx.drawerlayout.widget.DrawerLayout
 import android.util.AttributeSet
 import android.view.MotionEvent
 
 /**
  * Hacky fix for issue with DrawerLayout https://github.com/chrisbanes/PhotoView/issues/72
  */
-class HackyDrawerLayout : DrawerLayout {
+class HackyDrawerLayout : androidx.drawerlayout.widget.DrawerLayout {
 
     constructor(context: Context) : super(context) {}
 

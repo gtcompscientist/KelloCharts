@@ -1,13 +1,13 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentTransaction
-import android.support.v4.view.ViewPager
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentTransaction
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +35,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
     /**
      * The [ViewPager] that will host the section contents.
      */
-    internal var mViewPager: ViewPager? = null
+    internal var mViewPager: androidx.viewpager.widget.ViewPager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +49,13 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById<View>(R.id.pager) as? ViewPager
+        mViewPager = findViewById<View>(R.id.pager) as? androidx.viewpager.widget.ViewPager
         mViewPager?.adapter = mSectionsPagerAdapter
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
         // a reference to the Tab.
-        mViewPager?.setOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        mViewPager?.setOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 supportActionBar?.setSelectedNavigationItem(position)
             }
@@ -71,20 +71,20 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
         }
     }
 
-    override fun onTabSelected(tab: ActionBar.Tab, fragmentTransaction: FragmentTransaction) {
+    override fun onTabSelected(tab: ActionBar.Tab, fragmentTransaction: androidx.fragment.app.FragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         mViewPager?.currentItem = tab.position
     }
 
-    override fun onTabUnselected(tab: ActionBar.Tab, fragmentTransaction: FragmentTransaction) {}
+    override fun onTabUnselected(tab: ActionBar.Tab, fragmentTransaction: androidx.fragment.app.FragmentTransaction) {}
 
-    override fun onTabReselected(tab: ActionBar.Tab, fragmentTransaction: FragmentTransaction) {}
+    override fun onTabReselected(tab: ActionBar.Tab, fragmentTransaction: androidx.fragment.app.FragmentTransaction) {}
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    class PlaceholderFragment : Fragment() {
+    class PlaceholderFragment : androidx.fragment.app.Fragment() {
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val rootView = inflater.inflate(R.layout.fragment_view_pager_charts, container, false)
@@ -269,9 +269,9 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
     /**
      * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the sections/tabs/pages.
      */
-    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    inner class SectionsPagerAdapter(fm: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentPagerAdapter(fm) {
 
-        override fun getItem(position: Int): Fragment {
+        override fun getItem(position: Int): androidx.fragment.app.Fragment {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1)

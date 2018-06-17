@@ -2,7 +2,7 @@ package co.csadev.kellocharts.gesture
 
 import android.content.Context
 import android.graphics.RectF
-import android.support.v4.widget.ScrollerCompat
+import androidx.core.widget.ScrollerCompat
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector

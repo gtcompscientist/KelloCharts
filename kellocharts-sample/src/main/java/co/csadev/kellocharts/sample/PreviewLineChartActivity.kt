@@ -1,8 +1,8 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -30,7 +30,7 @@ class PreviewLineChartActivity : AppCompatActivity() {
     /**
      * A fragment containing a line chart and preview line chart.
      */
-    class PlaceholderFragment : Fragment() {
+    class PlaceholderFragment : androidx.fragment.app.Fragment() {
 
         private var chart: LineChartView? = null
         private var previewChart: PreviewLineChartView? = null
