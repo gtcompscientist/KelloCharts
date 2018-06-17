@@ -3,9 +3,9 @@ Kotlin Charts/graphs library for Android compatible with API 21+ (Android 5.0), 
 Works best when hardware acceleration is available, so API 14+(Android 4.0) is recommended.
 Apache License 2.0.
 
-#Build badges and gradle availability coming soon
+# Build badges and gradle availability coming soon
 
-##Features
+## Features
 
  - Line chart(cubic lines, filled lines, scattered points)
  - Column chart(grouped, stacked, negative values)
@@ -17,17 +17,17 @@ Apache License 2.0.
  - Custom and auto-generated axes(top, bottom, left, right, inside)
  - Animations
 
-##Screens and Demos
+## Screens and Demos
 
  - Code of a demo application is in `kellocharts-sample` directory 
  - Demo App coming soon
 
-##Usage
+## Usage
 
 Every chart view can be defined in layout xml file:
 
  ```xml
-    <co.csadev.hellocharts.view.LineChartView
+    <co.csadev.kellocharts.view.LineChartView
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -75,13 +75,13 @@ Every chart view can be defined in layout xml file:
  chart data. You can safely modify copy in other threads and pass it to `*.*ChartData` setter later.
 
 
-##Contributing
+## Contributing
 
-Yes:) If you found a bug, have an idea how to improve library or have a question, please create new issue or comment existing one. If you would like to contribute code fork the repository and send a pull request.
+Yes :) If you found a bug, have an idea how to improve library or have a question, please create new issue or comment existing one. If you would like to contribute code fork the repository and send a pull request.
 
-#License
+## License
 
-	HelloCharts	
+	KelloCharts
     Copyright 2018 Charles Anderson
 
     Licensed under the Apache License, Version 2.0 (the "License");
