@@ -1,16 +1,10 @@
 package co.csadev.kellocharts.renderer
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.Paint.Cap
-import android.graphics.Path
 import android.graphics.PorterDuff.Mode
-import android.graphics.Rect
 import co.csadev.kellocharts.model.*
-
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
 import co.csadev.kellocharts.provider.LineChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils

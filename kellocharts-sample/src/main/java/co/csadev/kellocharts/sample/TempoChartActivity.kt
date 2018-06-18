@@ -2,11 +2,11 @@ package co.csadev.kellocharts.sample
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.formatter.SimpleAxisValueFormatter
 import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.util.ChartUtils

@@ -2,16 +2,11 @@ package co.csadev.kellocharts.view
 
 import android.content.Context
 import android.graphics.Canvas
-import androidx.core.view.ViewCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-
-import co.csadev.kellocharts.animation.ChartAnimationListener
-import co.csadev.kellocharts.animation.ChartDataAnimator
-import co.csadev.kellocharts.animation.ChartDataAnimatorV14
-import co.csadev.kellocharts.animation.ChartViewportAnimator
-import co.csadev.kellocharts.animation.ChartViewportAnimatorV14
+import androidx.core.view.ViewCompat
+import co.csadev.kellocharts.animation.*
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.gesture.ChartTouchHandler
 import co.csadev.kellocharts.gesture.ContainerScrollType
@@ -21,7 +16,9 @@ import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.copy
 import co.csadev.kellocharts.model.set
-import co.csadev.kellocharts.renderer.*
+import co.csadev.kellocharts.renderer.AxesRenderer
+import co.csadev.kellocharts.renderer.ChartRenderer
+import co.csadev.kellocharts.renderer.InternalChartRendererBase
 import co.csadev.kellocharts.util.ChartUtils
 
 /**

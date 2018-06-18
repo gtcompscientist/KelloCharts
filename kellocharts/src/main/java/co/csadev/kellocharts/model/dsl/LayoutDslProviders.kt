@@ -7,12 +7,11 @@ import co.csadev.kellocharts.formatter.*
 import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.Axis.Companion.DEFAULT_MAX_AXIS_LABEL_CHARS
 import co.csadev.kellocharts.util.ChartUtils
-import java.util.ArrayList
+import java.util.*
 
 @DslMarker
 annotation class AxisDsl
 
-@AxisDsl
 fun axis(block: AxisBuilder.() -> Unit): Axis = AxisBuilder().apply(block).build()
 @AxisDsl
 class AxisBuilder {
@@ -58,7 +57,6 @@ class AxisBuilder {
 @DslMarker
 annotation class ColumnDsl
 
-@ColumnDsl
 fun column(block: ColumnBuilder.() -> Unit): Column = ColumnBuilder().apply(block).build()
 class ColumnBuilder {
     private var values: MutableList<SubcolumnValue> = ArrayList()
@@ -66,7 +64,7 @@ class ColumnBuilder {
     var hasLabelsOnlyForSelected: Boolean = false
     var formatter: ColumnChartValueFormatter = SimpleColumnChartValueFormatter()
 
-    fun values(block: SUBCOLUMNVALUES.() -> Unit) {
+    fun columnValues(block: SUBCOLUMNVALUES.() -> Unit) {
         values.addAll(SUBCOLUMNVALUES().apply(block))
     }
 
@@ -82,7 +80,6 @@ class COLUMNS: ArrayList<Column>() {
 @DslMarker
 annotation class LineDsl
 
-@LineDsl
 fun line(block: LineBuilder.() -> Unit): Line = LineBuilder().apply(block).build()
 @LineDsl
 class LineBuilder {
@@ -106,7 +103,7 @@ class LineBuilder {
     var hasLabelsOnlyForSelected: Boolean = true
     var pathEffect: PathEffect? = null
 
-    fun values(block: POINTVALUES.() -> Unit) {
+    fun pointValues(block: POINTVALUES.() -> Unit) {
         values.addAll(POINTVALUES().apply(block))
     }
 
@@ -137,8 +134,4 @@ class LINES: ArrayList<Line>() {
     }
 }
 
-@DslMarker
-annotation class ViewportDsl
-
-@ViewportDsl
 fun viewport(block: Viewport.() -> Unit): Viewport = Viewport().apply(block)

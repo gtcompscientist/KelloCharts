@@ -1,17 +1,14 @@
 package co.csadev.kellocharts.view
 
 import android.content.Context
-import androidx.core.view.ViewCompat
 import android.util.AttributeSet
 import android.util.Log
-
+import androidx.core.view.ViewCompat
 import co.csadev.kellocharts.BuildConfig
 import co.csadev.kellocharts.listener.BubbleChartOnValueSelectListener
 import co.csadev.kellocharts.listener.DummyBubbleChartOnValueSelectListener
 import co.csadev.kellocharts.model.BubbleChartData
-import co.csadev.kellocharts.model.BubbleValue
 import co.csadev.kellocharts.model.ChartData
-import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.provider.BubbleChartDataProvider
 import co.csadev.kellocharts.renderer.BubbleChartRenderer
 

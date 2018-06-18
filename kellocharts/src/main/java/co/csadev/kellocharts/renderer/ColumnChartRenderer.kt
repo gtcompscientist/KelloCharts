@@ -5,10 +5,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Paint.Cap
 import android.graphics.PointF
-import android.graphics.Rect
 import android.graphics.RectF
 import co.csadev.kellocharts.model.*
-
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
 import co.csadev.kellocharts.provider.ColumnChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils

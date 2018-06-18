@@ -2,12 +2,10 @@ package co.csadev.kellocharts.renderer
 
 import android.content.Context
 import android.graphics.Canvas
-
-import java.util.ArrayList
-
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.view.Chart
+import java.util.*
 
 open class ComboChartRenderer(context: Context, chart: Chart) : AbstractChartRenderer(context, chart) {
 

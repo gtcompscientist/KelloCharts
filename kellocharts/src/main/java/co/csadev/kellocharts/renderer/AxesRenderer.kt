@@ -6,13 +6,10 @@ import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.graphics.Paint.FontMetricsInt
 import android.graphics.Rect
-import android.graphics.Typeface
 import android.text.TextUtils
-
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.Axis
 import co.csadev.kellocharts.model.AxisValue
-import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.util.AxisAutoValues
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.FloatUtils

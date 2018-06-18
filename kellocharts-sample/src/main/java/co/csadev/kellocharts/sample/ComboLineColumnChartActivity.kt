@@ -1,25 +1,12 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.listener.ComboLineColumnChartOnValueSelectListener
-import co.csadev.kellocharts.model.Axis
-import co.csadev.kellocharts.model.Column
-import co.csadev.kellocharts.model.ColumnChartData
-import co.csadev.kellocharts.model.ComboLineColumnChartData
-import co.csadev.kellocharts.model.Line
-import co.csadev.kellocharts.model.LineChartData
-import co.csadev.kellocharts.model.PointValue
-import co.csadev.kellocharts.model.SubcolumnValue
+import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.ComboLineColumnChartView
 

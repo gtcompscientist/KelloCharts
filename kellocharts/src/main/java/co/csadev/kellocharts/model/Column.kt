@@ -1,10 +1,8 @@
 package co.csadev.kellocharts.model
 
-import java.util.ArrayList
-
 import co.csadev.kellocharts.formatter.ColumnChartValueFormatter
 import co.csadev.kellocharts.formatter.SimpleColumnChartValueFormatter
-import co.csadev.kellocharts.view.Chart
+import java.util.*
 
 /**
  * Single column for ColumnChart. One column can be divided into multiple sub-columns(ColumnValues) especially for

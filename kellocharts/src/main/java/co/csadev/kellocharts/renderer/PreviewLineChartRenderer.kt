@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-
-import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.provider.LineChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart

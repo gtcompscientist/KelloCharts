@@ -1,10 +1,9 @@
 package co.csadev.kellocharts.view
 
 import android.content.Context
-import androidx.core.view.ViewCompat
 import android.util.AttributeSet
 import android.util.Log
-
+import androidx.core.view.ViewCompat
 import co.csadev.kellocharts.BuildConfig
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.computator.PreviewChartComputator

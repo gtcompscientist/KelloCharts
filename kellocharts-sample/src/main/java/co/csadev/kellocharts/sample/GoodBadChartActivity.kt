@@ -1,12 +1,11 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.model.Line
 import co.csadev.kellocharts.model.LineChartData
 import co.csadev.kellocharts.model.PointValue

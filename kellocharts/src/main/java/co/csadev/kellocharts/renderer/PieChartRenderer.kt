@@ -1,19 +1,10 @@
 package co.csadev.kellocharts.renderer
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.Paint.Align
 import android.graphics.Paint.FontMetricsInt
-import android.graphics.PointF
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.Rect
-import android.graphics.RectF
 import android.text.TextUtils
-
 import co.csadev.kellocharts.formatter.PieChartValueFormatter
 import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType

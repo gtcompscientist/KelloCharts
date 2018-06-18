@@ -1,11 +1,9 @@
 package co.csadev.kellocharts.formatter
 
 import android.util.Log
-
+import co.csadev.kellocharts.util.FloatUtils
 import java.text.DecimalFormat
 import java.text.NumberFormat
-
-import co.csadev.kellocharts.util.FloatUtils
 
 class ValueFormatterHelper(var decimalDigitsNumber: Int = Int.MIN_VALUE, var appendedText: CharArray = CharArray(0), var prependedText: CharArray = CharArray(0), var decimalSeparator: Char = '.') {
 

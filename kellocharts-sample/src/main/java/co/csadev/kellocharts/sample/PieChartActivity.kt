@@ -2,16 +2,10 @@ package co.csadev.kellocharts.sample
 
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.listener.PieChartOnValueSelectListener
 import co.csadev.kellocharts.model.PieChartData
 import co.csadev.kellocharts.model.SliceValue

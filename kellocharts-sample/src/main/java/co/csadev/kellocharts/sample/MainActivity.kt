@@ -3,29 +3,13 @@ package co.csadev.kellocharts.sample
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
+import android.view.*
+import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
-import android.widget.FrameLayout
-import android.widget.ListView
-import android.widget.TextView
-
-import java.util.ArrayList
-
-import co.csadev.kellocharts.view.AbstractChartView
-import co.csadev.kellocharts.view.BubbleChartView
-import co.csadev.kellocharts.view.ColumnChartView
-import co.csadev.kellocharts.view.LineChartView
-import co.csadev.kellocharts.view.PieChartView
-import co.csadev.kellocharts.view.PreviewColumnChartView
-import co.csadev.kellocharts.view.PreviewLineChartView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import co.csadev.kellocharts.view.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 

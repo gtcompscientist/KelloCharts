@@ -1,23 +1,14 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.gesture.ZoomType
 import co.csadev.kellocharts.listener.ColumnChartOnValueSelectListener
-import co.csadev.kellocharts.model.Axis
-import co.csadev.kellocharts.model.AxisValue
-import co.csadev.kellocharts.model.Column
-import co.csadev.kellocharts.model.ColumnChartData
-import co.csadev.kellocharts.model.Line
-import co.csadev.kellocharts.model.LineChartData
-import co.csadev.kellocharts.model.PointValue
-import co.csadev.kellocharts.model.SubcolumnValue
-import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.ColumnChartView
 import co.csadev.kellocharts.view.LineChartView

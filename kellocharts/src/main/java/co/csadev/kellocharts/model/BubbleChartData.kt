@@ -1,12 +1,11 @@
 package co.csadev.kellocharts.model
 
-import java.util.ArrayList
-
 import co.csadev.kellocharts.formatter.BubbleChartValueFormatter
 import co.csadev.kellocharts.formatter.SimpleBubbleChartValueFormatter
 import co.csadev.kellocharts.model.dsl.bubbleData
 import co.csadev.kellocharts.model.dsl.bubbleValue
 import co.csadev.kellocharts.view.Chart
+import java.util.*
 
 /**
  * Data for BubbleChart.
@@ -50,28 +49,28 @@ class BubbleChartData(var values: MutableList<BubbleValue> = ArrayList(), var fo
 
         fun generateDummyData() =
                 bubbleData {
-                    values {
-                        bubbleValue {
+                    bubbles {
+                        bubble {
                             x = 0f
                             y = 20f
                             z = 15000f
                         }
-                        bubbleValue {
+                        bubble {
                             x = 3f
                             y = 22f
                             z = 20000f
                         }
-                        bubbleValue {
+                        bubble {
                             x = 5f
                             y = 25f
                             z = 5000f
                         }
-                        bubbleValue {
+                        bubble {
                             x = 7f
                             y = 30f
                             z = 30000f
                         }
-                        bubbleValue {
+                        bubble {
                             x = 11f
                             y = 22f
                             z = 10f

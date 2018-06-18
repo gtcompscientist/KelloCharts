@@ -1,7 +1,8 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.model.dsl.columnData
-import java.util.ArrayList
+import co.csadev.kellocharts.model.dsl.subcolumnValue
+import java.util.*
 
 /**
  * Data model for column chart. Note: you can set X value for columns or sub-columns, columns are by default indexed
@@ -62,19 +63,25 @@ class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStac
     override fun finish() = columns.forEach { it.finish() }
 
     companion object {
-        val DEFAULT_FILL_RATIO = 0.75f
-        val DEFAULT_BASE_VALUE = 0.0f
+        const val DEFAULT_FILL_RATIO = 0.75f
+        const val DEFAULT_BASE_VALUE = 0.0f
 
         fun generateDummyData() =
                 columnData {
                     columns {
                         column {
-                            values {
+                            columnValues {
                                 subcolumn {
-                                    values { value = 1f }
-                                    values { value = 2f }
-                                    values { value = 3f }
-                                    values { value = 4f }
+                                    value = 4f
+                                }
+                                subcolumn {
+                                    value = 3f
+                                }
+                                subcolumn {
+                                    value = 2f
+                                }
+                                subcolumn {
+                                    value = 1f
                                 }
                             }
                         }

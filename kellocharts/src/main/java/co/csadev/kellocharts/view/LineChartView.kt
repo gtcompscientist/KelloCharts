@@ -3,14 +3,11 @@ package co.csadev.kellocharts.view
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-
 import co.csadev.kellocharts.BuildConfig
 import co.csadev.kellocharts.listener.DummyLineChartOnValueSelectListener
 import co.csadev.kellocharts.listener.LineChartOnValueSelectListener
 import co.csadev.kellocharts.model.ChartData
 import co.csadev.kellocharts.model.LineChartData
-import co.csadev.kellocharts.model.PointValue
-import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.provider.LineChartDataProvider
 import co.csadev.kellocharts.renderer.LineChartRenderer
 

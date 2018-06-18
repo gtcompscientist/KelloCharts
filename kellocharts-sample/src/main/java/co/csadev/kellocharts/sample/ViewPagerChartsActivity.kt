@@ -1,27 +1,22 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.RelativeLayout
-
 import co.csadev.kellocharts.gesture.ContainerScrollType
 import co.csadev.kellocharts.gesture.ZoomType
 import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.util.ChartUtils
-import co.csadev.kellocharts.view.BubbleChartView
-import co.csadev.kellocharts.view.ColumnChartView
-import co.csadev.kellocharts.view.LineChartView
-import co.csadev.kellocharts.view.PieChartView
-import co.csadev.kellocharts.view.PreviewLineChartView
+import co.csadev.kellocharts.view.*
 
 class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
 

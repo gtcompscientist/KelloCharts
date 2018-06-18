@@ -3,7 +3,6 @@ package co.csadev.kellocharts.view
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-
 import co.csadev.kellocharts.BuildConfig
 import co.csadev.kellocharts.listener.ComboLineColumnChartOnValueSelectListener
 import co.csadev.kellocharts.listener.DummyCompoLineColumnChartOnValueSelectListener
@@ -11,10 +10,7 @@ import co.csadev.kellocharts.model.ChartData
 import co.csadev.kellocharts.model.ColumnChartData
 import co.csadev.kellocharts.model.ComboLineColumnChartData
 import co.csadev.kellocharts.model.LineChartData
-import co.csadev.kellocharts.model.PointValue
-import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
-import co.csadev.kellocharts.model.SubcolumnValue
 import co.csadev.kellocharts.provider.ColumnChartDataProvider
 import co.csadev.kellocharts.provider.ComboLineColumnChartDataProvider
 import co.csadev.kellocharts.provider.LineChartDataProvider

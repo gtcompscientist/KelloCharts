@@ -10,12 +10,11 @@ import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.BubbleChartData.Companion.DEFAULT_BUBBLE_SCALE
 import co.csadev.kellocharts.model.BubbleChartData.Companion.DEFAULT_MIN_BUBBLE_RADIUS_DP
 import co.csadev.kellocharts.model.LineChartData.Companion.DEFAULT_BASE_VALUE
-import java.util.ArrayList
+import java.util.*
 
 @DslMarker
 annotation class BubbleDataDsl
 
-@BubbleDataDsl
 fun bubbleData(block: BubbleChartDataBuilder.() -> Unit): BubbleChartData = BubbleChartDataBuilder().apply(block).build()
 @BubbleDataDsl
 class BubbleChartDataBuilder {
@@ -26,7 +25,7 @@ class BubbleChartDataBuilder {
     var minBubbleRadius: Int = DEFAULT_MIN_BUBBLE_RADIUS_DP
     var bubbleScale: Float = DEFAULT_BUBBLE_SCALE
 
-    fun values(block: BUBBLEVALUES.() -> Unit) {
+    fun bubbles(block: BUBBLEVALUES.() -> Unit) {
         values.addAll(BUBBLEVALUES().apply(block))
     }
 
@@ -43,7 +42,6 @@ class BubbleChartDataBuilder {
 @DslMarker
 annotation class ColumnDataDsl
 
-@ColumnDataDsl
 fun columnData(block: ColumnChartDataBuilder.() -> Unit): ColumnChartData = ColumnChartDataBuilder().apply(block).build()
 @ColumnDataDsl
 class ColumnChartDataBuilder {
@@ -61,7 +59,6 @@ class ColumnChartDataBuilder {
 @DslMarker
 annotation class LineDataDsl
 
-@LineDataDsl
 fun lineData(block: LineChartDataBuilder.() -> Unit): LineChartData = LineChartDataBuilder().apply(block).build()
 @LineDataDsl
 class LineChartDataBuilder {
@@ -78,7 +75,6 @@ class LineChartDataBuilder {
 @DslMarker
 annotation class PieDataDsl
 
-@PieDataDsl
 fun pieData(block: PieChartDataBuilder.() -> Unit): PieChartData = PieChartDataBuilder().apply(block).build()
 @PieDataDsl
 class PieChartDataBuilder {
@@ -102,7 +98,7 @@ class PieChartDataBuilder {
     var sliceSpacing: Int = PieChartData.DEFAULT_SLICE_SPACING_DP
     var formatter: PieChartValueFormatter = SimplePieChartValueFormatter()
 
-    fun values(block: SLICEVALUES.() -> Unit) {
+    fun sliceValues(block: SLICEVALUES.() -> Unit) {
         values.addAll(SLICEVALUES().apply(block))
     }
 

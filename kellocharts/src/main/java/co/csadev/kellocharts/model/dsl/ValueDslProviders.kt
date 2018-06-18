@@ -7,8 +7,6 @@ import co.csadev.kellocharts.util.ChartUtils
 annotation class AxisValueDsl
 
 @AxisValueDsl
-fun axisValue(block: AxisValue.() -> Unit): AxisValue = AxisValue().apply(block)
-@AxisValueDsl
 class AXISVALUES: ArrayList<AxisValue>() {
     fun axis(block: AxisValue.() -> Unit) {
         add(AxisValue().apply(block))
@@ -18,8 +16,6 @@ class AXISVALUES: ArrayList<AxisValue>() {
 @DslMarker
 annotation class BubbleValueDsl
 
-@BubbleValueDsl
-fun bubbleValue(block: BubbleValueBuilder.() -> Unit): BubbleValue = BubbleValueBuilder().apply(block).build()
 @BubbleValueDsl
 class BubbleValueBuilder {
     var x: Float = 0f
@@ -33,16 +29,14 @@ class BubbleValueBuilder {
 }
 @BubbleValueDsl
 class BUBBLEVALUES: ArrayList<BubbleValue>() {
-    fun bubble(block: BubbleValue.() -> Unit) {
-        add(BubbleValue().apply(block))
+    fun bubble(block: BubbleValueBuilder.() -> Unit) {
+        add(BubbleValueBuilder().apply(block).build())
     }
 }
 
 @DslMarker
 annotation class PointValueDsl
 
-@PointValueDsl
-fun pointValue(block: PointValueBuilder.() -> Unit): PointValue = PointValueBuilder().apply(block).build()
 @PointValueDsl
 class PointValueBuilder {
     var x: Float = 0f
@@ -53,16 +47,14 @@ class PointValueBuilder {
 }
 @PointValueDsl
 class POINTVALUES: ArrayList<PointValue>() {
-    fun point(block: PointValue.() -> Unit) {
-        add(PointValue().apply(block))
+    fun point(block: PointValueBuilder.() -> Unit) {
+        add(PointValueBuilder().apply(block).build())
     }
 }
 
 @DslMarker
 annotation class SelectedValueDsl
 
-@SelectedValueDsl
-fun selectedValue(block: SelectedValue.() -> Unit): SelectedValue = SelectedValue().apply(block)
 @SelectedValueDsl
 class SELECTEDVALUES: ArrayList<SelectedValue>() {
     fun point(block: SelectedValue.() -> Unit) {
@@ -73,7 +65,6 @@ class SELECTEDVALUES: ArrayList<SelectedValue>() {
 @DslMarker
 annotation class SliceValueDsl
 
-@SliceValueDsl
 fun sliceValue(block: SliceValue.() -> Unit): SliceValue = SliceValue().apply(block)
 @SliceValueDsl
 class SLICEVALUES: ArrayList<SliceValue>() {
@@ -85,8 +76,6 @@ class SLICEVALUES: ArrayList<SliceValue>() {
 @DslMarker
 annotation class SubcolumnValueDsl
 
-@SubcolumnValueDsl
-fun subcolumnValue(block: SubcolumnValue.() -> Unit): SubcolumnValue = SubcolumnValue().apply(block)
 @SubcolumnValueDsl
 class SUBCOLUMNVALUES: ArrayList<SubcolumnValue>() {
     fun subcolumn(block: SubcolumnValue.() -> Unit) {

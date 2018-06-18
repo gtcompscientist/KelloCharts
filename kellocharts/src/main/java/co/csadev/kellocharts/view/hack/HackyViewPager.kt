@@ -1,9 +1,9 @@
 package co.csadev.kellocharts.view.hack
 
 import android.content.Context
-import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
+import androidx.viewpager.widget.ViewPager
 
 /**
  * ScaleGestureDetector seems to mess up the touch events, which means that ViewGroups which make use of

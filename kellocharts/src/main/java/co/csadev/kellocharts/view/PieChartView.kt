@@ -2,11 +2,10 @@ package co.csadev.kellocharts.view
 
 import android.content.Context
 import android.graphics.RectF
-import androidx.core.view.ViewCompat
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-
+import androidx.core.view.ViewCompat
 import co.csadev.kellocharts.BuildConfig
 import co.csadev.kellocharts.animation.PieChartRotationAnimator
 import co.csadev.kellocharts.animation.PieChartRotationAnimatorV14

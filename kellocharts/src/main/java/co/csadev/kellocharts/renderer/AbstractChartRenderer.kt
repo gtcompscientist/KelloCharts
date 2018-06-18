@@ -1,16 +1,10 @@
 package co.csadev.kellocharts.renderer
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.Paint.Align
 import android.graphics.Paint.FontMetricsInt
-import android.graphics.RectF
-import android.graphics.Typeface
-
 import co.csadev.kellocharts.computator.ChartComputator
-import co.csadev.kellocharts.model.ChartData
 import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.util.ChartUtils

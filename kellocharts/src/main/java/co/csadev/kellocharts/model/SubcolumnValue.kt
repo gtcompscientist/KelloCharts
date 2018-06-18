@@ -1,9 +1,8 @@
 package co.csadev.kellocharts.model
 
-import java.util.Arrays
-
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
+import java.util.*
 
 /**
  * Single sub-column value for ColumnChart.

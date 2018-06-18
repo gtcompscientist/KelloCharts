@@ -2,15 +2,11 @@ package co.csadev.kellocharts.model
 
 import android.graphics.Color
 import android.graphics.Typeface
-
-import java.util.ArrayList
-
 import co.csadev.kellocharts.formatter.PieChartValueFormatter
 import co.csadev.kellocharts.formatter.SimplePieChartValueFormatter
 import co.csadev.kellocharts.model.dsl.pieData
 import co.csadev.kellocharts.model.dsl.sliceValue
-import co.csadev.kellocharts.view.Chart
-import co.csadev.kellocharts.view.PieChartView
+import java.util.*
 
 /**
  * Data for PieChart, by default it doesn't have axes.
@@ -60,17 +56,27 @@ class PieChartData(var values: MutableList<SliceValue> = ArrayList(),
     fun copy() = PieChartData(values.map { it.copy() }.toMutableList(), axisXBottom, axisYLeft, hasLabels, hasLabelsOnlyForSelected, hasLabelsOutside, hasCenterCircle, centerCircleColor, centerCircleScale, centerText1Color, centerText1FontSize, centerText1Typeface, centerText1, centerText2Color, centerText2FontSize, centerText2Typeface, centerText2, sliceSpacing, formatter).withData(this)
 
     companion object {
-        val DEFAULT_CENTER_TEXT1_SIZE_SP = 42
-        val DEFAULT_CENTER_TEXT2_SIZE_SP = 16
-        val DEFAULT_CENTER_CIRCLE_SCALE = 0.6f
-        internal val DEFAULT_SLICE_SPACING_DP = 2
+        const val DEFAULT_CENTER_TEXT1_SIZE_SP = 42
+        const val DEFAULT_CENTER_TEXT2_SIZE_SP = 16
+        const val DEFAULT_CENTER_CIRCLE_SCALE = 0.6f
+        internal const val DEFAULT_SLICE_SPACING_DP = 2
 
         fun generateDummyData() =
                 pieData {
-                    sliceValue { value = 40f }
-                    sliceValue { value = 20f }
-                    sliceValue { value = 30f }
-                    sliceValue { value = 50f }
+                    sliceValues {
+                        sliceValue {
+                            slice { value = 40f }
+                        }
+                        sliceValue {
+                            slice { value = 20f }
+                        }
+                        sliceValue {
+                            slice { value = 30f }
+                        }
+                        sliceValue {
+                            slice { value = 50f }
+                        }
+                    }
                 }
     }
 }

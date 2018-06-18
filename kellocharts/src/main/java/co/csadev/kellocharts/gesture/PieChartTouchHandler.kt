@@ -1,12 +1,10 @@
 package co.csadev.kellocharts.gesture
 
 import android.content.Context
-import android.graphics.RectF
-import androidx.core.widget.ScrollerCompat
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-
+import androidx.core.widget.ScrollerCompat
 import co.csadev.kellocharts.view.PieChartView
 
 /**
