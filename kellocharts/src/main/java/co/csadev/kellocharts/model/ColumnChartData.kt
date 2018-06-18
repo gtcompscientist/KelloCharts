@@ -1,7 +1,6 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.model.dsl.columnData
-import co.csadev.kellocharts.model.dsl.subcolumnValue
 import java.util.*
 
 /**

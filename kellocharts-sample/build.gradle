@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'com.github.triplet.play'
+apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 28
@@ -10,8 +10,8 @@ android {
         applicationId "co.csadev.kellocharts"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "2.0.0"
     }
     buildTypes {
         release {

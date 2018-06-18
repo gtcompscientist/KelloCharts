@@ -8,7 +8,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 4
-        versionName "1.0.2"
+        versionName "2.0.0"
     }
 
     buildTypes {
@@ -42,7 +42,7 @@ ext {
     siteUrl = 'https://github.com/gtcompscientist/KelloCharts'
     gitUrl = 'https://github.com/gtcompscientist/KelloCharts.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = android.defaultConfig.versionName
 
     developerId = 'gtcompscientist'
     developerName = 'Charles Anderson'

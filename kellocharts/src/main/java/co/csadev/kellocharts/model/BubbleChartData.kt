@@ -3,7 +3,6 @@ package co.csadev.kellocharts.model
 import co.csadev.kellocharts.formatter.BubbleChartValueFormatter
 import co.csadev.kellocharts.formatter.SimpleBubbleChartValueFormatter
 import co.csadev.kellocharts.model.dsl.bubbleData
-import co.csadev.kellocharts.model.dsl.bubbleValue
 import co.csadev.kellocharts.view.Chart
 import java.util.*
 

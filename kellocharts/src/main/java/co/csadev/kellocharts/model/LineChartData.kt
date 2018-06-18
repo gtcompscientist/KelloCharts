@@ -1,7 +1,6 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.model.dsl.lineData
-import co.csadev.kellocharts.model.dsl.pointValue
 import java.util.*
 
 /**
