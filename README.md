@@ -70,6 +70,37 @@ Every chart view can be defined in layout xml file:
     chart.lineChartData = data
  ```
 
+ Also, available as a DSL, same example as above:
+
+ ```Kotlin
+lineData {
+    lines {
+        line {
+            color = Color.BLUE
+            isCubic = true
+            pointValues {
+                point {
+                    x = 0f
+                    y = 2f
+                }
+                point {
+                    x = 1f
+                    y = 4f
+                }
+                point {
+                    x = 2f
+                    y = 3f
+                }
+                point {
+                    x = 3f
+                    y = 4f
+                }
+            }
+        }
+    }
+ }
+ ```
+
  After the chart data has been set you can still modify its attributes but right after that you should call
  `*.*ChartData` setter again to let chart recalculate and redraw data. There is also an option to use copy constructor for deep copy of
  chart data. You can safely modify copy in other threads and pass it to `*.*ChartData` setter later.

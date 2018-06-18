@@ -23,12 +23,13 @@ class LineChartData(var lines: MutableList<Line> = ArrayList(),  var baseValue: 
     fun copy() = LineChartData(lines.map { it.copy() }.toMutableList(), baseValue).withData(this) as LineChartData
 
     companion object {
-        val DEFAULT_BASE_VALUE = 0.0f
+        const val DEFAULT_BASE_VALUE = 0.0f
 
         fun generateDummyData() =
                 lineData {
                     lines {
                         line {
+                            color = Color.BLUE
                             pointValues {
                                 point {
                                     x = 0f
