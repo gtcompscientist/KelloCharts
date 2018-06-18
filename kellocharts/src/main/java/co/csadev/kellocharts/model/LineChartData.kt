@@ -29,7 +29,6 @@ class LineChartData(var lines: MutableList<Line> = ArrayList(),  var baseValue: 
                 lineData {
                     lines {
                         line {
-                            color = Color.BLUE
                             pointValues {
                                 point {
                                     x = 0f
