@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.model
 
+import co.csadev.kellocharts.model.dsl.columnData
 import java.util.ArrayList
 
 /**
@@ -64,21 +65,20 @@ class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStac
         val DEFAULT_FILL_RATIO = 0.75f
         val DEFAULT_BASE_VALUE = 0.0f
 
-        fun generateDummyData(): ColumnChartData {
-            val numColumns = 4
-            val data = ColumnChartData()
-            val columns = ArrayList<Column>(numColumns)
-            var values: MutableList<SubcolumnValue>
-            var column: Column
-            for (i in 1..numColumns) {
-                values = ArrayList(numColumns)
-                values.add(SubcolumnValue(i.toFloat()))
-                column = Column(values)
-                columns.add(column)
-            }
-
-            data.columns = columns
-            return data
-        }
+        fun generateDummyData() =
+                columnData {
+                    columns {
+                        column {
+                            values {
+                                subcolumn {
+                                    values { value = 1f }
+                                    values { value = 2f }
+                                    values { value = 3f }
+                                    values { value = 4f }
+                                }
+                            }
+                        }
+                    }
+                }
     }
 }

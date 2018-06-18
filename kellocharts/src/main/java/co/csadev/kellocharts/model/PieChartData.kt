@@ -7,6 +7,8 @@ import java.util.ArrayList
 
 import co.csadev.kellocharts.formatter.PieChartValueFormatter
 import co.csadev.kellocharts.formatter.SimplePieChartValueFormatter
+import co.csadev.kellocharts.model.dsl.pieData
+import co.csadev.kellocharts.model.dsl.sliceValue
 import co.csadev.kellocharts.view.Chart
 import co.csadev.kellocharts.view.PieChartView
 
@@ -61,12 +63,14 @@ class PieChartData(var values: MutableList<SliceValue> = ArrayList(),
         val DEFAULT_CENTER_TEXT1_SIZE_SP = 42
         val DEFAULT_CENTER_TEXT2_SIZE_SP = 16
         val DEFAULT_CENTER_CIRCLE_SCALE = 0.6f
-        private val DEFAULT_SLICE_SPACING_DP = 2
+        internal val DEFAULT_SLICE_SPACING_DP = 2
 
-        fun generateDummyData() = PieChartData(arrayListOf(
-                    SliceValue(40f),
-                    SliceValue(20f),
-                    SliceValue(30f),
-                    SliceValue(50f)))
+        fun generateDummyData() =
+                pieData {
+                    sliceValue { value = 40f }
+                    sliceValue { value = 20f }
+                    sliceValue { value = 30f }
+                    sliceValue { value = 50f }
+                }
     }
 }

@@ -13,7 +13,7 @@ import android.view.MotionEvent
  *
  * @author Chris Banes
  */
-class HackyViewPager : androidx.viewpager.widget.ViewPager {
+class HackyViewPager : ViewPager {
 
     constructor(context: Context) : super(context) {}
 

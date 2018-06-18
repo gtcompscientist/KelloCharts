@@ -62,12 +62,12 @@ class PointValue(x: Float = 0f, y: Float = 0f, var label: CharArray? = null) {
 
         val that = other as PointValue?
 
-        if (java.lang.Float.compare(that!!.diffX, diffX) != 0) return false
-        if (java.lang.Float.compare(that.diffY, diffY) != 0) return false
-        if (java.lang.Float.compare(that.originX, originX) != 0) return false
-        if (java.lang.Float.compare(that.originY, originY) != 0) return false
-        if (java.lang.Float.compare(that.x, x) != 0) return false
-        if (java.lang.Float.compare(that.y, y) != 0) return false
+        if (that!!.diffX.compareTo(diffX) != 0) return false
+        if (that.diffY.compareTo(diffY) != 0) return false
+        if (that.originX.compareTo(originX) != 0) return false
+        if (that.originY.compareTo(originY) != 0) return false
+        if (that.x.compareTo(x) != 0) return false
+        if (that.y.compareTo(y) != 0) return false
         return Arrays.equals(label, that.label)
 
     }

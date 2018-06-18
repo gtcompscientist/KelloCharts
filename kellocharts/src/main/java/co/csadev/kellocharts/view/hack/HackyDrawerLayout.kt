@@ -8,7 +8,7 @@ import android.view.MotionEvent
 /**
  * Hacky fix for issue with DrawerLayout https://github.com/chrisbanes/PhotoView/issues/72
  */
-class HackyDrawerLayout : androidx.drawerlayout.widget.DrawerLayout {
+class HackyDrawerLayout : DrawerLayout {
 
     constructor(context: Context) : super(context) {}
 

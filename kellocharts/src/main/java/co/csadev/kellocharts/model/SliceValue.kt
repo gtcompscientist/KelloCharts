@@ -8,7 +8,7 @@ import co.csadev.kellocharts.view.Chart
 /**
  * Model representing single slice on PieChart.
  */
-class SliceValue(value: Float = 0f, private var originValue: Float = value, private var diff: Float = 0f, color: Int = ChartUtils.DEFAULT_COLOR, var label: CharArray? = null, @Deprecated("") private var sliceSpacing: Int = DEFAULT_SLICE_SPACING_DP) {
+class SliceValue(value: Float = 0f, private var originValue: Float = value, private var diff: Float = 0f, color: Int = ChartUtils.DEFAULT_COLOR, var label: CharArray? = null) {
     var darkenColor = ChartUtils.darkenColor(color)
         private set
 
@@ -45,18 +45,6 @@ class SliceValue(value: Float = 0f, private var originValue: Float = value, priv
         return this
     }
 
-    @Deprecated("")
-    fun getSliceSpacing(): Int {
-        return sliceSpacing
-    }
-
-    @Deprecated("")
-    fun setSliceSpacing(sliceSpacing: Int): SliceValue {
-        this.sliceSpacing = sliceSpacing
-        return this
-    }
-
-
     override fun toString(): String {
         return "SliceValue [value=$value]"
     }
@@ -69,10 +57,9 @@ class SliceValue(value: Float = 0f, private var originValue: Float = value, priv
 
         if (color != that!!.color) return false
         if (darkenColor != that.darkenColor) return false
-        if (java.lang.Float.compare(that.diff, diff) != 0) return false
-        if (java.lang.Float.compare(that.originValue, originValue) != 0) return false
-        if (sliceSpacing != that.sliceSpacing) return false
-        if (java.lang.Float.compare(that.value, value) != 0) return false
+        if (that.diff.compareTo(diff) != 0) return false
+        if (that.originValue.compareTo(originValue) != 0) return false
+        if (that.value.compareTo(value) != 0) return false
         return Arrays.equals(label, that.label)
 
     }
@@ -83,14 +70,9 @@ class SliceValue(value: Float = 0f, private var originValue: Float = value, priv
         result = 31 * result + if (diff != +0.0f) java.lang.Float.floatToIntBits(diff) else 0
         result = 31 * result + color
         result = 31 * result + darkenColor
-        result = 31 * result + sliceSpacing
         result = 31 * result + if (label != null) Arrays.hashCode(label) else 0
         return result
     }
 
-    fun copy() = SliceValue(this.value, color = this.color, label = this.label, sliceSpacing = this.sliceSpacing)
-
-    companion object {
-        private val DEFAULT_SLICE_SPACING_DP = 2
-    }
+    fun copy() = SliceValue(this.value, color = this.color, label = this.label)
 }

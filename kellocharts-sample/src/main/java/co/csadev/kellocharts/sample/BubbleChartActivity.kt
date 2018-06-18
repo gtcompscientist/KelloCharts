@@ -34,7 +34,7 @@ class BubbleChartActivity : AppCompatActivity() {
     /**
      * A fragment containing a bubble chart.
      */
-    class PlaceholderFragment : androidx.fragment.app.Fragment() {
+    class PlaceholderFragment : Fragment() {
 
         private var chart: BubbleChartView? = null
         private var data: BubbleChartData? = null

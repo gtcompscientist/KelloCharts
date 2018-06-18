@@ -4,6 +4,8 @@ import java.util.ArrayList
 
 import co.csadev.kellocharts.formatter.BubbleChartValueFormatter
 import co.csadev.kellocharts.formatter.SimpleBubbleChartValueFormatter
+import co.csadev.kellocharts.model.dsl.bubbleData
+import co.csadev.kellocharts.model.dsl.bubbleValue
 import co.csadev.kellocharts.view.Chart
 
 /**
@@ -46,17 +48,35 @@ class BubbleChartData(var values: MutableList<BubbleValue> = ArrayList(), var fo
         val DEFAULT_MIN_BUBBLE_RADIUS_DP = 6
         val DEFAULT_BUBBLE_SCALE = 1f
 
-        fun generateDummyData(): BubbleChartData {
-            val numValues = 4
-            val data = BubbleChartData()
-            val values = ArrayList<BubbleValue>(numValues)
-            values.add(BubbleValue(0f, 20f, 15000f))
-            values.add(BubbleValue(3f, 22f, 20000f))
-            values.add(BubbleValue(5f, 25f, 5000f))
-            values.add(BubbleValue(7f, 30f, 30000f))
-            values.add(BubbleValue(11f, 22f, 10f))
-            data.values = values
-            return data
-        }
+        fun generateDummyData() =
+                bubbleData {
+                    values {
+                        bubbleValue {
+                            x = 0f
+                            y = 20f
+                            z = 15000f
+                        }
+                        bubbleValue {
+                            x = 3f
+                            y = 22f
+                            z = 20000f
+                        }
+                        bubbleValue {
+                            x = 5f
+                            y = 25f
+                            z = 5000f
+                        }
+                        bubbleValue {
+                            x = 7f
+                            y = 30f
+                            z = 30000f
+                        }
+                        bubbleValue {
+                            x = 11f
+                            y = 22f
+                            z = 10f
+                        }
+                    }
+                }
     }
 }

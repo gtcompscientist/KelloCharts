@@ -36,7 +36,7 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
     /**
      * A fragment containing a combo line/column chart view.
      */
-    class PlaceholderFragment : androidx.fragment.app.Fragment() {
+    class PlaceholderFragment : Fragment() {
 
         private var chart: ComboLineColumnChartView? = null
         private var data: ComboLineColumnChartData? = null

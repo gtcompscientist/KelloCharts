@@ -34,7 +34,7 @@ class ColumnChartActivity : AppCompatActivity() {
     /**
      * A fragment containing a column chart.
      */
-    class PlaceholderFragment : androidx.fragment.app.Fragment() {
+    class PlaceholderFragment : Fragment() {
 
         private var chart: ColumnChartView? = null
         private var data: ColumnChartData? = null

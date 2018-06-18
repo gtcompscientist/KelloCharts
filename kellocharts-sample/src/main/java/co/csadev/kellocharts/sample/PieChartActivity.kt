@@ -32,7 +32,7 @@ class PieChartActivity : AppCompatActivity() {
     /**
      * A fragment containing a pie chart.
      */
-    class PlaceholderFragment : androidx.fragment.app.Fragment() {
+    class PlaceholderFragment : Fragment() {
 
         private var chart: PieChartView? = null
         private var data: PieChartData? = null

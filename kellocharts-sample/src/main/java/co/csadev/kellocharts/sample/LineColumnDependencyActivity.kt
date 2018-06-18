@@ -35,7 +35,7 @@ class LineColumnDependencyActivity : AppCompatActivity() {
     /**
      * A placeholder fragment containing a simple view.
      */
-    class PlaceholderFragment : androidx.fragment.app.Fragment() {
+    class PlaceholderFragment : Fragment() {
 
         private var chartTop: LineChartView? = null
         private var chartBottom: ColumnChartView? = null

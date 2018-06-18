@@ -71,9 +71,9 @@ class Line(var values: MutableList<PointValue> = ArrayList(),
     fun finish() = values.forEach { it.finish() }
 
     companion object {
-        private val DEFAULT_LINE_STROKE_WIDTH_DP = 3
-        private val DEFAULT_POINT_RADIUS_DP = 6
-        private val DEFAULT_AREA_TRANSPARENCY = 64
+        internal val DEFAULT_LINE_STROKE_WIDTH_DP = 3
+        internal val DEFAULT_POINT_RADIUS_DP = 6
+        internal val DEFAULT_AREA_TRANSPARENCY = 64
         val UNINITIALIZED = 0
     }
 }

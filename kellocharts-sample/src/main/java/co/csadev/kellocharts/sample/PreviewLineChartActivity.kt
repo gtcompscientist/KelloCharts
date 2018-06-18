@@ -30,7 +30,7 @@ class PreviewLineChartActivity : AppCompatActivity() {
     /**
      * A fragment containing a line chart and preview line chart.
      */
-    class PlaceholderFragment : androidx.fragment.app.Fragment() {
+    class PlaceholderFragment : Fragment() {
 
         private var chart: LineChartView? = null
         private var previewChart: PreviewLineChartView? = null

@@ -1,5 +1,8 @@
 package co.csadev.kellocharts.model
 
+import co.csadev.kellocharts.model.dsl.line
+import co.csadev.kellocharts.model.dsl.lineData
+import co.csadev.kellocharts.model.dsl.pointValue
 import java.util.ArrayList
 
 /**
@@ -24,13 +27,28 @@ class LineChartData(var lines: MutableList<Line> = ArrayList(),  var baseValue: 
     companion object {
         val DEFAULT_BASE_VALUE = 0.0f
 
-        fun generateDummyData(): LineChartData {
-            return LineChartData(arrayListOf(Line(arrayListOf(
-                    PointValue(0f, 2f),
-                    PointValue(1f, 4f),
-                    PointValue(2f, 3f),
-                    PointValue(3f,4f)
-            ))))
-        }
+        fun generateDummyData() =
+                lineData {
+                    lines {
+                        line {
+                            pointValue {
+                                x = 0f
+                                y = 2f
+                            }
+                            pointValue {
+                                x = 1f
+                                y = 4f
+                            }
+                            pointValue {
+                                x = 2f
+                                y = 3f
+                            }
+                            pointValue {
+                                x = 3f
+                                y = 4f
+                            }
+                        }
+                    }
+                }
     }
 }

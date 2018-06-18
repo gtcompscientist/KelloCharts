@@ -30,7 +30,7 @@ class PreviewColumnChartActivity : AppCompatActivity() {
     /**
      * A placeholder fragment containing a simple view.
      */
-    class PlaceholderFragment : androidx.fragment.app.Fragment() {
+    class PlaceholderFragment : Fragment() {
 
         private var chart: ColumnChartView? = null
         private var previewChart: PreviewColumnChartView? = null

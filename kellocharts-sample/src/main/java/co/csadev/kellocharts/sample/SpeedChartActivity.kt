@@ -25,7 +25,7 @@ class SpeedChartActivity : AppCompatActivity() {
         }
     }
 
-    class PlaceholderFragment : androidx.fragment.app.Fragment() {
+    class PlaceholderFragment : Fragment() {
 
         private var chart: LineChartView? = null
         private var data: LineChartData? = null

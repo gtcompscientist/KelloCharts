@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * A placeholder fragment containing a simple view.
      */
-    class PlaceholderFragment : androidx.fragment.app.Fragment(), OnItemClickListener {
+    class PlaceholderFragment : Fragment(), OnItemClickListener {
 
         private var listView: ListView? = null
         private var adapter: ChartSamplesAdapter? = null
