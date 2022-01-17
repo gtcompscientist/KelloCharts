@@ -36,7 +36,7 @@ Every chart view can be defined in layout xml file:
  or created in code and added to layout later:
 
  ```Kotlin
-    LineChartView chart = new LineChartView(context)
+    val chart = new LineChartView(context)
     layout.addView(chart)
  ```
 
@@ -45,7 +45,7 @@ Every chart view can be defined in layout xml file:
  ```Kotlin
     Chart.isInteractive = isInteractive
     Chart.zoomType = zoomType
-    Chart.setContainerScrollEnabled(boolean isEnabled, ContainerScrollType type)
+    Chart.setContainerScrollEnabled(isEnabled, scrollType)
  ```
 
  Use methods from data models to define how chart looks like, example methods:
