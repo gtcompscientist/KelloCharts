@@ -1,6 +1,6 @@
 package co.csadev.kellocharts.animation
 
 class DummyChartAnimationListener : ChartAnimationListener {
-    override fun onAnimationStarted() { }
-    override fun onAnimationFinished() { }
+    override fun onAnimationStarted() = Unit
+    override fun onAnimationFinished() = Unit
 }

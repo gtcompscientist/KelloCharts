@@ -1,6 +1,5 @@
 package co.csadev.kellocharts.sample
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -46,20 +45,19 @@ class AboutActivity : AppCompatActivity() {
 
     companion object {
         val TAG = AboutActivity::class.java.simpleName
-        val GITHUB_URL = "github.com/gtcompscientist/kellocharts"
+        const val GITHUB_URL = "github.com/gtcompscientist/kellocharts"
 
-        fun getAppVersionAndBuild(context: Context?): Pair<String, Int> {
-            try {
+        fun getAppVersionAndBuild(context: Context?): Pair<String, Long> {
+            return try {
                 val pInfo = context!!.packageManager.getPackageInfo(context.packageName, 0)
-                return Pair(pInfo.versionName, pInfo.versionCode)
+                Pair(pInfo.versionName, pInfo.versionCode.toLong())
             } catch (e: Exception) {
                 Log.e(TAG, "Could not get version number")
-                return Pair("", 0)
+                Pair("", 0L)
             }
 
         }
 
-        @SuppressLint("DefaultLocale")
         fun launchWebBrowser(context: Context?, url: String): Boolean {
             var url = url
             try {
@@ -77,7 +75,7 @@ class AboutActivity : AppCompatActivity() {
                     return false
                 }
                 context.startActivity(intent)
-                Log.i(TAG, "Launching browser with url: " + url)
+                Log.i(TAG, "Launching browser with url: $url")
                 return true
             } catch (e: Exception) {
                 Log.e(TAG, "Could not start web browser", e)

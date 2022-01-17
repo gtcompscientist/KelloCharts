@@ -3,7 +3,7 @@ package co.csadev.kellocharts.animation
 import co.csadev.kellocharts.model.Viewport
 import java.util.*
 
-val FAST_ANIMATION_DURATION = 200L
+const val FAST_ANIMATION_DURATION = 200L
 
 interface ChartAnimationListener : EventListener {
     fun onAnimationStarted()
@@ -16,7 +16,7 @@ interface ChartDataAnimator {
     fun cancelAnimation()
     fun setChartAnimationListener(animationListener: ChartAnimationListener?)
     companion object {
-        val DEFAULT_ANIMATION_DURATION: Long = 500
+        const val DEFAULT_ANIMATION_DURATION: Long = 500
     }
 }
 
