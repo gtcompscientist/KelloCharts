@@ -2,4 +2,5 @@ build
 .idea
 kellocharts-sample/release
 local.properties
-.gradle
+.gradle/*
+*.iml
