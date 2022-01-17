@@ -59,12 +59,12 @@ class PreviewLineChartActivity : AppCompatActivity() {
         }
 
         // MENU
-        override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-            inflater!!.inflate(R.menu.preview_line_chart, menu)
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            inflater.inflate(R.menu.preview_line_chart, menu)
         }
 
-        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-            val id = item!!.itemId
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            val id = item.itemId
             if (id == R.id.action_reset) {
                 generateDefaultData()
                 chart?.lineChartData = data

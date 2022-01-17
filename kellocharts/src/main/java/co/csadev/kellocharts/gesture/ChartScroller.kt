@@ -2,7 +2,7 @@ package co.csadev.kellocharts.gesture
 
 import android.content.Context
 import android.graphics.Point
-import androidx.core.widget.ScrollerCompat
+import android.widget.OverScroller
 
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.Viewport
@@ -15,11 +15,7 @@ class ChartScroller(context: Context) {
 
     private val scrollerStartViewport = Viewport() // Used only for zooms and flings
     private val surfaceSizeBuffer = Point()// Used for scroll and flings
-    private val scroller: ScrollerCompat
-
-    init {
-        scroller = ScrollerCompat.create(context)
-    }
+    private val scroller: OverScroller = OverScroller(context)
 
     fun startScroll(computator: ChartComputator): Boolean {
         scroller.abortAnimation()

@@ -68,12 +68,12 @@ class LineChartActivity : AppCompatActivity() {
         }
 
         // MENU
-        override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-            inflater!!.inflate(R.menu.line_chart, menu)
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            inflater.inflate(R.menu.line_chart, menu)
         }
 
-        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-            val id = item!!.itemId
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            val id = item.itemId
             if (id == R.id.action_reset) {
                 reset()
                 generateData()
@@ -405,10 +405,7 @@ class LineChartActivity : AppCompatActivity() {
                 Toast.makeText(activity, "Selected: " + value, Toast.LENGTH_SHORT).show()
             }
 
-            override fun onValueDeselected() {
-                // TODO Auto-generated method stub
-
-            }
+            override fun onValueDeselected() = Unit
 
         }
     }

@@ -158,21 +158,17 @@ open class ChartComputator {
      * Sets the current viewport (defined by [.currentViewport]) to the given X and Y positions.
      */
     fun setViewportTopLeft(left: Float, top: Float) {
-        var left = left
-        var top = top
         /**
          * Constrains within the scroll range. The scroll range is simply the viewport extremes (AXIS_X_MAX,
          * etc.) minus
          * the viewport size. For example, if the extrema were 0 and 10, and the viewport size was 2, the scroll range
          * would be 0 to 8.
          */
-
         val curWidth = currentViewport.width()
         val curHeight = currentViewport.height()
-
-        left = Math.max(maximumViewport.left, Math.min(left, maximumViewport.right - curWidth))
-        top = Math.max(maximumViewport.bottom + curHeight, Math.min(top, maximumViewport.top))
-        constrainViewport(left, top, left + curWidth, top - curHeight)
+        val l = left.coerceIn(maximumViewport.left, maximumViewport.right - curWidth)
+        val t = top.coerceIn(maximumViewport.bottom + curHeight, maximumViewport.top)
+        constrainViewport(l, t, l + curWidth, t - curHeight)
     }
 
     /**
@@ -263,13 +259,13 @@ open class ChartComputator {
      * Set new values for maximum viewport, that will change what part of chart is visible.
      */
     fun setMaxViewport(left: Float, top: Float = left, right: Float = left, bottom: Float = left) {
-        this.maximumViewport.set(left, top, right, bottom)
+        maximumViewport.set(left, top, right, bottom)
         computeMinimumWidthAndHeight()
     }
 
     private fun computeMinimumWidthAndHeight() {
-        minimumViewportWidth = this.maximumViewport.width() / maxZoom
-        minimumViewportHeight = this.maximumViewport.height() / maxZoom
+        minimumViewportWidth = maximumViewport.width() / maxZoom
+        minimumViewportHeight = maximumViewport.height() / maxZoom
     }
 
     companion object {
@@ -277,7 +273,7 @@ open class ChartComputator {
         /**
          * Maximum chart zoom.
          */
-        protected val DEFAULT_MAXIMUM_ZOOM = 20f
+        protected const val DEFAULT_MAXIMUM_ZOOM = 20f
     }
 
 }

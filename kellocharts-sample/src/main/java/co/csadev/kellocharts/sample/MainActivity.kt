@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun generateSamplesDescriptions(): List<ChartSampleDescription> {
-            val list = ArrayList<MainActivity.ChartSampleDescription>()
+            val list = ArrayList<ChartSampleDescription>()
 
             list.add(ChartSampleDescription("Line Chart", "", ChartType.LINE_CHART))
             list.add(ChartSampleDescription("Column Chart", "", ChartType.COLUMN_CHART))
@@ -186,28 +186,28 @@ class MainActivity : AppCompatActivity() {
             holder.chartLayout!!.visibility = View.VISIBLE
             holder.chartLayout!!.removeAllViews()
             val chart: AbstractChartView?
-            when (item!!.chartType) {
-                MainActivity.ChartType.LINE_CHART -> {
+            when (item?.chartType) {
+                ChartType.LINE_CHART -> {
                     chart = LineChartView(context)
                     holder.chartLayout!!.addView(chart)
                 }
-                MainActivity.ChartType.COLUMN_CHART -> {
+                ChartType.COLUMN_CHART -> {
                     chart = ColumnChartView(context)
                     holder.chartLayout!!.addView(chart)
                 }
-                MainActivity.ChartType.PIE_CHART -> {
+                ChartType.PIE_CHART -> {
                     chart = PieChartView(context)
                     holder.chartLayout!!.addView(chart)
                 }
-                MainActivity.ChartType.BUBBLE_CHART -> {
+                ChartType.BUBBLE_CHART -> {
                     chart = BubbleChartView(context)
                     holder.chartLayout!!.addView(chart)
                 }
-                MainActivity.ChartType.PREVIEW_LINE_CHART -> {
+                ChartType.PREVIEW_LINE_CHART -> {
                     chart = PreviewLineChartView(context)
                     holder.chartLayout!!.addView(chart)
                 }
-                MainActivity.ChartType.PREVIEW_COLUMN_CHART -> {
+                ChartType.PREVIEW_COLUMN_CHART -> {
                     chart = PreviewColumnChartView(context)
                     holder.chartLayout!!.addView(chart)
                 }
@@ -220,17 +220,17 @@ class MainActivity : AppCompatActivity() {
             if (null != chart) {
                 chart.isInteractive = false// Disable touch handling for chart on the ListView.
             }
-            holder.text1!!.text = item.text1
-            holder.text2!!.text = item.text2
+            holder.text1!!.text = item?.text1
+            holder.text2!!.text = item?.text2
 
             return convertView
         }
 
         private inner class ViewHolder {
 
-            internal var text1: TextView? = null
-            internal var text2: TextView? = null
-            internal var chartLayout: FrameLayout? = null
+            var text1: TextView? = null
+            var text2: TextView? = null
+            var chartLayout: FrameLayout? = null
         }
 
     }

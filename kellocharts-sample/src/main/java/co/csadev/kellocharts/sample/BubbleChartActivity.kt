@@ -14,6 +14,8 @@ import co.csadev.kellocharts.model.ValueShape
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.BubbleChartView
 import co.csadev.kellocharts.view.Chart
+import java.lang.Math.random
+import kotlin.math.roundToInt
 
 class BubbleChartActivity : AppCompatActivity() {
 
@@ -41,7 +43,7 @@ class BubbleChartActivity : AppCompatActivity() {
         private val sign: Int
             get() {
                 val sign = intArrayOf(-1, 1)
-                return sign[Math.round(Math.random().toFloat())]
+                return sign[random().toFloat().roundToInt()]
             }
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,12 +58,12 @@ class BubbleChartActivity : AppCompatActivity() {
             return rootView
         }
 
-        override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-            inflater!!.inflate(R.menu.bubble_chart, menu)
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            inflater.inflate(R.menu.bubble_chart, menu)
         }
 
-        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-            val id = item!!.itemId
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            val id = item.itemId
             if (id == R.id.action_reset) {
                 reset()
                 generateData()
@@ -133,7 +135,7 @@ class BubbleChartActivity : AppCompatActivity() {
 
             val values = ArrayList<BubbleValue>()
             for (i in 0 until BUBBLES_NUM) {
-                val value = BubbleValue(i.toFloat(), Math.random().toFloat() * 100, Math.random().toFloat() * 1000)
+                val value = BubbleValue(i.toFloat(), random().toFloat() * 100, random().toFloat() * 1000)
                 value.color = ChartUtils.pickColor()
                 value.shape = shape
                 values.add(value)
@@ -212,26 +214,22 @@ class BubbleChartActivity : AppCompatActivity() {
          */
         private fun prepareDataAnimation() {
             data?.values?.forEach {
-                it.setTarget(it.x + Math.random().toFloat() * 4f * sign.toFloat(), Math.random().toFloat() * 100,
-                        Math.random().toFloat() * 1000)
+                it.setTarget(it.x + random().toFloat() * 4f * sign.toFloat(), random().toFloat() * 100,
+                        random().toFloat() * 1000)
             }
         }
 
         private inner class ValueTouchListener : BubbleChartOnValueSelectListener {
 
             override fun onValueSelected(bubbleIndex: Int, value: BubbleValue) {
-                Toast.makeText(activity, "Selected: " + value, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Selected: $value", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onValueDeselected() {
-                // TODO Auto-generated method stub
-
-            }
+            override fun onValueDeselected() = Unit
         }
 
         companion object {
-
-            private val BUBBLES_NUM = 8
+            private const val BUBBLES_NUM = 8
         }
     }
 }

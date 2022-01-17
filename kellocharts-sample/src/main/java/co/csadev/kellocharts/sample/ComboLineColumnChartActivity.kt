@@ -55,12 +55,12 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
         }
 
         // MENU
-        override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-            inflater!!.inflate(R.menu.combo_line_column_chart, menu)
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            inflater.inflate(R.menu.combo_line_column_chart, menu)
         }
 
-        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-            val id = item!!.itemId
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            val id = item.itemId
             if (id == R.id.action_reset) {
                 reset()
                 generateData()
@@ -253,17 +253,14 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
 
         private inner class ValueTouchListener : ComboLineColumnChartOnValueSelectListener {
 
-            override fun onValueDeselected() {
-                // TODO Auto-generated method stub
-
-            }
+            override fun onValueDeselected() = Unit
 
             override fun onColumnValueSelected(columnIndex: Int, subcolumnIndex: Int, value: SubcolumnValue) {
-                Toast.makeText(activity, "Selected column: " + value, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Selected column: $value", Toast.LENGTH_SHORT).show()
             }
 
             override fun onPointValueSelected(lineIndex: Int, pointIndex: Int, value: PointValue) {
-                Toast.makeText(activity, "Selected line point: " + value, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Selected line point: $value", Toast.LENGTH_SHORT).show()
             }
 
         }

@@ -52,12 +52,12 @@ class PieChartActivity : AppCompatActivity() {
         }
 
         // MENU
-        override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-            inflater!!.inflate(R.menu.pie_chart, menu)
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            inflater.inflate(R.menu.pie_chart, menu)
         }
 
-        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-            val id = item!!.itemId
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            val id = item.itemId
             if (id == R.id.action_reset) {
                 reset()
                 generateData()
@@ -157,7 +157,7 @@ class PieChartActivity : AppCompatActivity() {
                 newData.centerText1 = "Hello!"
 
                 // Get roboto-italic font.
-                newData.centerText1Typeface = Typeface.createFromAsset(activity!!.assets, "Roboto-Italic.ttf")
+                newData.centerText1Typeface = Typeface.createFromAsset(activity?.assets, "Roboto-Italic.ttf")
 
                 // Get font size from dimens.xml and convert it to sp(library uses sp values).
                 newData.centerText1FontSize = ChartUtils.px2sp(resources.displayMetrics.scaledDensity, resources.getDimension(R.dimen.pie_chart_text1_size).toInt())
@@ -166,7 +166,7 @@ class PieChartActivity : AppCompatActivity() {
             if (hasCenterText2) {
                 newData.centerText2 = "Charts (Roboto Italic)"
 
-                newData.centerText2Typeface = Typeface.createFromAsset(activity!!.assets, "Roboto-Italic.ttf")
+                newData.centerText2Typeface = Typeface.createFromAsset(activity?.assets, "Roboto-Italic.ttf")
                 newData.centerText2FontSize = ChartUtils.px2sp(resources.displayMetrics.scaledDensity, resources.getDimension(R.dimen.pie_chart_text2_size).toInt())
             }
 
@@ -248,13 +248,10 @@ class PieChartActivity : AppCompatActivity() {
         private inner class ValueTouchListener : PieChartOnValueSelectListener {
 
             override fun onValueSelected(arcIndex: Int, value: SliceValue) {
-                Toast.makeText(activity, "Selected: " + value, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Selected: $value", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onValueDeselected() {
-                // TODO Auto-generated method stub
-
-            }
+            override fun onValueDeselected() = Unit
 
         }
     }

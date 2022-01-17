@@ -58,12 +58,12 @@ class ColumnChartActivity : AppCompatActivity() {
         }
 
         // MENU
-        override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-            inflater!!.inflate(R.menu.column_chart, menu)
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            inflater.inflate(R.menu.column_chart, menu)
         }
 
-        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-            val id = item!!.itemId
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            val id = item.itemId
             if (id == R.id.action_reset) {
                 reset()
                 generateData()
@@ -430,20 +430,17 @@ class ColumnChartActivity : AppCompatActivity() {
                 Toast.makeText(activity, "Selected: " + value, Toast.LENGTH_SHORT).show()
             }
 
-            override fun onValueDeselected() {
-                // TODO Auto-generated method stub
-
-            }
+            override fun onValueDeselected() = Unit
 
         }
 
         companion object {
 
-            private val DEFAULT_DATA = 0
-            private val SUBCOLUMNS_DATA = 1
-            private val STACKED_DATA = 2
-            private val NEGATIVE_SUBCOLUMNS_DATA = 3
-            private val NEGATIVE_STACKED_DATA = 4
+            private const val DEFAULT_DATA = 0
+            private const val SUBCOLUMNS_DATA = 1
+            private const val STACKED_DATA = 2
+            private const val NEGATIVE_SUBCOLUMNS_DATA = 3
+            private const val NEGATIVE_STACKED_DATA = 4
         }
 
     }

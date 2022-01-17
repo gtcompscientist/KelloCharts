@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.github.triplet.play'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "co.csadev.kellocharts"
         minSdkVersion 21
