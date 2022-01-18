@@ -6,23 +6,22 @@ import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.graphics.Paint.FontMetricsInt
 import android.graphics.Rect
-import android.text.TextUtils
-import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.Axis
 import co.csadev.kellocharts.model.AxisValue
 import co.csadev.kellocharts.util.AxisAutoValues
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.FloatUtils
 import co.csadev.kellocharts.view.Chart
+import kotlin.math.*
 
 /**
  * Default axes renderer. Can draw maximum four axes - two horizontal(top/bottom) and two vertical(left/right).
  */
 class AxesRenderer(context: Context, private val chart: Chart) {
-    private var computator: ChartComputator? = null
+    private val computator = chart.chartComputator
     private val axisMargin: Int
-    private val density: Float
-    private val scaledDensity: Float
+    private val density = context.resources.displayMetrics.density
+    private val scaledDensity = context.resources.displayMetrics.scaledDensity
     private val labelPaintTab = arrayOf(Paint(), Paint(), Paint(), Paint())
     private val namePaintTab = arrayOf(Paint(), Paint(), Paint(), Paint())
     private val linePaintTab = arrayOf(Paint(), Paint(), Paint(), Paint())
@@ -36,7 +35,9 @@ class AxesRenderer(context: Context, private val chart: Chart) {
     private val labelDimensionForStepsTab = IntArray(4)
     private val tiltedLabelXTranslation = IntArray(4)
     private val tiltedLabelYTranslation = IntArray(4)
-    private val fontMetricsTab = arrayOf(FontMetricsInt(), FontMetricsInt(), FontMetricsInt(), FontMetricsInt())
+    private val fontMetricsTab =
+        arrayOf(FontMetricsInt(), FontMetricsInt(), FontMetricsInt(), FontMetricsInt())
+
     /**
      * Holds formatted axis value label.
      */
@@ -71,12 +72,10 @@ class AxesRenderer(context: Context, private val chart: Chart) {
     /**
      * Buffers for auto-generated values for each axis, used only if there are auto axes.
      */
-    private val autoValuesBufferTab = arrayOf(AxisAutoValues(), AxisAutoValues(), AxisAutoValues(), AxisAutoValues())
+    private val autoValuesBufferTab =
+        arrayOf(AxisAutoValues(), AxisAutoValues(), AxisAutoValues(), AxisAutoValues())
 
     init {
-        computator = chart.chartComputator
-        density = context.resources.displayMetrics.density
-        scaledDensity = context.resources.displayMetrics.scaledDensity
         axisMargin = ChartUtils.dp2px(density, DEFAULT_AXIS_MARGIN_DP)
         for (position in 0..3) {
             labelPaintTab[position].style = Paint.Style.FILL
@@ -101,10 +100,6 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         initAxis(chart.chartData.axisXBottom, BOTTOM)
         initAxis(chart.chartData.axisYLeft, LEFT)
         initAxis(chart.chartData.axisYRight, RIGHT)
-    }
-
-    fun resetRenderer() {
-        this.computator = chart.chartComputator
     }
 
     /**
@@ -143,10 +138,12 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         namePaintTab[position].textSize = ChartUtils.sp2px(scaledDensity, axis.textSize).toFloat()
         linePaintTab[position].color = axis.lineColor
 
-        labelTextAscentTab[position] = Math.abs(fontMetricsTab[position].ascent)
-        labelTextDescentTab[position] = Math.abs(fontMetricsTab[position].descent)
-        labelWidthTab[position] = labelPaintTab[position].measureText(labelWidthChars, 0,
-                axis.maxLabelChars).toInt()
+        labelTextAscentTab[position] = abs(fontMetricsTab[position].ascent)
+        labelTextDescentTab[position] = abs(fontMetricsTab[position].descent)
+        labelWidthTab[position] = labelPaintTab[position].measureText(
+            labelWidthChars, 0,
+            axis.maxLabelChars
+        ).toInt()
     }
 
     private fun initAxisTextAlignment(axis: Axis, position: Int) {
@@ -169,10 +166,13 @@ class AxesRenderer(context: Context, private val chart: Chart) {
     }
 
     private fun initAxisDimensionForTiltedLabels(position: Int) {
-        val pythagoreanFromLabelWidth = Math.sqrt(Math.pow(labelWidthTab[position].toDouble(), 2.0) / 2).toInt()
-        val pythagoreanFromAscent = Math.sqrt(Math.pow(labelTextAscentTab[position].toDouble(), 2.0) / 2).toInt()
+        val pythagoreanFromLabelWidth =
+            sqrt(labelWidthTab[position].toDouble().pow(2.0) / 2).toInt()
+        val pythagoreanFromAscent =
+            sqrt(labelTextAscentTab[position].toDouble().pow(2.0) / 2).toInt()
         labelDimensionForMarginsTab[position] = pythagoreanFromAscent + pythagoreanFromLabelWidth
-        labelDimensionForStepsTab[position] = Math.round(labelDimensionForMarginsTab[position] * 0.75f)
+        labelDimensionForStepsTab[position] =
+            (labelDimensionForMarginsTab[position] * 0.75f).roundToInt()
     }
 
     private fun initAxisDimension(position: Int) {
@@ -180,35 +180,32 @@ class AxesRenderer(context: Context, private val chart: Chart) {
             labelDimensionForMarginsTab[position] = labelWidthTab[position]
             labelDimensionForStepsTab[position] = labelTextAscentTab[position]
         } else if (TOP == position || BOTTOM == position) {
-            labelDimensionForMarginsTab[position] = labelTextAscentTab[position] + labelTextDescentTab[position]
+            labelDimensionForMarginsTab[position] =
+                labelTextAscentTab[position] + labelTextDescentTab[position]
             labelDimensionForStepsTab[position] = labelWidthTab[position]
         }
     }
 
     private fun intiTiltedLabelsTranslation(axis: Axis, position: Int) {
-        val pythagoreanFromLabelWidth = Math.sqrt(Math.pow(labelWidthTab[position].toDouble(), 2.0) / 2).toInt()
-        val pythagoreanFromAscent = Math.sqrt(Math.pow(labelTextAscentTab[position].toDouble(), 2.0) / 2).toInt()
+        val pythagoreanFromLabelWidth =
+            sqrt(labelWidthTab[position].toDouble().pow(2.0) / 2).toInt()
+        val pythagoreanFromAscent =
+            sqrt(labelTextAscentTab[position].toDouble().pow(2.0) / 2).toInt()
         var dx = 0
         var dy = 0
         if (axis.isInside) {
-            if (LEFT == position) {
-                dx = pythagoreanFromAscent
-            } else if (RIGHT == position) {
-                dy = -pythagoreanFromLabelWidth / 2
-            } else if (TOP == position) {
-                dy = pythagoreanFromAscent + pythagoreanFromLabelWidth / 2 - labelTextAscentTab[position]
-            } else if (BOTTOM == position) {
-                dy = -pythagoreanFromLabelWidth / 2
+            when(position) {
+                LEFT -> dx = pythagoreanFromAscent
+                RIGHT -> dy = -pythagoreanFromLabelWidth / 2
+                TOP -> dy = pythagoreanFromAscent + pythagoreanFromLabelWidth / 2 - labelTextAscentTab[position]
+                BOTTOM -> dy = -pythagoreanFromLabelWidth / 2
             }
         } else {
-            if (LEFT == position) {
-                dy = -pythagoreanFromLabelWidth / 2
-            } else if (RIGHT == position) {
-                dx = pythagoreanFromAscent
-            } else if (TOP == position) {
-                dy = -pythagoreanFromLabelWidth / 2
-            } else if (BOTTOM == position) {
-                dy = pythagoreanFromAscent + pythagoreanFromLabelWidth / 2 - labelTextAscentTab[position]
+            when (position) {
+                LEFT -> dy = -pythagoreanFromLabelWidth / 2
+                RIGHT -> dx = pythagoreanFromAscent
+                TOP -> dy = -pythagoreanFromLabelWidth / 2
+                BOTTOM -> dy = pythagoreanFromAscent + pythagoreanFromLabelWidth / 2 - labelTextAscentTab[position]
             }
         }
         tiltedLabelXTranslation[position] = dx
@@ -217,7 +214,7 @@ class AxesRenderer(context: Context, private val chart: Chart) {
 
     private fun initAxisMargin(axis: Axis, position: Int) {
         var margin = 0
-        if (!axis.isInside && (axis.isAutoGenerated || !axis.values.isEmpty())) {
+        if (!axis.isInside && (axis.isAutoGenerated || axis.values.isNotEmpty())) {
             margin += axisMargin + labelDimensionForMarginsTab[position]
         }
         margin += getAxisNameMargin(axis, position)
@@ -226,7 +223,7 @@ class AxesRenderer(context: Context, private val chart: Chart) {
 
     private fun getAxisNameMargin(axis: Axis, position: Int): Int {
         var margin = 0
-        if (!TextUtils.isEmpty(axis.name)) {
+        if (!axis.name.isNullOrEmpty()) {
             margin += labelTextAscentTab[position]
             margin += labelTextDescentTab[position]
             margin += axisMargin
@@ -235,69 +232,33 @@ class AxesRenderer(context: Context, private val chart: Chart) {
     }
 
     private fun insetContentRectWithAxesMargins(axisMargin: Int, position: Int) {
-        if (LEFT == position) {
-            chart.chartComputator.insetContentRect(axisMargin, 0, 0, 0)
-        } else if (RIGHT == position) {
-            chart.chartComputator.insetContentRect(0, 0, axisMargin, 0)
-        } else if (TOP == position) {
-            chart.chartComputator.insetContentRect(0, axisMargin, 0, 0)
-        } else if (BOTTOM == position) {
-            chart.chartComputator.insetContentRect(0, 0, 0, axisMargin)
+        when(position) {
+            LEFT -> chart.chartComputator.insetContentRect(axisMargin, 0, 0, 0)
+            RIGHT -> chart.chartComputator.insetContentRect(0, 0, axisMargin, 0)
+            TOP -> chart.chartComputator.insetContentRect(0, axisMargin, 0, 0)
+            BOTTOM -> chart.chartComputator.insetContentRect(0, 0, 0, axisMargin)
         }
     }
 
     private fun initAxisMeasurements(axis: Axis, position: Int) {
-        if (LEFT == position) {
-            if (axis.isInside) {
-                labelBaselineTab[position] = (computator!!.contentRectMinusAllMargins.left + axisMargin).toFloat()
-                nameBaselineTab[position] = (computator!!.contentRectMinusAxesMargins.left - axisMargin
-                        - labelTextDescentTab[position]).toFloat()
-            } else {
-                labelBaselineTab[position] = (computator!!.contentRectMinusAxesMargins.left - axisMargin).toFloat()
-                nameBaselineTab[position] = (labelBaselineTab[position] - axisMargin.toFloat()
-                        - labelTextDescentTab[position].toFloat() - labelDimensionForMarginsTab[position].toFloat())
-            }
-            separationLineTab[position] = computator!!.contentRectMinusAllMargins.left.toFloat()
-        } else if (RIGHT == position) {
-            if (axis.isInside) {
-                labelBaselineTab[position] = (computator!!.contentRectMinusAllMargins.right - axisMargin).toFloat()
-                nameBaselineTab[position] = (computator!!.contentRectMinusAxesMargins.right + axisMargin
-                        + labelTextAscentTab[position]).toFloat()
-            } else {
-                labelBaselineTab[position] = (computator!!.contentRectMinusAxesMargins.right + axisMargin).toFloat()
-                nameBaselineTab[position] = (labelBaselineTab[position] + axisMargin.toFloat()
-                        + labelTextAscentTab[position].toFloat() + labelDimensionForMarginsTab[position].toFloat())
-            }
-            separationLineTab[position] = computator!!.contentRectMinusAllMargins.right.toFloat()
-        } else if (BOTTOM == position) {
-            if (axis.isInside) {
-                labelBaselineTab[position] = (computator!!.contentRectMinusAllMargins.bottom - axisMargin
-                        - labelTextDescentTab[position]).toFloat()
-                nameBaselineTab[position] = (computator!!.contentRectMinusAxesMargins.bottom + axisMargin
-                        + labelTextAscentTab[position]).toFloat()
-            } else {
-                labelBaselineTab[position] = (computator!!.contentRectMinusAxesMargins.bottom + axisMargin
-                        + labelTextAscentTab[position]).toFloat()
-                nameBaselineTab[position] = labelBaselineTab[position] + axisMargin.toFloat() +
-                        labelDimensionForMarginsTab[position].toFloat()
-            }
-            separationLineTab[position] = computator!!.contentRectMinusAllMargins.bottom.toFloat()
-        } else if (TOP == position) {
-            if (axis.isInside) {
-                labelBaselineTab[position] = (computator!!.contentRectMinusAllMargins.top + axisMargin
-                        + labelTextAscentTab[position]).toFloat()
-                nameBaselineTab[position] = (computator!!.contentRectMinusAxesMargins.top - axisMargin
-                        - labelTextDescentTab[position]).toFloat()
-            } else {
-                labelBaselineTab[position] = (computator!!.contentRectMinusAxesMargins.top - axisMargin
-                        - labelTextDescentTab[position]).toFloat()
-                nameBaselineTab[position] = labelBaselineTab[position] - axisMargin.toFloat() -
-                        labelDimensionForMarginsTab[position].toFloat()
-            }
-            separationLineTab[position] = computator!!.contentRectMinusAllMargins.top.toFloat()
-        } else {
-            throw IllegalArgumentException("Invalid axis position: " + position)
+        when (position) {
+            LEFT -> initAxis(axis, position, computator.contentRectMinusAllMargins.left)
+            RIGHT -> initAxis(axis, position, computator.contentRectMinusAllMargins.right)
+            BOTTOM -> initAxis(axis, position, computator.contentRectMinusAllMargins.bottom)
+            TOP -> initAxis(axis, position, computator.contentRectMinusAllMargins.top)
+            else -> throw IllegalArgumentException("Invalid axis position: $position")
         }
+    }
+
+    private fun initAxis(axis: Axis, position: Int, marginPos: Int) {
+        if (axis.isInside) {
+            labelBaselineTab[position] = (marginPos + axisMargin + labelTextAscentTab[position]).toFloat()
+            nameBaselineTab[position] = (marginPos - axisMargin - labelTextDescentTab[position]).toFloat()
+        } else {
+            labelBaselineTab[position] = (marginPos - axisMargin - labelTextDescentTab[position]).toFloat()
+            nameBaselineTab[position] = labelBaselineTab[position] - axisMargin.toFloat() - labelDimensionForMarginsTab[position].toFloat()
+        }
+        separationLineTab[position] = marginPos.toFloat()
     }
 
     /**
@@ -367,9 +328,9 @@ class AxesRenderer(context: Context, private val chart: Chart) {
     }
 
     private fun prepareCustomAxis(axis: Axis, position: Int) {
-        val maxViewport = computator!!.maximumViewport
-        val visibleViewport = computator!!.visibleViewport
-        val contentRect = computator!!.contentRectMinusAllMargins
+        val maxViewport = computator.maximumViewport
+        val visibleViewport = computator.visibleViewport
+        val contentRect = computator.contentRectMinusAllMargins
         val isAxisVertical = isAxisVertical(position)
         val viewportMin: Float
         val viewportMax: Float
@@ -390,8 +351,9 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         if (scale == 0f) {
             scale = 1f
         }
-        val module = Math.max(1.0,
-                Math.ceil(axis.values.size.toDouble() * labelDimensionForStepsTab[position].toDouble() * 1.5 / scale)).toInt()
+        val module =
+            1.0.coerceAtLeast(ceil(axis.values.size.toDouble() * labelDimensionForStepsTab[position].toDouble() * 1.5 / scale))
+                .toInt()
         //Reinitialize tab to hold lines coordinates.
         if (axis.hasLines && linesDrawBufferTab[position].size < axis.values.size * 4) {
             linesDrawBufferTab[position] = FloatArray(axis.values.size * 4)
@@ -411,15 +373,22 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         for (axisValue in axis.values) {
             // Draw axis values that are within visible viewport.
             val value = axisValue.value
-            if (value >= viewportMin && value <= viewportMax) {
+            if (value in viewportMin..viewportMax) {
                 // Draw axis values that have 0 module value, this will hide some labels if there is no place for them.
                 if (0 == valueIndex % module) {
-                    if (isAxisVertical) {
-                        rawValue = computator!!.computeRawY(value)
+                    rawValue = if (isAxisVertical) {
+                        computator.computeRawY(value)
                     } else {
-                        rawValue = computator!!.computeRawX(value)
+                        computator.computeRawX(value)
                     }
-                    if (checkRawValue(contentRect, rawValue, axis.isInside, position, isAxisVertical)) {
+                    if (checkRawValue(
+                            contentRect,
+                            rawValue,
+                            axis.isInside,
+                            position,
+                            isAxisVertical
+                        )
+                    ) {
                         rawValuesTab[position][valueToDrawIndex] = rawValue
                         valuesToDrawTab[position][valueToDrawIndex] = axisValue
                         ++valueToDrawIndex
@@ -433,8 +402,8 @@ class AxesRenderer(context: Context, private val chart: Chart) {
     }
 
     private fun prepareAutoGeneratedAxis(axis: Axis, position: Int) {
-        val visibleViewport = computator!!.visibleViewport
-        val contentRect = computator!!.contentRectMinusAllMargins
+        val visibleViewport = computator.visibleViewport
+        val contentRect = computator.contentRectMinusAllMargins
         val isAxisVertical = isAxisVertical(position)
         val maxLabels = axis.maxLabels
         val start: Float
@@ -449,14 +418,17 @@ class AxesRenderer(context: Context, private val chart: Chart) {
             stop = visibleViewport.right
             contentRectDimension = contentRect.width()
         }
-        FloatUtils.computeAutoGeneratedAxisValues(start, stop, if (maxLabels > 0)
-            maxLabels
-        else
-            Math.abs(contentRectDimension) /
-                    labelDimensionForStepsTab[position] / 2, autoValuesBufferTab[position])
+        FloatUtils.computeAutoGeneratedAxisValues(
+            start, stop, if (maxLabels > 0)
+                maxLabels
+            else
+                abs(contentRectDimension) /
+                        labelDimensionForStepsTab[position] / 2, autoValuesBufferTab[position]
+        )
         //Reinitialize tab to hold lines coordinates.
         if (axis.hasLines && linesDrawBufferTab[position].size < autoValuesBufferTab[position].valuesNumber * 4) {
-            linesDrawBufferTab[position] = FloatArray(autoValuesBufferTab[position].valuesNumber * 4)
+            linesDrawBufferTab[position] =
+                FloatArray(autoValuesBufferTab[position].valuesNumber * 4)
         }
         //Reinitialize tabs to hold all raw and auto values.
         if (rawValuesTab[position].size < autoValuesBufferTab[position].valuesNumber) {
@@ -469,60 +441,51 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         var rawValue: Float
         var valueToDrawIndex = 0
         for (i in 0 until autoValuesBufferTab[position].valuesNumber) {
-            if (isAxisVertical) {
-                rawValue = computator!!.computeRawY(autoValuesBufferTab[position].values[i])
+            rawValue = if (isAxisVertical) {
+                computator.computeRawY(autoValuesBufferTab[position].values[i])
             } else {
-                rawValue = computator!!.computeRawX(autoValuesBufferTab[position].values[i])
+                computator.computeRawX(autoValuesBufferTab[position].values[i])
             }
             if (checkRawValue(contentRect, rawValue, axis.isInside, position, isAxisVertical)) {
                 rawValuesTab[position][valueToDrawIndex] = rawValue
-                autoValuesToDrawTab[position][valueToDrawIndex] = autoValuesBufferTab[position].values[i]
+                autoValuesToDrawTab[position][valueToDrawIndex] =
+                    autoValuesBufferTab[position].values[i]
                 ++valueToDrawIndex
             }
         }
         valuesToDrawNumTab[position] = valueToDrawIndex
     }
 
-    private fun checkRawValue(rect: Rect, rawValue: Float, axisInside: Boolean, position: Int, isVertical: Boolean): Boolean {
+    private fun checkRawValue(
+        rect: Rect,
+        rawValue: Float,
+        axisInside: Boolean,
+        position: Int,
+        isVertical: Boolean
+    ): Boolean {
         if (axisInside) {
-            if (isVertical) {
+            return if (isVertical) {
                 val marginBottom = (labelTextAscentTab[BOTTOM] + axisMargin).toFloat()
                 val marginTop = (labelTextAscentTab[TOP] + axisMargin).toFloat()
-                return if (rawValue <= rect.bottom - marginBottom && rawValue >= rect.top + marginTop) {
-                    true
-                } else {
-                    false
-                }
+                rawValue <= rect.bottom - marginBottom && rawValue >= rect.top + marginTop
             } else {
                 val margin = (labelWidthTab[position] / 2).toFloat()
-                return if (rawValue >= rect.left + margin && rawValue <= rect.right - margin) {
-                    true
-                } else {
-                    false
-                }
+                rawValue >= rect.left + margin && rawValue <= rect.right - margin
             }
         }
         return true
     }
 
     private fun drawAxisLines(canvas: Canvas, axis: Axis, position: Int) {
-        val contentRectMargins = computator!!.contentRectMinusAxesMargins
-        var separationX1: Float
-        var separationY1: Float
-        var separationX2: Float
-        var separationY2: Float
-        separationY2 = 0f
-        separationX2 = separationY2
-        separationY1 = separationX2
-        separationX1 = separationY1
-        var lineX1: Float
-        var lineY1: Float
-        var lineX2: Float
-        var lineY2: Float
-        lineY2 = 0f
-        lineX2 = lineY2
-        lineY1 = lineX2
-        lineX1 = lineY1
+        val contentRectMargins = computator.contentRectMinusAxesMargins
+        var separationX1 = 0f
+        var separationY1 = 0f
+        var separationX2 = 0f
+        var separationY2 = 0f
+        var lineX1 = 0f
+        var lineY1 = 0f
+        var lineX2 = 0f
+        var lineY2 = 0f
         val isAxisVertical = isAxisVertical(position)
         if (LEFT == position || RIGHT == position) {
             separationX2 = separationLineTab[position]
@@ -541,7 +504,13 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         }
         // Draw separation line with the same color as axis labels and name.
         if (axis.hasSeparationLine) {
-            canvas.drawLine(separationX1, separationY1, separationX2, separationY2, labelPaintTab[position])
+            canvas.drawLine(
+                separationX1,
+                separationY1,
+                separationX2,
+                separationY2,
+                labelPaintTab[position]
+            )
         }
 
         if (axis.hasLines) {
@@ -560,15 +529,18 @@ class AxesRenderer(context: Context, private val chart: Chart) {
                 linesDrawBufferTab[position][valueToDrawIndex * 4 + 3] = lineY2
                 ++valueToDrawIndex
             }
-            canvas.drawLines(linesDrawBufferTab[position], 0, valueToDrawIndex * 4, linePaintTab[position])
+            canvas.drawLines(
+                linesDrawBufferTab[position],
+                0,
+                valueToDrawIndex * 4,
+                linePaintTab[position]
+            )
         }
     }
 
     private fun drawAxisLabelsAndName(canvas: Canvas, axis: Axis, position: Int) {
-        var labelX: Float
-        var labelY: Float
-        labelY = 0f
-        labelX = labelY
+        var labelX = 0f
+        var labelY = 0f
         val isAxisVertical = isAxisVertical(position)
         val isAxisReversed = axis.isReversed
         if (LEFT == position || RIGHT == position) {
@@ -582,8 +554,10 @@ class AxesRenderer(context: Context, private val chart: Chart) {
             var charsNumber = 0
             if (axis.isAutoGenerated) {
                 val value = autoValuesToDrawTab[position][valueToDrawIndex]
-                charsNumber = axis.formatter.formatValueForAutoGeneratedAxis(labelBuffer, value,
-                        autoValuesBufferTab[position].decimals)
+                charsNumber = axis.formatter.formatValueForAutoGeneratedAxis(
+                    labelBuffer, value,
+                    autoValuesBufferTab[position].decimals
+                )
             } else {
                 val axisValue = valuesToDrawTab[position][valueToDrawIndex]
                 if (axisValue != null)
@@ -591,21 +565,30 @@ class AxesRenderer(context: Context, private val chart: Chart) {
             }
 
             if (isAxisVertical) {
-                labelY = rawValuesTab[position][if (isAxisReversed) reverseIndex else valueToDrawIndex]
+                labelY =
+                    rawValuesTab[position][if (isAxisReversed) reverseIndex else valueToDrawIndex]
             } else {
-                labelX = rawValuesTab[position][if (isAxisReversed) reverseIndex else valueToDrawIndex]
+                labelX =
+                    rawValuesTab[position][if (isAxisReversed) reverseIndex else valueToDrawIndex]
             }
 
             if (axis.hasTiltedLabels) {
                 canvas.save()
-                canvas.translate(tiltedLabelXTranslation[position].toFloat(), tiltedLabelYTranslation[position].toFloat())
+                canvas.translate(
+                    tiltedLabelXTranslation[position].toFloat(),
+                    tiltedLabelYTranslation[position].toFloat()
+                )
                 canvas.rotate(-45f, labelX, labelY)
-                canvas.drawText(labelBuffer, labelBuffer.size - charsNumber, charsNumber, labelX, labelY,
-                        labelPaintTab[position])
+                canvas.drawText(
+                    labelBuffer, labelBuffer.size - charsNumber, charsNumber, labelX, labelY,
+                    labelPaintTab[position]
+                )
                 canvas.restore()
             } else {
-                canvas.drawText(labelBuffer, labelBuffer.size - charsNumber, charsNumber, labelX, labelY,
-                        labelPaintTab[position])
+                canvas.drawText(
+                    labelBuffer, labelBuffer.size - charsNumber, charsNumber, labelX, labelY,
+                    labelPaintTab[position]
+                )
             }
             if (isAxisReversed) {
                 --valueToDrawIndex
@@ -617,47 +600,116 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         }
 
         // Drawing axis name
-        val contentRectMargins = computator!!.contentRectMinusAxesMargins
-        if (!TextUtils.isEmpty(axis.name)) {
+        val contentRectMargins = computator.contentRectMinusAxesMargins
+        if (!axis.name.isNullOrEmpty()) {
             if (isAxisVertical) {
                 canvas.save()
-                canvas.rotate(-90f, contentRectMargins.centerY().toFloat(), contentRectMargins.centerY().toFloat())
-                canvas.drawText(axis.name!!, contentRectMargins.centerY().toFloat(), nameBaselineTab[position],
-                        namePaintTab[position])
+                canvas.rotate(
+                    -90f,
+                    contentRectMargins.centerY().toFloat(),
+                    contentRectMargins.centerY().toFloat()
+                )
+                canvas.drawText(
+                    axis.name!!, contentRectMargins.centerY().toFloat(), nameBaselineTab[position],
+                    namePaintTab[position]
+                )
                 canvas.restore()
             } else {
-                canvas.drawText(axis.name!!, contentRectMargins.centerX().toFloat(), nameBaselineTab[position],
-                        namePaintTab[position])
+                canvas.drawText(
+                    axis.name!!, contentRectMargins.centerX().toFloat(), nameBaselineTab[position],
+                    namePaintTab[position]
+                )
             }
         }
     }
 
-    private fun isAxisVertical(position: Int): Boolean {
-        return if (LEFT == position || RIGHT == position) {
-            true
-        } else if (TOP == position || BOTTOM == position) {
-            false
-        } else {
-            throw IllegalArgumentException("Invalid axis position " + position)
-        }
+    private fun isAxisVertical(position: Int) = when (position) {
+        LEFT, RIGHT -> true
+        TOP, BOTTOM -> false
+        else -> throw IllegalArgumentException("Invalid axis position $position")
     }
 
     companion object {
-        private val DEFAULT_AXIS_MARGIN_DP = 2
+        private const val DEFAULT_AXIS_MARGIN_DP = 2
 
         /**
          * Axis positions indexes, used for indexing tabs that holds axes parameters, see below.
          */
-        private val TOP = 0
-        private val LEFT = 1
-        private val RIGHT = 2
-        private val BOTTOM = 3
+        private const val TOP = 0
+        private const val LEFT = 1
+        private const val RIGHT = 2
+        private const val BOTTOM = 3
 
         /**
          * Used to measure label width. If label has mas 5 characters only 5 first characters of this array are used to
          * measure text width.
          */
-        private val labelWidthChars = charArrayOf('0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0')
+        private val labelWidthChars = charArrayOf(
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0',
+            '0'
+        )
     }
 
 }
