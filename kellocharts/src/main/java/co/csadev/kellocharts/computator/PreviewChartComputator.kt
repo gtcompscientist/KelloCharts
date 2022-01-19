@@ -9,24 +9,31 @@ import co.csadev.kellocharts.model.Viewport
 class PreviewChartComputator : ChartComputator() {
 
     override fun computeRawX(valueX: Float): Float {
-        val pixelOffset = (valueX - maximumViewport.left) * (contentRectMinusAllMargins.width() / maximumViewport
-                .width())
+        val pixelOffset =
+            (valueX - maximumViewport.left) * (
+                contentRectMinusAllMargins.width() / maximumViewport
+                    .width()
+                )
         return contentRectMinusAllMargins.left + pixelOffset
     }
 
     override fun computeRawY(valueY: Float): Float {
-        val pixelOffset = (valueY - maximumViewport.bottom) * (contentRectMinusAllMargins.height() / maximumViewport
-                .height())
+        val pixelOffset =
+            (valueY - maximumViewport.bottom) * (
+                contentRectMinusAllMargins.height() / maximumViewport
+                    .height()
+                )
         return contentRectMinusAllMargins.bottom - pixelOffset
     }
 
     override var visibleViewport: Viewport
         get() = maximumViewport
-        set(value) { maximumViewport = value }
+        set(value) {
+            maximumViewport = value
+        }
 
     override fun constrainViewport(left: Float, top: Float, right: Float, bottom: Float) {
         super.constrainViewport(left, top, right, bottom)
         viewportChangeListener?.onViewportChanged(currentViewport)
     }
-
 }

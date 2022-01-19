@@ -16,7 +16,11 @@ import co.csadev.kellocharts.renderer.ColumnChartRenderer
  *
  * @author Leszek Wach
  */
-open class ColumnChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AbstractChartView(context, attrs, defStyle), ColumnChartDataProvider {
+open class ColumnChartView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AbstractChartView(context, attrs, defStyle), ColumnChartDataProvider {
     override var columnChartData: ColumnChartData = ColumnChartData.generateDummyData()
         set(value) {
             if (BuildConfig.DEBUG) {
@@ -24,18 +28,18 @@ open class ColumnChartView @JvmOverloads constructor(context: Context, attrs: At
             }
             field = value
             super.onChartDataChange()
-
         }
 
     override val chartData: ChartData
         get() = columnChartData
 
-    var onValueTouchListener: ColumnChartOnValueSelectListener? = DummyColumnChartOnValueSelectListener()
+    var onValueTouchListener: ColumnChartOnValueSelectListener? =
+        DummyColumnChartOnValueSelectListener()
         set(touchListener) {
-            if (null != touchListener) {
-                field = touchListener
+                if (null != touchListener) {
+                    field = touchListener
+                }
             }
-        }
 
     init {
         chartRenderer = ColumnChartRenderer(context, this, this)
@@ -45,8 +49,13 @@ open class ColumnChartView @JvmOverloads constructor(context: Context, attrs: At
         val selectedValue = chartRenderer.selectedValue
 
         if (selectedValue.isSet) {
-            val value = columnChartData.columns[selectedValue.firstIndex].values[selectedValue.secondIndex]
-            this.onValueTouchListener?.onValueSelected(selectedValue.firstIndex, selectedValue.secondIndex, value)
+            val value =
+                columnChartData.columns[selectedValue.firstIndex].values[selectedValue.secondIndex]
+            this.onValueTouchListener?.onValueSelected(
+                selectedValue.firstIndex,
+                selectedValue.secondIndex,
+                value
+            )
         } else {
             this.onValueTouchListener?.onValueDeselected()
         }

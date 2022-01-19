@@ -29,5 +29,4 @@ interface PieChartOnValueSelectListener : OnValueDeselectListener {
 
 interface ViewportChangeListener {
     fun onViewportChanged(viewport: Viewport)
-
 }

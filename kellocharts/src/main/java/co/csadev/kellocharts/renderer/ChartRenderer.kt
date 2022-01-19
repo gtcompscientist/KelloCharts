@@ -1,7 +1,6 @@
 package co.csadev.kellocharts.renderer
 
 import android.graphics.Canvas
-
 import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.Viewport
 

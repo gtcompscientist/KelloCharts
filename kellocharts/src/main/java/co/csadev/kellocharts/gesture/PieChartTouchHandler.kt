@@ -12,11 +12,13 @@ import co.csadev.kellocharts.view.PieChartView
  * Scroller(ScrollerCompat) directly to compute PieChart rotation when user scroll. ChartScroller and ChartZoomer are
  * not really used here.
  */
-class PieChartTouchHandler(context: Context, chart: PieChartView) : ChartTouchHandler(context, chart) {
+class PieChartTouchHandler(context: Context, chart: PieChartView) :
+    ChartTouchHandler(context, chart) {
     /**
      * PieChartTouchHandler uses its own instance of Scroller.
      */
     protected var scroller: ScrollerCompat
+
     /**
      * Reference to PieChartView to use some methods specific for that kind of chart.
      */
@@ -52,7 +54,8 @@ class PieChartTouchHandler(context: Context, chart: PieChartView) : ChartTouchHa
         return needInvalidate
     }
 
-    private inner class ChartScaleGestureListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    private inner class ChartScaleGestureListener :
+        ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             // No scale for PieChart.
@@ -68,38 +71,59 @@ class PieChartTouchHandler(context: Context, chart: PieChartView) : ChartTouchHa
             }
 
             return false
-
         }
 
         override fun onDoubleTap(e: MotionEvent): Boolean {
             return false
         }
 
-        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        override fun onScroll(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            distanceX: Float,
+            distanceY: Float
+        ): Boolean {
             if (isRotationEnabled) {
                 // Set the pie rotation directly.
                 val circleOval = pieChart.circleOval
                 val centerX = circleOval.centerX()
                 val centerY = circleOval.centerY()
-                val scrollTheta = vectorToScalarScroll(distanceX, distanceY, e2.x - centerX, e2.y - centerY)
-                pieChart.setChartRotation(pieChart.chartRotation - scrollTheta.toInt() / FLING_VELOCITY_DOWNSCALE,
-                        false)
+                val scrollTheta =
+                    vectorToScalarScroll(distanceX, distanceY, e2.x - centerX, e2.y - centerY)
+                pieChart.setChartRotation(
+                    pieChart.chartRotation - scrollTheta.toInt() / FLING_VELOCITY_DOWNSCALE,
+                    false
+                )
                 return true
             }
 
             return false
         }
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
             if (isRotationEnabled) {
                 // Set up the Scroller for a fling
                 val circleOval = pieChart.circleOval
                 val centerX = circleOval.centerX()
                 val centerY = circleOval.centerY()
-                val scrollTheta = vectorToScalarScroll(velocityX, velocityY, e2.x - centerX, e2.y - centerY)
+                val scrollTheta =
+                    vectorToScalarScroll(velocityX, velocityY, e2.x - centerX, e2.y - centerY)
                 scroller.abortAnimation()
-                scroller.fling(0, pieChart.chartRotation.toInt(), 0, scrollTheta.toInt() / FLING_VELOCITY_DOWNSCALE,
-                        0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE)
+                scroller.fling(
+                    0,
+                    pieChart.chartRotation.toInt(),
+                    0,
+                    scrollTheta.toInt() / FLING_VELOCITY_DOWNSCALE,
+                    0,
+                    0,
+                    Integer.MIN_VALUE,
+                    Integer.MAX_VALUE
+                )
                 return true
             }
 
@@ -136,5 +160,4 @@ class PieChartTouchHandler(context: Context, chart: PieChartView) : ChartTouchHa
          */
         val FLING_VELOCITY_DOWNSCALE = 4
     }
-
 }

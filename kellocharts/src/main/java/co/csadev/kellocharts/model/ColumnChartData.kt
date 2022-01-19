@@ -9,13 +9,16 @@ import java.util.*
  * column index is used as column X value, so first column has X value 0, second clumn has X value 1 etc.
  * If you want to display AxisValue for given column you should initialize AxisValue with X value of that column.
  */
-class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStacked: Boolean = false, var isHorizontal: Boolean = true) : AbstractChartData() {
+class ColumnChartData(
+    var columns: MutableList<Column> = ArrayList(),
+    var isStacked: Boolean = false,
+    var isHorizontal: Boolean = true
+) : AbstractChartData() {
     var fillRatio = DEFAULT_FILL_RATIO
         set(value) {
             field = Math.min(1f, Math.max(0f, value))
         }
     var baseValue = DEFAULT_BASE_VALUE
-
 
     var _axisXTop: Axis? = null
     override var axisXTop: Axis?
@@ -24,7 +27,9 @@ class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStac
                 _axisYRight
             } else _axisXTop
         }
-        set(value) { _axisXTop = value }
+        set(value) {
+            _axisXTop = value
+        }
     var _axisXBottom: Axis? = null
     override var axisXBottom: Axis?
         get() {
@@ -32,7 +37,9 @@ class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStac
                 _axisYLeft
             } else _axisXBottom
         }
-        set(value) { _axisXBottom = value }
+        set(value) {
+            _axisXBottom = value
+        }
     var _axisYLeft: Axis? = null
     override var axisYLeft: Axis?
         get() {
@@ -40,7 +47,9 @@ class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStac
                 _axisXBottom
             } else _axisYLeft
         }
-        set(value) { _axisYLeft = value }
+        set(value) {
+            _axisYLeft = value
+        }
     var _axisYRight: Axis? = null
     override var axisYRight: Axis?
         get() {
@@ -48,15 +57,20 @@ class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStac
                 _axisXTop
             } else _axisYRight
         }
-        set(value) { _axisYRight = value }
+        set(value) {
+            _axisYRight = value
+        }
 
-    fun copy() = ColumnChartData(columns.map { it.copy() }.toMutableList(), isStacked, isHorizontal).withData(this) as ColumnChartData
+    fun copy() = ColumnChartData(
+        columns.map { it.copy() }.toMutableList(),
+        isStacked,
+        isHorizontal
+    ).withData(this) as ColumnChartData
 
     override fun update(scale: Float) {
         for (column in columns) {
             column.update(scale)
         }
-
     }
 
     override fun finish() = columns.forEach { it.finish() }
@@ -66,25 +80,25 @@ class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStac
         const val DEFAULT_BASE_VALUE = 0.0f
 
         fun generateDummyData() =
-                columnData {
-                    columns {
-                        column {
-                            columnValues {
-                                subcolumn {
-                                    value = 4f
-                                }
-                                subcolumn {
-                                    value = 3f
-                                }
-                                subcolumn {
-                                    value = 2f
-                                }
-                                subcolumn {
-                                    value = 1f
-                                }
+            columnData {
+                columns {
+                    column {
+                        columnValues {
+                            subcolumn {
+                                value = 4f
+                            }
+                            subcolumn {
+                                value = 3f
+                            }
+                            subcolumn {
+                                value = 2f
+                            }
+                            subcolumn {
+                                value = 1f
                             }
                         }
                     }
                 }
+            }
     }
 }

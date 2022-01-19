@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-
 import co.csadev.kellocharts.view.Chart
 
 /**
@@ -21,7 +20,8 @@ class PreviewChartTouchHandler(context: Context, chart: Chart) : ChartTouchHandl
         isValueSelectionEnabled = false
     }
 
-    protected inner class ChartScaleGestureListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    protected inner class ChartScaleGestureListener :
+        ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             if (isZoomEnabled) {
@@ -38,13 +38,22 @@ class PreviewChartTouchHandler(context: Context, chart: Chart) : ChartTouchHandl
 
     protected inner class PreviewChartGestureListener : ChartTouchHandler.ChartGestureListener() {
 
-        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        override fun onScroll(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            distanceX: Float,
+            distanceY: Float
+        ): Boolean {
             return super.onScroll(e1, e2, -distanceX, -distanceY)
         }
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
             return super.onFling(e1, e2, -velocityX, -velocityY)
         }
     }
-
 }

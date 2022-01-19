@@ -23,26 +23,37 @@ import co.csadev.kellocharts.renderer.LineChartRenderer
  *
  * @author Leszek Wach
  */
-class ComboLineColumnChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AbstractChartView(context, attrs, defStyle), ComboLineColumnChartDataProvider {
+class ComboLineColumnChartView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AbstractChartView(context, attrs, defStyle), ComboLineColumnChartDataProvider {
     var columnChartDataProvider: ColumnChartDataProvider = ComboColumnChartDataProvider()
     var lineChartDataProvider: LineChartDataProvider = ComboLineChartDataProvider()
-    var onValueTouchListener: ComboLineColumnChartOnValueSelectListener = DummyCompoLineColumnChartOnValueSelectListener()
+    var onValueTouchListener: ComboLineColumnChartOnValueSelectListener =
+        DummyCompoLineColumnChartOnValueSelectListener()
 
-    override// generateDummyData();
-    var comboLineColumnChartData: ComboLineColumnChartData = ComboLineColumnChartData.generateDummyData()
+    override // generateDummyData();
+    var comboLineColumnChartData: ComboLineColumnChartData =
+        ComboLineColumnChartData.generateDummyData()
         set(value) {
-            if (BuildConfig.DEBUG) {
-                Log.d(TAG, "Setting data for ComboLineColumnChartView")
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "Setting data for ComboLineColumnChartView")
+                }
+                field = value
+                super.onChartDataChange()
             }
-            field = value
-            super.onChartDataChange()
-        }
 
     override val chartData: ChartData
         get() = comboLineColumnChartData
 
     init {
-        chartRenderer = ComboLineColumnChartRenderer(context, this, columnChartDataProvider, lineChartDataProvider)
+        chartRenderer = ComboLineColumnChartRenderer(
+            context,
+            this,
+            columnChartDataProvider,
+            lineChartDataProvider
+        )
     }
 
     override fun callTouchListener() {
@@ -52,16 +63,20 @@ class ComboLineColumnChartView @JvmOverloads constructor(context: Context, attrs
 
             if (SelectedValueType.COLUMN == selectedValue.type) {
 
-                val value = comboLineColumnChartData.columnChartData.columns[selectedValue.firstIndex].values[selectedValue.secondIndex]
-                onValueTouchListener.onColumnValueSelected(selectedValue.firstIndex,
-                        selectedValue.secondIndex, value)
-
+                val value =
+                    comboLineColumnChartData.columnChartData.columns[selectedValue.firstIndex].values[selectedValue.secondIndex]
+                onValueTouchListener.onColumnValueSelected(
+                    selectedValue.firstIndex,
+                    selectedValue.secondIndex, value
+                )
             } else if (SelectedValueType.LINE == selectedValue.type) {
 
-                val value = comboLineColumnChartData.lineChartData.lines[selectedValue.firstIndex].values[selectedValue.secondIndex]
-                onValueTouchListener.onPointValueSelected(selectedValue.firstIndex, selectedValue.secondIndex,
-                        value)
-
+                val value =
+                    comboLineColumnChartData.lineChartData.lines[selectedValue.firstIndex].values[selectedValue.secondIndex]
+                onValueTouchListener.onPointValueSelected(
+                    selectedValue.firstIndex, selectedValue.secondIndex,
+                    value
+                )
             } else {
                 throw IllegalArgumentException("Invalid selected value type " + selectedValue.type!!.name)
             }
@@ -71,31 +86,34 @@ class ComboLineColumnChartView @JvmOverloads constructor(context: Context, attrs
     }
 
     fun setColumnChartRenderer(context: Context, columnChartRenderer: ColumnChartRenderer) {
-        chartRenderer = ComboLineColumnChartRenderer(context, this, columnChartRenderer, lineChartDataProvider)
+        chartRenderer =
+            ComboLineColumnChartRenderer(context, this, columnChartRenderer, lineChartDataProvider)
     }
 
     fun setLineChartRenderer(context: Context, lineChartRenderer: LineChartRenderer) {
-        chartRenderer = ComboLineColumnChartRenderer(context, this, columnChartDataProvider, lineChartRenderer)
+        chartRenderer =
+            ComboLineColumnChartRenderer(context, this, columnChartDataProvider, lineChartRenderer)
     }
 
     private inner class ComboLineChartDataProvider : LineChartDataProvider {
 
         override var lineChartData: LineChartData
             get() = comboLineColumnChartData.lineChartData
-            set(data) { comboLineColumnChartData.lineChartData = data }
-
+            set(data) {
+                comboLineColumnChartData.lineChartData = data
+            }
     }
 
     private inner class ComboColumnChartDataProvider : ColumnChartDataProvider {
 
         override var columnChartData: ColumnChartData
             get() = comboLineColumnChartData.columnChartData
-            set(data) { comboLineColumnChartData.columnChartData = data }
-
+            set(data) {
+                comboLineColumnChartData.columnChartData = data
+            }
     }
 
     companion object {
         private val TAG = "ComboLCChartView"
     }
-
 }

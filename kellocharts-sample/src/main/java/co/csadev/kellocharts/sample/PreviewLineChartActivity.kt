@@ -17,7 +17,8 @@ class PreviewLineChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preview_line_chart)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -29,12 +30,17 @@ class PreviewLineChartActivity : AppCompatActivity() {
         private var chart: LineChartView? = null
         private var previewChart: PreviewLineChartView? = null
         private var data: LineChartData = generateDefaultData()
+
         /**
          * Deep copy of data.
          */
         private var previewData: LineChartData = darkenPreviewData()
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             setHasOptionsMenu(true)
             val rootView = inflater.inflate(R.layout.fragment_preview_line_chart, container, false)
 
@@ -96,7 +102,7 @@ class PreviewLineChartActivity : AppCompatActivity() {
             return super.onOptionsItemSelected(item)
         }
 
-        private fun generateDefaultData() : LineChartData {
+        private fun generateDefaultData(): LineChartData {
             val numValues = 50
 
             val values = ArrayList<PointValue>()
@@ -106,7 +112,7 @@ class PreviewLineChartActivity : AppCompatActivity() {
 
             val line = Line(values)
             line.color = ChartUtils.COLOR_GREEN
-            line.hasPoints = false// too many values so don't draw points.
+            line.hasPoints = false // too many values so don't draw points.
 
             val lines = ArrayList<Line>()
             lines.add(line)
@@ -119,7 +125,7 @@ class PreviewLineChartActivity : AppCompatActivity() {
 
         // prepare preview data, is better to use separate deep copy for preview chart.
         // Set color to grey to make preview area more visible.
-        private fun darkenPreviewData() : LineChartData {
+        private fun darkenPreviewData(): LineChartData {
             val previewData = data.copy()
             previewData.lines[0].color = ChartUtils.DEFAULT_DARKEN_COLOR
             return previewData
@@ -165,8 +171,6 @@ class PreviewLineChartActivity : AppCompatActivity() {
                 // don't use animation, it is unnecessary when using preview chart.
                 chart?.currentViewport = newViewport
             }
-
         }
-
     }
 }

@@ -7,7 +7,13 @@ import java.util.*
 /**
  * Model representing single slice on PieChart.
  */
-class SliceValue(value: Float = 0f, private var originValue: Float = value, private var diff: Float = 0f, color: Int = ChartUtils.DEFAULT_COLOR, var label: CharArray? = null) {
+class SliceValue(
+    value: Float = 0f,
+    private var originValue: Float = value,
+    private var diff: Float = 0f,
+    color: Int = ChartUtils.DEFAULT_COLOR,
+    var label: CharArray? = null
+) {
     var darkenColor = ChartUtils.darkenColor(color)
         private set
 
@@ -60,12 +66,12 @@ class SliceValue(value: Float = 0f, private var originValue: Float = value, priv
         if (that.originValue.compareTo(originValue) != 0) return false
         if (that.value.compareTo(value) != 0) return false
         return Arrays.equals(label, that.label)
-
     }
 
     override fun hashCode(): Int {
         var result = if (value != +0.0f) java.lang.Float.floatToIntBits(value) else 0
-        result = 31 * result + if (originValue != +0.0f) java.lang.Float.floatToIntBits(originValue) else 0
+        result =
+            31 * result + if (originValue != +0.0f) java.lang.Float.floatToIntBits(originValue) else 0
         result = 31 * result + if (diff != +0.0f) java.lang.Float.floatToIntBits(diff) else 0
         result = 31 * result + color
         result = 31 * result + darkenColor

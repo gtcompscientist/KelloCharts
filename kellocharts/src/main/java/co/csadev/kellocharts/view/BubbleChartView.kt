@@ -17,8 +17,13 @@ import co.csadev.kellocharts.renderer.BubbleChartRenderer
  *
  * @author lecho
  */
-class BubbleChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AbstractChartView(context, attrs, defStyle), BubbleChartDataProvider {
-    var onValueTouchListener: BubbleChartOnValueSelectListener = DummyBubbleChartOnValueSelectListener()
+class BubbleChartView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AbstractChartView(context, attrs, defStyle), BubbleChartDataProvider {
+    var onValueTouchListener: BubbleChartOnValueSelectListener =
+        DummyBubbleChartOnValueSelectListener()
 
     var bubbleChartRenderer: BubbleChartRenderer = BubbleChartRenderer(context, this, this)
 

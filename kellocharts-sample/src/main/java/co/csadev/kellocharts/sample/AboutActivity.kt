@@ -21,7 +21,8 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -30,7 +31,11 @@ class AboutActivity : AppCompatActivity() {
      */
     class PlaceholderFragment : Fragment() {
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             val rootView = inflater.inflate(R.layout.fragment_about, container, false)
 
             val version = rootView.findViewById<TextView>(R.id.version)
@@ -55,7 +60,6 @@ class AboutActivity : AppCompatActivity() {
                 Log.e(TAG, "Could not get version number")
                 Pair("", 0L)
             }
-
         }
 
         fun launchWebBrowser(context: Context?, url: String): Boolean {
@@ -68,8 +72,10 @@ class AboutActivity : AppCompatActivity() {
 
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(url)
-                val resolveInfo = context!!.packageManager.resolveActivity(intent,
-                        PackageManager.MATCH_DEFAULT_ONLY)
+                val resolveInfo = context!!.packageManager.resolveActivity(
+                    intent,
+                    PackageManager.MATCH_DEFAULT_ONLY
+                )
                 if (null == resolveInfo) {
                     Log.e(TAG, "No activity to handle web intent")
                     return false
@@ -81,7 +87,6 @@ class AboutActivity : AppCompatActivity() {
                 Log.e(TAG, "Could not start web browser", e)
                 return false
             }
-
         }
     }
 }

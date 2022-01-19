@@ -2,7 +2,6 @@ package co.csadev.kellocharts.model
 
 import android.graphics.Color
 import android.graphics.Typeface
-
 import co.csadev.kellocharts.util.ChartUtils
 
 /**
@@ -45,7 +44,7 @@ abstract class AbstractChartData : ChartData {
         newItem.valueLabelTypeface = valueLabelTypeface
     }
 
-    fun withData(original: AbstractChartData) : AbstractChartData {
+    fun withData(original: AbstractChartData): AbstractChartData {
         axisXBottom = original.axisXBottom
         axisXTop = original.axisXTop
         axisYLeft = original.axisYLeft
@@ -59,5 +58,4 @@ abstract class AbstractChartData : ChartData {
     companion object {
         val DEFAULT_TEXT_SIZE_SP = 12
     }
-
 }

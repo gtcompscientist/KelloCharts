@@ -14,7 +14,12 @@ class HackyDrawerLayout : DrawerLayout {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
+    }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         try {
@@ -23,7 +28,5 @@ class HackyDrawerLayout : DrawerLayout {
             e.printStackTrace()
             return false
         }
-
     }
-
 }

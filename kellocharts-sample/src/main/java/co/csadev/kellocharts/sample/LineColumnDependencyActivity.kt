@@ -19,7 +19,8 @@ class LineColumnDependencyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_line_column_dependency)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -34,8 +35,13 @@ class LineColumnDependencyActivity : AppCompatActivity() {
         private var lineData: LineChartData? = null
         private var columnData: ColumnChartData? = null
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            val rootView = inflater.inflate(R.layout.fragment_line_column_dependency, container, false)
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            val rootView =
+                inflater.inflate(R.layout.fragment_line_column_dependency, container, false)
 
             // *** TOP LINE CHART ***
             chartTop = rootView.findViewById<View>(R.id.chart_top) as LineChartView
@@ -60,14 +66,19 @@ class LineColumnDependencyActivity : AppCompatActivity() {
             val axisValues = ArrayList<AxisValue>()
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
-                    values.add(SubcolumnValue(Math.random().toFloat() * 50f + 5, ChartUtils.pickColor()))
+                repeat(numSubcolumns) {
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 50f + 5,
+                            ChartUtils.pickColor()
+                        )
+                    )
                 }
 
-                axisValues.add(AxisValue(i.toFloat(), label = months[i].toCharArray()))
+                axisValues.add(AxisValue(it.toFloat(), label = months[it].toCharArray()))
 
                 columns.add(Column(values, hasLabelsOnlyForSelected = true))
             }
@@ -100,11 +111,10 @@ class LineColumnDependencyActivity : AppCompatActivity() {
             //
             // }
             // });
-
         }
 
         /**
-         * Generates initial data for line chart. At the begining all Y values are equals 0. That will change when user
+         * Generates initial data for line chart. At the beginning all Y values are equals 0. That will change when user
          * will select value on column chart.
          */
         private fun generateInitialLineData() {
@@ -145,7 +155,7 @@ class LineColumnDependencyActivity : AppCompatActivity() {
             chartTop!!.cancelDataAnimation()
 
             // Modify data targets
-            val line = lineData!!.lines[0]// For this example there is always only one line.
+            val line = lineData!!.lines[0] // For this example there is always only one line.
             line.color = color
             for (value in line.values) {
                 // Change target only for Y value.
@@ -158,19 +168,35 @@ class LineColumnDependencyActivity : AppCompatActivity() {
 
         private inner class ValueTouchListener : ColumnChartOnValueSelectListener {
 
-            override fun onValueSelected(columnIndex: Int, subcolumnIndex: Int, value: SubcolumnValue) {
+            override fun onValueSelected(
+                columnIndex: Int,
+                subcolumnIndex: Int,
+                value: SubcolumnValue
+            ) {
                 generateLineData(value.color, 100f)
             }
 
             override fun onValueDeselected() {
 
                 generateLineData(ChartUtils.COLOR_GREEN, 0f)
-
             }
         }
 
         companion object {
-            val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+            val months = arrayOf(
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            )
 
             val days = arrayOf("Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun")
         }

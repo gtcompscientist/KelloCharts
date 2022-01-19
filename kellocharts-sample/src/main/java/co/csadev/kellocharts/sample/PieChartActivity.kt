@@ -19,7 +19,8 @@ class PieChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pie_chart)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -39,7 +40,11 @@ class PieChartActivity : AppCompatActivity() {
         private var isExploded = false
         private var hasLabelForSelected = false
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             setHasOptionsMenu(true)
             val rootView = inflater.inflate(R.layout.fragment_pie_chart, container, false)
 
@@ -93,7 +98,7 @@ class PieChartActivity : AppCompatActivity() {
                 hasCenterText2 = !hasCenterText2
 
                 if (hasCenterText2) {
-                    hasCenterText1 = true// text 2 need text 1 to by also drawn.
+                    hasCenterText1 = true // text 2 need text 1 to by also drawn.
                     hasCenterCircle = true
                 }
 
@@ -115,9 +120,11 @@ class PieChartActivity : AppCompatActivity() {
             }
             if (id == R.id.action_toggle_selection_mode) {
                 toggleLabelForSelected()
-                Toast.makeText(activity,
-                        "Selection mode set to " + chart!!.isValueSelectionEnabled + " select any point.",
-                        Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "Selection mode set to " + chart!!.isValueSelectionEnabled + " select any point.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
             return super.onOptionsItemSelected(item)
@@ -139,7 +146,8 @@ class PieChartActivity : AppCompatActivity() {
 
             val values = ArrayList<SliceValue>()
             for (i in 0 until numValues) {
-                val sliceValue = SliceValue(Math.random().toFloat() * 30 + 15, color = ChartUtils.pickColor())
+                val sliceValue =
+                    SliceValue(Math.random().toFloat() * 30 + 15, color = ChartUtils.pickColor())
                 values.add(sliceValue)
             }
 
@@ -150,24 +158,32 @@ class PieChartActivity : AppCompatActivity() {
             newData.hasCenterCircle = hasCenterCircle
 
             if (isExploded) {
-                newData.sliceSpacing =24
+                newData.sliceSpacing = 24
             }
 
             if (hasCenterText1) {
                 newData.centerText1 = "Hello!"
 
                 // Get roboto-italic font.
-                newData.centerText1Typeface = Typeface.createFromAsset(activity?.assets, "Roboto-Italic.ttf")
+                newData.centerText1Typeface =
+                    Typeface.createFromAsset(activity?.assets, "Roboto-Italic.ttf")
 
                 // Get font size from dimens.xml and convert it to sp(library uses sp values).
-                newData.centerText1FontSize = ChartUtils.px2sp(resources.displayMetrics.scaledDensity, resources.getDimension(R.dimen.pie_chart_text1_size).toInt())
+                newData.centerText1FontSize = ChartUtils.px2sp(
+                    resources.displayMetrics.scaledDensity,
+                    resources.getDimension(R.dimen.pie_chart_text1_size).toInt()
+                )
             }
 
             if (hasCenterText2) {
                 newData.centerText2 = "Charts (Roboto Italic)"
 
-                newData.centerText2Typeface = Typeface.createFromAsset(activity?.assets, "Roboto-Italic.ttf")
-                newData.centerText2FontSize = ChartUtils.px2sp(resources.displayMetrics.scaledDensity, resources.getDimension(R.dimen.pie_chart_text2_size).toInt())
+                newData.centerText2Typeface =
+                    Typeface.createFromAsset(activity?.assets, "Roboto-Italic.ttf")
+                newData.centerText2FontSize = ChartUtils.px2sp(
+                    resources.displayMetrics.scaledDensity,
+                    resources.getDimension(R.dimen.pie_chart_text2_size).toInt()
+                )
             }
 
             chart?.pieChartData = newData
@@ -177,7 +193,6 @@ class PieChartActivity : AppCompatActivity() {
         private fun explodeChart() {
             isExploded = !isExploded
             generateData()
-
         }
 
         private fun toggleLabelsOutside() {
@@ -196,7 +211,6 @@ class PieChartActivity : AppCompatActivity() {
             }
 
             generateData()
-
         }
 
         private fun toggleLabels() {
@@ -252,7 +266,6 @@ class PieChartActivity : AppCompatActivity() {
             }
 
             override fun onValueDeselected() = Unit
-
         }
     }
 }

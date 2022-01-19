@@ -16,22 +16,27 @@ import co.csadev.kellocharts.view.Chart
 abstract class AbstractChartRenderer(context: Context, protected var chart: Chart) : ChartRenderer {
     var DEFAULT_LABEL_MARGIN_DP = 4
     protected var computator: ChartComputator
+
     /**
      * Paint for value labels.
      */
     protected var labelPaint = Paint()
+
     /**
      * Paint for labels background.
      */
     protected var labelBackgroundPaint = Paint()
+
     /**
      * Holds coordinates for label background rect.
      */
     protected var labelBackgroundRect = RectF()
+
     /**
      * Font metrics for label paint, used to determine text height.
      */
     protected var fontMetrics = FontMetricsInt()
+
     /**
      * If true maximum and current viewport will be calculated when chart data change or during data animations.
      */
@@ -48,10 +53,14 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
         get() = selectedValue.isSet
     override var currentViewport: Viewport
         get() = computator.currentViewport
-        set(value) { computator.currentViewport = value }
+        set(value) {
+            computator.currentViewport = value
+        }
     override var maximumViewport: Viewport
         get() = computator.maximumViewport
-        set(value) { computator.maximumViewport = value }
+        set(value) {
+            computator.maximumViewport = value
+        }
 
     init {
         this.density = context.resources.displayMetrics.density
@@ -93,14 +102,18 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
 
         // Important - clear selection when data changed.
         selectedValue.clear()
-
     }
 
     /**
      * Draws label text and label background if isValueLabelBackgroundEnabled is true.
      */
-    protected fun drawLabelTextAndBackground(canvas: Canvas, labelBuffer: CharArray, startIndex: Int, numChars: Int,
-                                             autoBackgroundColor: Int) {
+    protected fun drawLabelTextAndBackground(
+        canvas: Canvas,
+        labelBuffer: CharArray,
+        startIndex: Int,
+        numChars: Int,
+        autoBackgroundColor: Int
+    ) {
         val textX: Float
         val textY: Float
 
@@ -125,13 +138,15 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
     override fun clearTouch() {
         selectedValue.clear()
     }
-
 }
 
-class InternalChartRendererBase(context: Context, chart: Chart) : AbstractChartRenderer(context, chart) {
-    override fun onChartSizeChanged() { }
-    override fun onChartViewportChanged() { }
-    override fun draw(canvas: Canvas) { }
-    override fun drawUnclipped(canvas: Canvas) { }
-    override fun checkTouch(touchX: Float, touchY: Float): Boolean { return false }
+class InternalChartRendererBase(context: Context, chart: Chart) :
+    AbstractChartRenderer(context, chart) {
+    override fun onChartSizeChanged() {}
+    override fun onChartViewportChanged() {}
+    override fun draw(canvas: Canvas) {}
+    override fun drawUnclipped(canvas: Canvas) {}
+    override fun checkTouch(touchX: Float, touchY: Float): Boolean {
+        return false
+    }
 }

@@ -33,7 +33,6 @@ object ChartUtils {
         return if (dp == 0) {
             0
         } else (dp * density + 0.5f).toInt()
-
     }
 
     fun px2dp(density: Float, px: Int): Int {
@@ -51,8 +50,13 @@ object ChartUtils {
     }
 
     fun mm2px(context: Context, mm: Int): Int {
-        return (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, mm.toFloat(), context.resources
-                .displayMetrics) + 0.5f).toInt()
+        return (
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_MM, mm.toFloat(),
+                context.resources
+                    .displayMetrics
+            ) + 0.5f
+            ).toInt()
     }
 
     fun darkenColor(color: Int): Int {
@@ -62,7 +66,11 @@ object ChartUtils {
         hsv[1] = Math.min(hsv[1] * DARKEN_SATURATION, 1.0f)
         hsv[2] = hsv[2] * DARKEN_INTENSITY
         val tempColor = Color.HSVToColor(hsv)
-        return Color.argb(alpha, Color.red(tempColor), Color.green(tempColor), Color.blue(tempColor))
+        return Color.argb(
+            alpha,
+            Color.red(tempColor),
+            Color.green(tempColor),
+            Color.blue(tempColor)
+        )
     }
-
 }

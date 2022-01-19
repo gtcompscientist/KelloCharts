@@ -21,7 +21,8 @@ class ColumnChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column_chart)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -45,7 +46,11 @@ class ColumnChartActivity : AppCompatActivity() {
                 return sign[Math.round(Math.random().toFloat())]
             }
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             setHasOptionsMenu(true)
             val rootView = inflater.inflate(R.layout.fragment_column_chart, container, false)
 
@@ -113,14 +118,20 @@ class ColumnChartActivity : AppCompatActivity() {
             if (id == R.id.action_toggle_selection_mode) {
                 toggleLabelForSelected()
 
-                Toast.makeText(activity,
-                        "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
-                        Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
             if (id == R.id.action_toggle_touch_zoom) {
                 chart?.isZoomEnabled = chart?.isZoomEnabled != true
-                Toast.makeText(activity, "IsZoomEnabled " + chart?.isZoomEnabled, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "IsZoomEnabled " + chart?.isZoomEnabled,
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
             if (id == R.id.action_zoom_both) {
@@ -145,7 +156,6 @@ class ColumnChartActivity : AppCompatActivity() {
             hasLabelForSelected = false
             dataType = DEFAULT_DATA
             chart?.isValueSelectionEnabled = hasLabelForSelected
-
         }
 
         private fun generateDefaultData() {
@@ -154,11 +164,16 @@ class ColumnChartActivity : AppCompatActivity() {
             // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
-                    values.add(SubcolumnValue(Math.random().toFloat() * 50f + 5, ChartUtils.pickColor()))
+                repeat(numSubcolumns) {
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 50f + 5,
+                            ChartUtils.pickColor()
+                        )
+                    )
                 }
 
                 val column = Column(values)
@@ -166,7 +181,7 @@ class ColumnChartActivity : AppCompatActivity() {
                 column.hasLabelsOnlyForSelected = hasLabelForSelected
                 columns.add(column)
             }
-            
+
             val newData = ColumnChartData(columns, isHorizontal = horizontalData)
             if (hasAxes) {
                 val axisX = Axis(hasLines = true)
@@ -183,7 +198,6 @@ class ColumnChartActivity : AppCompatActivity() {
             }
 
             chart?.columnChartData = newData
-
         }
 
         /**
@@ -195,11 +209,16 @@ class ColumnChartActivity : AppCompatActivity() {
             // Column can have many subcolumns, here I use 4 subcolumn in each of 8 columns.
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
-                    values.add(SubcolumnValue(Math.random().toFloat() * 50f + 5, ChartUtils.pickColor()))
+                repeat(numSubcolumns) {
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 50f + 5,
+                            ChartUtils.pickColor()
+                        )
+                    )
                 }
 
                 val column = Column(values)
@@ -238,11 +257,16 @@ class ColumnChartActivity : AppCompatActivity() {
             // Column can have many stacked subcolumns, here I use 4 stacke subcolumn in each of 4 columns.
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
-                    values.add(SubcolumnValue(Math.random().toFloat() * 20f + 5, ChartUtils.pickColor()))
+                repeat(numSubcolumns) {
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 20f + 5,
+                            ChartUtils.pickColor()
+                        )
+                    )
                 }
 
                 val column = Column(values)
@@ -281,12 +305,17 @@ class ColumnChartActivity : AppCompatActivity() {
             val numColumns = 4
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
+                repeat(numSubcolumns) {
                     val sign = sign
-                    values.add(SubcolumnValue(Math.random().toFloat() * 50f * sign.toFloat() + 5 * sign, ChartUtils.pickColor()))
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 50f * sign.toFloat() + 5 * sign,
+                            ChartUtils.pickColor()
+                        )
+                    )
                 }
 
                 val column = Column(values)
@@ -323,12 +352,17 @@ class ColumnChartActivity : AppCompatActivity() {
             // Column can have many stacked subcolumns, here I use 4 stacke subcolumn in each of 4 columns.
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
+                repeat(numSubcolumns) {
                     val sign = sign
-                    values.add(SubcolumnValue(Math.random().toFloat() * 20f * sign.toFloat() + 5 * sign, ChartUtils.pickColor()))
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 20f * sign.toFloat() + 5 * sign,
+                            ChartUtils.pickColor()
+                        )
+                    )
                 }
 
                 val column = Column(values)
@@ -426,12 +460,15 @@ class ColumnChartActivity : AppCompatActivity() {
 
         private inner class ValueTouchListener : ColumnChartOnValueSelectListener {
 
-            override fun onValueSelected(columnIndex: Int, subcolumnIndex: Int, value: SubcolumnValue) {
+            override fun onValueSelected(
+                columnIndex: Int,
+                subcolumnIndex: Int,
+                value: SubcolumnValue
+            ) {
                 Toast.makeText(activity, "Selected: " + value, Toast.LENGTH_SHORT).show()
             }
 
             override fun onValueDeselected() = Unit
-
         }
 
         companion object {
@@ -442,6 +479,5 @@ class ColumnChartActivity : AppCompatActivity() {
             private const val NEGATIVE_SUBCOLUMNS_DATA = 3
             private const val NEGATIVE_STACKED_DATA = 4
         }
-
     }
 }

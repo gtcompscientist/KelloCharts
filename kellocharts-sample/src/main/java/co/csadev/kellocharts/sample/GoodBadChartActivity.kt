@@ -18,7 +18,8 @@ class GoodBadChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_good_bad)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -30,7 +31,11 @@ class GoodBadChartActivity : AppCompatActivity() {
         private var chart: LineChartView? = null
         private var data: LineChartData? = null
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             val rootView = inflater.inflate(R.layout.fragment_good_bad, container, false)
 
             chart = rootView.findViewById<View>(R.id.chart) as LineChartView
@@ -108,7 +113,6 @@ class GoodBadChartActivity : AppCompatActivity() {
 
             // *** Important, set base value to 0 to fill negative part of chart.
             // data.setBaseValue(0);
-
         }
     }
 }

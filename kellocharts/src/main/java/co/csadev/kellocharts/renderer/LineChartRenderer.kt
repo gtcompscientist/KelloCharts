@@ -13,7 +13,11 @@ import co.csadev.kellocharts.view.Chart
 /**
  * Renderer for line chart. Can draw lines, cubic lines, filled area chart and scattered chart.
  */
-open class LineChartRenderer(context: Context, chart: Chart, private val dataProvider: LineChartDataProvider) : AbstractChartRenderer(context, chart) {
+open class LineChartRenderer(
+    context: Context,
+    chart: Chart,
+    private val dataProvider: LineChartDataProvider
+) : AbstractChartRenderer(context, chart) {
 
     private val checkPrecision: Int
 
@@ -41,16 +45,19 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
         pointPaint.style = Paint.Style.FILL
 
         checkPrecision = ChartUtils.dp2px(density, 2)
-
     }
 
     override fun onChartSizeChanged() {
         val internalMargin = calculateContentRectInternalMargin()
-        computator.insetContentRectByInternalMargins(internalMargin, internalMargin,
-                internalMargin, internalMargin)
+        computator.insetContentRectByInternalMargins(
+            internalMargin, internalMargin,
+            internalMargin, internalMargin
+        )
         if (computator.chartWidth > 0 && computator.chartHeight > 0) {
-            softwareBitmap = Bitmap.createBitmap(computator.chartWidth, computator.chartHeight,
-                    Bitmap.Config.ARGB_8888)
+            softwareBitmap = Bitmap.createBitmap(
+                computator.chartWidth, computator.chartHeight,
+                Bitmap.Config.ARGB_8888
+            )
             softwareCanvas.setBitmap(softwareBitmap)
         }
     }
@@ -58,8 +65,10 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
     override fun onChartDataChanged() {
         super.onChartDataChanged()
         val internalMargin = calculateContentRectInternalMargin()
-        computator.insetContentRectByInternalMargins(internalMargin, internalMargin,
-                internalMargin, internalMargin)
+        computator.insetContentRectByInternalMargins(
+            internalMargin, internalMargin,
+            internalMargin, internalMargin
+        )
         baseValue = dataProvider.lineChartData.baseValue
 
         onChartViewportChanged()
@@ -88,14 +97,14 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
         }
 
         data.lines
-                .filter { it.hasLines }
-                .forEach {
-                    when {
-                        it.isCubic -> drawSmoothPath(drawCanvas, it)
-                        it.isSquare -> drawSquarePath(drawCanvas, it)
-                        else -> drawPath(drawCanvas, it)
-                    }
+            .filter { it.hasLines }
+            .forEach {
+                when {
+                    it.isCubic -> drawSmoothPath(drawCanvas, it)
+                    it.isSquare -> drawSquarePath(drawCanvas, it)
+                    else -> drawPath(drawCanvas, it)
                 }
+            }
 
         if (null != softwareBitmap) {
             canvas.drawBitmap(softwareBitmap!!, 0f, 0f, null)
@@ -132,7 +141,14 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
                 for (pointValue in line.values) {
                     val rawValueX = computator.computeRawX(pointValue.x)
                     val rawValueY = computator.computeRawY(pointValue.y)
-                    if (isInArea(rawValueX, rawValueY, touchX, touchY, (pointRadius + touchToleranceMargin).toFloat())) {
+                    if (isInArea(
+                            rawValueX,
+                            rawValueY,
+                            touchX,
+                            touchY,
+                            (pointRadius + touchToleranceMargin).toFloat()
+                        )
+                    ) {
                         selectedValue[lineIndex, valueIndex] = SelectedValueType.LINE
                     }
                     ++valueIndex
@@ -144,7 +160,12 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
     }
 
     private fun calculateMaxViewport() {
-        tempMaximumViewport.set(java.lang.Float.MAX_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MAX_VALUE)
+        tempMaximumViewport.set(
+            java.lang.Float.MAX_VALUE,
+            java.lang.Float.MIN_VALUE,
+            java.lang.Float.MIN_VALUE,
+            java.lang.Float.MAX_VALUE
+        )
         val data = dataProvider.lineChartData
 
         for (line in data.lines) {
@@ -162,7 +183,6 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
                 if (pointValue.y > tempMaximumViewport.top) {
                     tempMaximumViewport.top = pointValue.y
                 }
-
             }
         }
     }
@@ -200,7 +220,6 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
             }
 
             ++valueIndex
-
         }
 
         canvas.drawPath(path, linePaint)
@@ -232,7 +251,6 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
             previousRawY = rawY
 
             ++valueIndex
-
         }
 
         canvas.drawPath(path, linePaint)
@@ -308,8 +326,14 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
                 val firstControlPointY = previousPointY + LINE_SMOOTHNESS * firstDiffY
                 val secondControlPointX = currentPointX - LINE_SMOOTHNESS * secondDiffX
                 val secondControlPointY = currentPointY - LINE_SMOOTHNESS * secondDiffY
-                path.cubicTo(firstControlPointX, firstControlPointY, secondControlPointX, secondControlPointY,
-                        currentPointX, currentPointY)
+                path.cubicTo(
+                    firstControlPointX,
+                    firstControlPointY,
+                    secondControlPointX,
+                    secondControlPointY,
+                    currentPointX,
+                    currentPointY
+                )
             }
 
             // Shift values by one back to prevent recalculation of values that have
@@ -352,7 +376,14 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
                 if (MODE_DRAW == mode) {
                     drawPoint(canvas, line, pointValue, rawX, rawY, pointRadius.toFloat())
                     if (line.hasLabels) {
-                        drawLabel(canvas, line, pointValue, rawX, rawY, (pointRadius + labelOffset).toFloat())
+                        drawLabel(
+                            canvas,
+                            line,
+                            pointValue,
+                            rawX,
+                            rawY,
+                            (pointRadius + labelOffset).toFloat()
+                        )
                     }
                 } else if (MODE_HIGHLIGHT == mode) {
                     highlightPoint(canvas, line, pointValue, rawX, rawY, lineIndex, valueIndex)
@@ -364,18 +395,28 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
         }
     }
 
-    private fun drawPoint(canvas: Canvas, line: Line, pointValue: PointValue, rawX: Float, rawY: Float,
-                          pointRadius: Float) {
+    private fun drawPoint(
+        canvas: Canvas,
+        line: Line,
+        pointValue: PointValue,
+        rawX: Float,
+        rawY: Float,
+        pointRadius: Float
+    ) {
         if (ValueShape.SQUARE == line.shape) {
-            canvas.drawRect(rawX - pointRadius, rawY - pointRadius, rawX + pointRadius, rawY + pointRadius,
-                    pointPaint)
+            canvas.drawRect(
+                rawX - pointRadius, rawY - pointRadius, rawX + pointRadius, rawY + pointRadius,
+                pointPaint
+            )
         } else if (ValueShape.CIRCLE == line.shape) {
             canvas.drawCircle(rawX, rawY, pointRadius, pointPaint)
         } else if (ValueShape.DIAMOND == line.shape) {
             canvas.save()
             canvas.rotate(45f, rawX, rawY)
-            canvas.drawRect(rawX - pointRadius, rawY - pointRadius, rawX + pointRadius, rawY + pointRadius,
-                    pointPaint)
+            canvas.drawRect(
+                rawX - pointRadius, rawY - pointRadius, rawX + pointRadius, rawY + pointRadius,
+                pointPaint
+            )
             canvas.restore()
         } else {
             throw IllegalArgumentException("Invalid point shape: " + line.shape)
@@ -388,19 +429,47 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
         drawPoints(canvas, line, lineIndex, MODE_HIGHLIGHT)
     }
 
-    private fun highlightPoint(canvas: Canvas, line: Line, pointValue: PointValue, rawX: Float, rawY: Float, lineIndex: Int,
-                               valueIndex: Int) {
+    private fun highlightPoint(
+        canvas: Canvas,
+        line: Line,
+        pointValue: PointValue,
+        rawX: Float,
+        rawY: Float,
+        lineIndex: Int,
+        valueIndex: Int
+    ) {
         if (selectedValue.firstIndex == lineIndex && selectedValue.secondIndex == valueIndex) {
             val pointRadius = ChartUtils.dp2px(density, line.pointRadius)
             pointPaint.color = line.darkenColor
-            drawPoint(canvas, line, pointValue, rawX, rawY, (pointRadius + touchToleranceMargin).toFloat())
+            drawPoint(
+                canvas,
+                line,
+                pointValue,
+                rawX,
+                rawY,
+                (pointRadius + touchToleranceMargin).toFloat()
+            )
             if (line.hasLabels || line.hasLabelsOnlyForSelected) {
-                drawLabel(canvas, line, pointValue, rawX, rawY, (pointRadius + labelOffset).toFloat())
+                drawLabel(
+                    canvas,
+                    line,
+                    pointValue,
+                    rawX,
+                    rawY,
+                    (pointRadius + labelOffset).toFloat()
+                )
             }
         }
     }
 
-    private fun drawLabel(canvas: Canvas, line: Line, pointValue: PointValue, rawX: Float, rawY: Float, offset: Float) {
+    private fun drawLabel(
+        canvas: Canvas,
+        line: Line,
+        pointValue: PointValue,
+        rawX: Float,
+        rawY: Float,
+        offset: Float
+    ) {
         val contentRect = computator.contentRectMinusAllMargins
         val numChars = line.formatter.formatChartValue(labelBuffer, pointValue)
         if (numChars == 0) {
@@ -442,24 +511,33 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
         }
 
         labelBackgroundRect.set(left, top, right, bottom)
-        drawLabelTextAndBackground(canvas, labelBuffer, labelBuffer.size - numChars, numChars,
-                line.darkenColor)
+        drawLabelTextAndBackground(
+            canvas, labelBuffer, labelBuffer.size - numChars, numChars,
+            line.darkenColor
+        )
     }
 
     private fun drawArea(canvas: Canvas, line: Line) {
         val lineSize = line.values.size
         if (lineSize < 2) {
-            //No point to draw area for one point or empty line.
+            // No point to draw area for one point or empty line.
             return
         }
 
         val contentRect = computator.contentRectMinusAllMargins
-        val baseRawValue = Math.min(contentRect.bottom.toFloat(), Math.max(computator.computeRawY(baseValue),
-                contentRect.top.toFloat()))
-        //That checks works only if the last point is the right most one.
+        val baseRawValue = Math.min(
+            contentRect.bottom.toFloat(),
+            Math.max(
+                computator.computeRawY(baseValue),
+                contentRect.top.toFloat()
+            )
+        )
+        // That checks works only if the last point is the right most one.
         val left = Math.max(computator.computeRawX(line.values[0].x), contentRect.left.toFloat())
-        val right = Math.min(computator.computeRawX(line.values[lineSize - 1].x),
-                contentRect.right.toFloat())
+        val right = Math.min(
+            computator.computeRawX(line.values[lineSize - 1].x),
+            contentRect.right.toFloat()
+        )
 
         path.lineTo(right, baseRawValue)
         path.lineTo(left, baseRawValue)
@@ -474,7 +552,10 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
     private fun isInArea(x: Float, y: Float, touchX: Float, touchY: Float, radius: Float): Boolean {
         val diffX = touchX - x
         val diffY = touchY - y
-        return Math.pow(diffX.toDouble(), 2.0) + Math.pow(diffY.toDouble(), 2.0) <= 2 * Math.pow(radius.toDouble(), 2.0)
+        return Math.pow(diffX.toDouble(), 2.0) + Math.pow(diffY.toDouble(), 2.0) <= 2 * Math.pow(
+            radius.toDouble(),
+            2.0
+        )
     }
 
     companion object {
@@ -485,5 +566,4 @@ open class LineChartRenderer(context: Context, chart: Chart, private val dataPro
         private val MODE_DRAW = 0
         private val MODE_HIGHLIGHT = 1
     }
-
 }

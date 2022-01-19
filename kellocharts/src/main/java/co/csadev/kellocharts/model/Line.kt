@@ -9,23 +9,25 @@ import java.util.*
 /**
  * Single line for line chart.
  */
-class Line(var values: MutableList<PointValue> = ArrayList(),
-           color: Int = ChartUtils.DEFAULT_COLOR,
-           pointColor: Int = color,
-           darkenColor: Int = ChartUtils.darkenColor(color),
-           var formatter: LineChartValueFormatter = SimpleLineChartValueFormatter(),
-           var shape: ValueShape = ValueShape.CIRCLE,
-           var isFilled: Boolean = false,
-           isSquare: Boolean = false,
-           isCubic: Boolean = false,
-           var pointRadius: Int = DEFAULT_POINT_RADIUS_DP,
-           var areaTransparency: Int = DEFAULT_AREA_TRANSPARENCY,
-           var strokeWidth: Int = DEFAULT_LINE_STROKE_WIDTH_DP,
-           var hasPoints: Boolean = true,
-           var hasLines: Boolean = true,
-           hasLabels: Boolean = true,
-           hasLabelsOnlyForSelected: Boolean = true,
-           var pathEffect: PathEffect? = null) {
+class Line(
+    var values: MutableList<PointValue> = ArrayList(),
+    color: Int = ChartUtils.DEFAULT_COLOR,
+    pointColor: Int = color,
+    darkenColor: Int = ChartUtils.darkenColor(color),
+    var formatter: LineChartValueFormatter = SimpleLineChartValueFormatter(),
+    var shape: ValueShape = ValueShape.CIRCLE,
+    var isFilled: Boolean = false,
+    isSquare: Boolean = false,
+    isCubic: Boolean = false,
+    var pointRadius: Int = DEFAULT_POINT_RADIUS_DP,
+    var areaTransparency: Int = DEFAULT_AREA_TRANSPARENCY,
+    var strokeWidth: Int = DEFAULT_LINE_STROKE_WIDTH_DP,
+    var hasPoints: Boolean = true,
+    var hasLines: Boolean = true,
+    hasLabels: Boolean = true,
+    hasLabelsOnlyForSelected: Boolean = true,
+    var pathEffect: PathEffect? = null
+) {
     var color = color
         set(value) {
             field = value
@@ -64,7 +66,25 @@ class Line(var values: MutableList<PointValue> = ArrayList(),
             if (field) hasLabels = false
         }
 
-    fun copy() = Line(values.map { it.copy() }.toMutableList(), color, pointColor, darkenColor, formatter, shape, isFilled, isSquare, isCubic, pointRadius, areaTransparency, strokeWidth, hasPoints, hasLines, hasLabels, hasLabelsOnlyForSelected, pathEffect)
+    fun copy() = Line(
+        values.map { it.copy() }.toMutableList(),
+        color,
+        pointColor,
+        darkenColor,
+        formatter,
+        shape,
+        isFilled,
+        isSquare,
+        isCubic,
+        pointRadius,
+        areaTransparency,
+        strokeWidth,
+        hasPoints,
+        hasLines,
+        hasLabels,
+        hasLabelsOnlyForSelected,
+        pathEffect
+    )
 
     fun update(scale: Float) = values.forEach { it.update(scale) }
 

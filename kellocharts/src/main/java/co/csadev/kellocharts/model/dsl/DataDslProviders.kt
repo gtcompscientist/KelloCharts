@@ -15,7 +15,9 @@ import java.util.*
 @DslMarker
 annotation class BubbleDataDsl
 
-fun bubbleData(block: BubbleChartDataBuilder.() -> Unit): BubbleChartData = BubbleChartDataBuilder().apply(block).build()
+fun bubbleData(block: BubbleChartDataBuilder.() -> Unit): BubbleChartData =
+    BubbleChartDataBuilder().apply(block).build()
+
 @BubbleDataDsl
 class BubbleChartDataBuilder {
     private var values: MutableList<BubbleValue> = ArrayList()
@@ -30,19 +32,21 @@ class BubbleChartDataBuilder {
     }
 
     fun build(): BubbleChartData = BubbleChartData(
-            values,
-            formatter,
-            hasLabels,
-            hasLabelsOnlyForSelected,
-            minBubbleRadius,
-            bubbleScale
+        values,
+        formatter,
+        hasLabels,
+        hasLabelsOnlyForSelected,
+        minBubbleRadius,
+        bubbleScale
     )
 }
 
 @DslMarker
 annotation class ColumnDataDsl
 
-fun columnData(block: ColumnChartDataBuilder.() -> Unit): ColumnChartData = ColumnChartDataBuilder().apply(block).build()
+fun columnData(block: ColumnChartDataBuilder.() -> Unit): ColumnChartData =
+    ColumnChartDataBuilder().apply(block).build()
+
 @ColumnDataDsl
 class ColumnChartDataBuilder {
     private var columns: MutableList<Column> = ArrayList()
@@ -59,7 +63,9 @@ class ColumnChartDataBuilder {
 @DslMarker
 annotation class LineDataDsl
 
-fun lineData(block: LineChartDataBuilder.() -> Unit): LineChartData = LineChartDataBuilder().apply(block).build()
+fun lineData(block: LineChartDataBuilder.() -> Unit): LineChartData =
+    LineChartDataBuilder().apply(block).build()
+
 @LineDataDsl
 class LineChartDataBuilder {
     private var lines: MutableList<Line> = ArrayList()
@@ -75,7 +81,9 @@ class LineChartDataBuilder {
 @DslMarker
 annotation class PieDataDsl
 
-fun pieData(block: PieChartDataBuilder.() -> Unit): PieChartData = PieChartDataBuilder().apply(block).build()
+fun pieData(block: PieChartDataBuilder.() -> Unit): PieChartData =
+    PieChartDataBuilder().apply(block).build()
+
 @PieDataDsl
 class PieChartDataBuilder {
     private var values: MutableList<SliceValue> = ArrayList()
@@ -103,24 +111,24 @@ class PieChartDataBuilder {
     }
 
     fun build(): PieChartData = PieChartData(
-            values,
-            axisXBottom,
-            axisYLeft,
-            hasLabels,
-            hasLabelsOnlyForSelected,
-            hasLabelsOutside,
-            hasCenterCircle,
-            centerCircleColor,
-            centerCircleScale,
-            centerText1Color,
-            centerText1FontSize,
-            centerText1Typeface,
-            centerText1,
-            centerText2Color,
-            centerText2FontSize,
-            centerText2Typeface,
-            centerText2,
-            sliceSpacing,
-            formatter
+        values,
+        axisXBottom,
+        axisYLeft,
+        hasLabels,
+        hasLabelsOnlyForSelected,
+        hasLabelsOutside,
+        hasCenterCircle,
+        centerCircleColor,
+        centerCircleScale,
+        centerText1Color,
+        centerText1FontSize,
+        centerText1Typeface,
+        centerText1,
+        centerText2Color,
+        centerText2FontSize,
+        centerText2Typeface,
+        centerText2,
+        sliceSpacing,
+        formatter
     )
 }

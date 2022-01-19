@@ -3,7 +3,6 @@ package co.csadev.kellocharts.gesture
 import android.content.Context
 import android.graphics.Point
 import android.widget.OverScroller
-
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.set
@@ -14,7 +13,7 @@ import co.csadev.kellocharts.model.set
 class ChartScroller(context: Context) {
 
     private val scrollerStartViewport = Viewport() // Used only for zooms and flings
-    private val surfaceSizeBuffer = Point()// Used for scroll and flings
+    private val surfaceSizeBuffer = Point() // Used for scroll and flings
     private val scroller: OverScroller = OverScroller(context)
 
     fun startScroll(computator: ChartComputator): Boolean {
@@ -23,7 +22,12 @@ class ChartScroller(context: Context) {
         return true
     }
 
-    fun scroll(computator: ChartComputator, distanceX: Float, distanceY: Float, scrollResult: ScrollResult): Boolean {
+    fun scroll(
+        computator: ChartComputator,
+        distanceX: Float,
+        distanceY: Float,
+        scrollResult: ScrollResult
+    ): Boolean {
 
         // Scrolling uses math based on the viewport (as opposed to math using pixels). Pixel offset is the offset in
         // screen pixels, while viewport offset is the offset within the current viewport. For additional
@@ -64,7 +68,10 @@ class ChartScroller(context: Context) {
             val viewportOffsetY = -distanceY * visibleViewport.height() / contentRect.height()
 
             computator
-                    .setViewportTopLeft(currentViewport.left + viewportOffsetX, currentViewport.top + viewportOffsetY)
+                .setViewportTopLeft(
+                    currentViewport.left + viewportOffsetX,
+                    currentViewport.top + viewportOffsetY
+                )
         }
 
         scrollResult.canScrollX = canScrollX
@@ -82,8 +89,10 @@ class ChartScroller(context: Context) {
 
             computator.computeScrollSurfaceSize(surfaceSizeBuffer)
 
-            val currXRange = maxViewport.left + maxViewport.width() * scroller.currX / surfaceSizeBuffer.x
-            val currYRange = maxViewport.top - maxViewport.height() * scroller.currY / surfaceSizeBuffer.y
+            val currXRange =
+                maxViewport.left + maxViewport.width() * scroller.currX / surfaceSizeBuffer.x
+            val currYRange =
+                maxViewport.top - maxViewport.height() * scroller.currY / surfaceSizeBuffer.y
 
             computator.setViewportTopLeft(currXRange, currYRange)
 
@@ -98,16 +107,20 @@ class ChartScroller(context: Context) {
         computator.computeScrollSurfaceSize(surfaceSizeBuffer)
         scrollerStartViewport.set(computator.currentViewport)
 
-        val startX = (surfaceSizeBuffer.x * (scrollerStartViewport.left - computator.maximumViewport.left) / computator.maximumViewport.width()).toInt()
-        val startY = (surfaceSizeBuffer.y * (computator.maximumViewport.top - scrollerStartViewport.top) / computator.maximumViewport.height()).toInt()
+        val startX =
+            (surfaceSizeBuffer.x * (scrollerStartViewport.left - computator.maximumViewport.left) / computator.maximumViewport.width()).toInt()
+        val startY =
+            (surfaceSizeBuffer.y * (computator.maximumViewport.top - scrollerStartViewport.top) / computator.maximumViewport.height()).toInt()
 
         // TODO probably should be mScroller.forceFinish but ScrollerCompat doesn't have that method.
         scroller.abortAnimation()
 
         val width = computator.contentRectMinusAllMargins.width()
         val height = computator.contentRectMinusAllMargins.height()
-        scroller.fling(startX, startY, velocityX, velocityY, 0, surfaceSizeBuffer.x - width + 1, 0,
-                surfaceSizeBuffer.y - height + 1)
+        scroller.fling(
+            startX, startY, velocityX, velocityY, 0, surfaceSizeBuffer.x - width + 1, 0,
+            surfaceSizeBuffer.y - height + 1
+        )
         return true
     }
 
@@ -115,5 +128,4 @@ class ChartScroller(context: Context) {
         var canScrollX: Boolean = false
         var canScrollY: Boolean = false
     }
-
 }

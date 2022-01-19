@@ -7,7 +7,8 @@ import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.view.Chart
 import java.util.*
 
-open class ComboChartRenderer(context: Context, chart: Chart) : AbstractChartRenderer(context, chart) {
+open class ComboChartRenderer(context: Context, chart: Chart) :
+    AbstractChartRenderer(context, chart) {
 
     internal var renderers: MutableList<ChartRenderer> = ArrayList()
     protected var unionViewport = Viewport()
@@ -41,8 +42,6 @@ open class ComboChartRenderer(context: Context, chart: Chart) : AbstractChartRen
             computator.maximumViewport = unionViewport
             computator.currentViewport = unionViewport
         }
-
-
     }
 
     override fun draw(canvas: Canvas) {
@@ -69,7 +68,7 @@ open class ComboChartRenderer(context: Context, chart: Chart) : AbstractChartRen
             rendererIndex--
         }
 
-        //clear the rest of renderers if value was selected, if value was not selected this loop
+        // clear the rest of renderers if value was selected, if value was not selected this loop
         // will not be executed.
         rendererIndex--
         while (rendererIndex >= 0) {

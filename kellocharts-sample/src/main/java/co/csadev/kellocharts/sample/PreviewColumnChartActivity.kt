@@ -17,7 +17,8 @@ class PreviewColumnChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preview_column_chart)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -29,14 +30,20 @@ class PreviewColumnChartActivity : AppCompatActivity() {
         private var chart: ColumnChartView? = null
         private var previewChart: PreviewColumnChartView? = null
         private var data: ColumnChartData = generateDefaultData()
+
         /**
          * Deep copy of data.
          */
         private var previewData: ColumnChartData = darkenDefaultData()
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             setHasOptionsMenu(true)
-            val rootView = inflater.inflate(R.layout.fragment_preview_column_chart, container, false)
+            val rootView =
+                inflater.inflate(R.layout.fragment_preview_column_chart, container, false)
 
             chart = rootView.findViewById<View>(R.id.chart) as ColumnChartView
             previewChart = rootView.findViewById<View>(R.id.chart_preview) as PreviewColumnChartView
@@ -101,11 +108,16 @@ class PreviewColumnChartActivity : AppCompatActivity() {
             val numColumns = 50
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
-                    values.add(SubcolumnValue(Math.random().toFloat() * 50f + 5, ChartUtils.pickColor()))
+                repeat(numSubcolumns) {
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 50f + 5,
+                            ChartUtils.pickColor()
+                        )
+                    )
                 }
 
                 columns.add(Column(values))
@@ -170,7 +182,6 @@ class PreviewColumnChartActivity : AppCompatActivity() {
                 // happens to often.
                 chart?.currentViewport = viewport
             }
-
         }
     }
 }

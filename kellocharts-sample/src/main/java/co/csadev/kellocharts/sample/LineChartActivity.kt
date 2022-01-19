@@ -19,7 +19,8 @@ class LineChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_line_chart)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -47,7 +48,11 @@ class LineChartActivity : AppCompatActivity() {
         private var hasLabelForSelected = false
         private var pointsHaveDifferentColor: Boolean = false
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             setHasOptionsMenu(true)
             val rootView = inflater.inflate(R.layout.fragment_line_chart, container, false)
 
@@ -135,14 +140,20 @@ class LineChartActivity : AppCompatActivity() {
             if (id == R.id.action_toggle_selection_mode) {
                 toggleLabelForSelected()
 
-                Toast.makeText(activity,
-                        "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
-                        Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
             if (id == R.id.action_toggle_touch_zoom) {
                 chart?.isZoomEnabled = chart?.isZoomEnabled != true
-                Toast.makeText(activity, "IsZoomEnabled " + chart?.isZoomEnabled, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "IsZoomEnabled " + chart?.isZoomEnabled,
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
             if (id == R.id.action_zoom_both) {
@@ -304,20 +315,17 @@ class LineChartActivity : AppCompatActivity() {
 
                     override fun onAnimationStarted() {
                         // TODO Auto-generated method stub
-
                     }
 
                     override fun onAnimationFinished() {
                         // Set max viewpirt and remove listener.
                         chart?.maximumViewport = v
                         chart?.setViewportAnimationListener(null)
-
                     }
                 })
                 // Set current viewpirt with animation;
                 chart?.setCurrentViewportWithAnimation(v)
             }
-
         }
 
         private fun toggleFilled() {
@@ -406,7 +414,6 @@ class LineChartActivity : AppCompatActivity() {
             }
 
             override fun onValueDeselected() = Unit
-
         }
     }
 }

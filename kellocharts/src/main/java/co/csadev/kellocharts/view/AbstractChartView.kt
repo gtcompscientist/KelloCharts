@@ -26,17 +26,20 @@ import co.csadev.kellocharts.util.ChartUtils
  *
  * @author Leszek Wach
  */
-abstract class AbstractChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr), Chart {
+abstract class AbstractChartView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr), Chart {
     override val chartComputator: ChartComputator = ChartComputator()
     override val axesRenderer: AxesRenderer = AxesRenderer(context, this)
     override var touchHandler: ChartTouchHandler = ChartTouchHandler(context, this)
     override var chartRenderer: ChartRenderer = InternalChartRendererBase(context, this)
         set(value) {
-            field=  value
+            field = value
             resetRendererAndTouchHandler()
             ViewCompat.postInvalidateOnAnimation(this)
         }
-
 
     var dataAnimator: ChartDataAnimator = ChartDataAnimatorV14(this)
     var viewportAnimator: ChartViewportAnimator = ChartViewportAnimatorV14(this)
@@ -46,13 +49,19 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
 
     override var isZoomEnabled: Boolean
         get() = touchHandler.isZoomEnabled
-        set(value) { touchHandler.isZoomEnabled = value }
+        set(value) {
+            touchHandler.isZoomEnabled = value
+        }
     override var isScrollEnabled: Boolean
         get() = touchHandler.isScrollEnabled
-        set(value) { touchHandler.isScrollEnabled = value }
+        set(value) {
+            touchHandler.isScrollEnabled = value
+        }
     override var zoomType: ZoomType?
         get() = touchHandler.zoomType
-        set(value) { touchHandler.zoomType = value }
+        set(value) {
+            touchHandler.zoomType = value
+        }
 
     override var maxZoom: Float
         get() = chartComputator.maxZoom
@@ -62,7 +71,10 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
         }
 
     override var zoomLevel: Float
-        get() = Math.max(maximumViewport.width() / currentViewport.width(), maximumViewport.height() / currentViewport.height())
+        get() = Math.max(
+            maximumViewport.width() / currentViewport.width(),
+            maximumViewport.height() / currentViewport.height()
+        )
         set(value) {
             currentViewport = computeZoomViewport(x, y, value)
         }
@@ -75,7 +87,9 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
 
     override var isValueTouchEnabled: Boolean
         get() = touchHandler.isValueTouchEnabled
-        set(value) { touchHandler.isValueTouchEnabled = value }
+        set(value) {
+            touchHandler.isValueTouchEnabled = value
+        }
 
     override var maximumViewport: Viewport
         get() = chartRenderer.maximumViewport
@@ -101,16 +115,22 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
 
     override var isViewportCalculationEnabled: Boolean
         get() = chartRenderer.isViewportCalculationEnabled
-        set(value) { chartRenderer.isViewportCalculationEnabled = value }
+        set(value) {
+            chartRenderer.isViewportCalculationEnabled = value
+        }
 
     override var isValueSelectionEnabled: Boolean
         get() = touchHandler.isValueSelectionEnabled
-        set(value) { touchHandler.isValueSelectionEnabled = value }
+        set(value) {
+            touchHandler.isValueSelectionEnabled = value
+        }
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHeight)
-        chartComputator.setContentRect(getWidth(), getHeight(), paddingLeft, paddingTop, paddingRight,
-                paddingBottom)
+        chartComputator.setContentRect(
+            getWidth(), getHeight(), paddingLeft, paddingTop, paddingRight,
+            paddingBottom
+        )
         chartRenderer.onChartSizeChanged()
         axesRenderer.onChartSizeChanged()
     }
@@ -136,11 +156,10 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
 
         if (isInteractive) {
 
-            val needInvalidate
-                    = if (isContainerScrollEnabled)
-                        touchHandler.handleTouchEvent(event, parent, containerScrollType)
-                    else
-                        touchHandler.handleTouchEvent(event)
+            val needInvalidate = if (isContainerScrollEnabled)
+                touchHandler.handleTouchEvent(event, parent, containerScrollType)
+            else
+                touchHandler.handleTouchEvent(event)
 
             if (needInvalidate) {
                 ViewCompat.postInvalidateOnAnimation(this)
@@ -279,7 +298,12 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
 
             val zoomType = zoomType
             when {
-                ZoomType.HORIZONTAL_AND_VERTICAL === zoomType -> zoomViewport.set(left, top, right, bottom)
+                ZoomType.HORIZONTAL_AND_VERTICAL === zoomType -> zoomViewport.set(
+                    left,
+                    top,
+                    right,
+                    bottom
+                )
                 ZoomType.HORIZONTAL === zoomType -> {
                     zoomViewport.left = left
                     zoomViewport.right = right
@@ -289,7 +313,6 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
                     zoomViewport.bottom = bottom
                 }
             }
-
         }
         return zoomViewport
     }
@@ -310,7 +333,10 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
         ViewCompat.postInvalidateOnAnimation(this)
     }
 
-    override fun setContainerScrollEnabled(isContainerScrollEnabled: Boolean, containerScrollType: ContainerScrollType) {
+    override fun setContainerScrollEnabled(
+        isContainerScrollEnabled: Boolean,
+        containerScrollType: ContainerScrollType
+    ) {
         this.isContainerScrollEnabled = isContainerScrollEnabled
         this.containerScrollType = containerScrollType
     }
@@ -333,7 +359,6 @@ abstract class AbstractChartView @JvmOverloads constructor(context: Context, att
      */
     protected fun resetRendererAndTouchHandler() {
         this.chartRenderer.resetRenderer()
-        this.axesRenderer.resetRenderer()
         this.touchHandler.resetTouchHandler()
     }
 

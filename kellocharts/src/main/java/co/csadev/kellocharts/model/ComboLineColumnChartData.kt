@@ -3,7 +3,10 @@ package co.csadev.kellocharts.model
 /**
  * Data model for combo line-column chart. It uses ColumnChartData and LineChartData internally.
  */
-class ComboLineColumnChartData(var columnChartData: ColumnChartData = ColumnChartData(), var lineChartData: LineChartData = LineChartData()) : AbstractChartData() {
+class ComboLineColumnChartData(
+    var columnChartData: ColumnChartData = ColumnChartData(),
+    var lineChartData: LineChartData = LineChartData()
+) : AbstractChartData() {
     override fun update(scale: Float) {
         columnChartData.update(scale)
         lineChartData.update(scale)
@@ -15,7 +18,14 @@ class ComboLineColumnChartData(var columnChartData: ColumnChartData = ColumnChar
     }
 
     companion object {
-        fun generateDummyData() = ComboLineColumnChartData(ColumnChartData.generateDummyData(), LineChartData.generateDummyData())
-        fun fromComboData(data: ComboLineColumnChartData) = ComboLineColumnChartData(data.columnChartData, data.lineChartData).withData(data) as ComboLineColumnChartData
+        fun generateDummyData() = ComboLineColumnChartData(
+            ColumnChartData.generateDummyData(),
+            LineChartData.generateDummyData()
+        )
+
+        fun fromComboData(data: ComboLineColumnChartData) = ComboLineColumnChartData(
+            data.columnChartData,
+            data.lineChartData
+        ).withData(data) as ComboLineColumnChartData
     }
 }

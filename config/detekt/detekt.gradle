@@ -1,0 +1,13 @@
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+detekt {
+    config = files("$projectDir/config/detekt/detekt.yml")
+    parallel = true
+    buildUponDefaultConfig = true
+    autoCorrect = false
+    source = files("$projectDir")
+}
+
+dependencies {
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0"
+}

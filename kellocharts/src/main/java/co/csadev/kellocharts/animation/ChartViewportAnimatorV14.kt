@@ -5,13 +5,15 @@ import android.animation.Animator.AnimatorListener
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.annotation.SuppressLint
-
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.view.Chart
 
 @SuppressLint("NewApi")
-class ChartViewportAnimatorV14(private val chart: Chart) : ChartViewportAnimator, AnimatorListener, AnimatorUpdateListener {
+class ChartViewportAnimatorV14(private val chart: Chart) :
+    ChartViewportAnimator,
+    AnimatorListener,
+    AnimatorUpdateListener {
     private val animator: ValueAnimator = ValueAnimator.ofFloat(0.0f, 1.0f)
     private val startViewport = Viewport()
     private val targetViewport = Viewport()
@@ -51,7 +53,12 @@ class ChartViewportAnimatorV14(private val chart: Chart) : ChartViewportAnimator
         val diffTop = (targetViewport.top - startViewport.top) * scale
         val diffRight = (targetViewport.right - startViewport.right) * scale
         val diffBottom = (targetViewport.bottom - startViewport.bottom) * scale
-        newViewport.set(startViewport.left + diffLeft, startViewport.top + diffTop, startViewport.right + diffRight, startViewport.bottom + diffBottom)
+        newViewport.set(
+            startViewport.left + diffLeft,
+            startViewport.top + diffTop,
+            startViewport.right + diffRight,
+            startViewport.bottom + diffBottom
+        )
         chart.currentViewport = newViewport
     }
 
@@ -71,5 +78,4 @@ class ChartViewportAnimatorV14(private val chart: Chart) : ChartViewportAnimator
     override fun setChartAnimationListener(animationListener: ChartAnimationListener?) {
         this.animationListener = animationListener
     }
-
 }

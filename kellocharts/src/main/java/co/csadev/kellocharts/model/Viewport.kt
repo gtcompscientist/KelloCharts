@@ -10,7 +10,12 @@ import android.os.Parcelable
  * Note: most methods do not check to see that the coordinates are sorted correctly (i.e. left is less than right and
  * bottom is less than top). Viewport implements Parcerable.
  */
-class Viewport(var left: Float = 0f, var top: Float = 0f, var right: Float = 0f, var bottom: Float = 0f) : Parcelable {
+class Viewport(
+    var left: Float = 0f,
+    var top: Float = 0f,
+    var right: Float = 0f,
+    var bottom: Float = 0f
+) : Parcelable {
 
     /**
      * Returns true if the viewport is empty `left >= right or bottom >= top`
@@ -130,9 +135,11 @@ class Viewport(var left: Float = 0f, var top: Float = 0f, var right: Float = 0f,
      * y < bottom`
      */
     fun contains(x: Float, y: Float): Boolean {
-        return (left < right && bottom < top // check for empty first
+        return (
+            left < right && bottom < top && // check for empty first
 
-                && x >= left && x < right && y >= bottom && y < top)
+                x >= left && x < right && y >= bottom && y < top
+            )
     }
 
     /**
@@ -147,9 +154,11 @@ class Viewport(var left: Float = 0f, var top: Float = 0f, var right: Float = 0f,
      */
     fun contains(left: Float, top: Float, right: Float, bottom: Float): Boolean {
         // check for empty first
-        return (this.left < this.right && this.bottom < this.top
+        return (
+            this.left < this.right && this.bottom < this.top &&
                 // now check for containment
-                && this.left <= left && this.top >= top && this.right >= right && this.bottom <= bottom)
+                this.left <= left && this.top >= top && this.right >= right && this.bottom <= bottom
+            )
     }
 
     /**
@@ -161,9 +170,11 @@ class Viewport(var left: Float = 0f, var top: Float = 0f, var right: Float = 0f,
      */
     operator fun contains(v: Viewport): Boolean {
         // check for empty first
-        return (this.left < this.right && this.bottom < this.top
+        return (
+            this.left < this.right && this.bottom < this.top &&
                 // now check for containment
-                && left <= v.left && top >= v.top && right >= v.right && bottom <= v.bottom)
+                left <= v.left && top >= v.top && right >= v.right && bottom <= v.bottom
+            )
     }
 
     /**
@@ -327,7 +338,12 @@ class Viewport(var left: Float = 0f, var top: Float = 0f, var right: Float = 0f,
  * @param right  The X coordinate of the right side of the viewport
  * @param bottom The Y coordinate of the bottom of the viewport
  */
-fun Viewport?.set(left: Float? = this?.left ?: 0f, top: Float? = this?.top ?: 0f, right: Float? = this?.right ?: 0f, bottom: Float? = this?.bottom ?: 0f) : Viewport {
+fun Viewport?.set(
+    left: Float? = this?.left ?: 0f,
+    top: Float? = this?.top ?: 0f,
+    right: Float? = this?.right ?: 0f,
+    bottom: Float? = this?.bottom ?: 0f
+): Viewport {
     val v = this ?: Viewport()
     v.left = left ?: v.left
     v.top = top ?: v.top
@@ -341,7 +357,7 @@ fun Viewport?.set(left: Float? = this?.left ?: 0f, top: Float? = this?.top ?: 0f
  *
  * @param src The viewport whose coordinates are copied into this viewport.
  */
-fun Viewport?.set(src: Viewport? = Viewport()) : Viewport {
+fun Viewport?.set(src: Viewport? = Viewport()): Viewport {
     val v = this ?: Viewport()
     v.left = src?.left ?: v.left
     v.top = src?.top ?: v.left
@@ -351,4 +367,3 @@ fun Viewport?.set(src: Viewport? = Viewport()) : Viewport {
 }
 
 fun Viewport?.copy() = if (this == null) Viewport() else Viewport(left, top, right, bottom)
-

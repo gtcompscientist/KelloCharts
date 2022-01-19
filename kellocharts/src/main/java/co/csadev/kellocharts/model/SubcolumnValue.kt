@@ -7,10 +7,14 @@ import java.util.*
 /**
  * Single sub-column value for ColumnChart.
  */
-class SubcolumnValue(value: Float = 0f, color: Int = ChartUtils.DEFAULT_COLOR, var label: CharArray? = null) {
+class SubcolumnValue(
+    value: Float = 0f,
+    color: Int = ChartUtils.DEFAULT_COLOR,
+    var label: CharArray? = null
+) {
 
     var value: Float = value
-        set (value) {
+        set(value) {
             field = value
             this.originValue = value
             this.diff = 0f
@@ -18,7 +22,7 @@ class SubcolumnValue(value: Float = 0f, color: Int = ChartUtils.DEFAULT_COLOR, v
     private var originValue: Float = 0.toFloat()
     private var diff: Float = 0.toFloat()
     var color: Int = color
-        set (value) {
+        set(value) {
             field = value
             this.darkenColor = ChartUtils.darkenColor(field)
         }
@@ -61,12 +65,12 @@ class SubcolumnValue(value: Float = 0f, color: Int = ChartUtils.DEFAULT_COLOR, v
         if (java.lang.Float.compare(that.originValue, originValue) != 0) return false
         if (java.lang.Float.compare(that.value, value) != 0) return false
         return Arrays.equals(label, that.label)
-
     }
 
     override fun hashCode(): Int {
         var result = if (value != +0.0f) java.lang.Float.floatToIntBits(value) else 0
-        result = 31 * result + if (originValue != +0.0f) java.lang.Float.floatToIntBits(originValue) else 0
+        result =
+            31 * result + if (originValue != +0.0f) java.lang.Float.floatToIntBits(originValue) else 0
         result = 31 * result + if (diff != +0.0f) java.lang.Float.floatToIntBits(diff) else 0
         result = 31 * result + color
         result = 31 * result + darkenColor

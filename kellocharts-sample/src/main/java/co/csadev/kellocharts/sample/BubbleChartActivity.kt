@@ -23,7 +23,8 @@ class BubbleChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bubble_chart)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -46,7 +47,11 @@ class BubbleChartActivity : AppCompatActivity() {
                 return sign[random().toFloat().roundToInt()]
             }
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             setHasOptionsMenu(true)
             val rootView = inflater.inflate(R.layout.fragment_bubble_chart, container, false)
 
@@ -96,14 +101,20 @@ class BubbleChartActivity : AppCompatActivity() {
             }
             if (id == R.id.action_toggle_selection_mode) {
                 toggleLabelForSelected()
-                Toast.makeText(activity,
-                        "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
-                        Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
             if (id == R.id.action_toggle_touch_zoom) {
                 chart?.isZoomEnabled = chart?.isZoomEnabled != true
-                Toast.makeText(activity, "IsZoomEnabled " + chart?.isZoomEnabled, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "IsZoomEnabled " + chart?.isZoomEnabled,
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
             if (id == R.id.action_zoom_both) {
@@ -135,7 +146,8 @@ class BubbleChartActivity : AppCompatActivity() {
 
             val values = ArrayList<BubbleValue>()
             for (i in 0 until BUBBLES_NUM) {
-                val value = BubbleValue(i.toFloat(), random().toFloat() * 100, random().toFloat() * 1000)
+                val value =
+                    BubbleValue(i.toFloat(), random().toFloat() * 100, random().toFloat() * 1000)
                 value.color = ChartUtils.pickColor()
                 value.shape = shape
                 values.add(value)
@@ -214,8 +226,10 @@ class BubbleChartActivity : AppCompatActivity() {
          */
         private fun prepareDataAnimation() {
             data?.values?.forEach {
-                it.setTarget(it.x + random().toFloat() * 4f * sign.toFloat(), random().toFloat() * 100,
-                        random().toFloat() * 1000)
+                it.setTarget(
+                    it.x + random().toFloat() * 4f * sign.toFloat(), random().toFloat() * 100,
+                    random().toFloat() * 1000
+                )
             }
         }
 

@@ -18,9 +18,14 @@ import co.csadev.kellocharts.renderer.PreviewColumnChartRenderer
  *
  * @author Leszek Wach
  */
-class PreviewColumnChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ColumnChartView(context, attrs, defStyle) {
+class PreviewColumnChartView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ColumnChartView(context, attrs, defStyle) {
     override val chartComputator: ChartComputator = PreviewChartComputator()
-    protected var previewChartRenderer: PreviewColumnChartRenderer = PreviewColumnChartRenderer(context, this, this)
+    protected var previewChartRenderer: PreviewColumnChartRenderer =
+        PreviewColumnChartRenderer(context, this, this)
 
     var previewColor: Int
         get() = previewChartRenderer.previewColor

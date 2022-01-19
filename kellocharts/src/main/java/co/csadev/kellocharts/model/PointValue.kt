@@ -68,7 +68,6 @@ class PointValue(x: Float = 0f, y: Float = 0f, var label: CharArray? = null) {
         if (that.x.compareTo(x) != 0) return false
         if (that.y.compareTo(y) != 0) return false
         return Arrays.equals(label, that.label)
-
     }
 
     override fun hashCode(): Int {

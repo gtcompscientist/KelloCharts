@@ -3,7 +3,11 @@ package co.csadev.kellocharts.model
 /**
  * Holds selected values indexes, i.e. for LineChartModel it will be firstIndex=lineIndex; secondIndex=valueIndex.
  */
-class SelectedValue(var firstIndex: Int = 0, var secondIndex: Int = 0, var type: SelectedValueType? = SelectedValueType.NONE) {
+class SelectedValue(
+    var firstIndex: Int = 0,
+    var secondIndex: Int = 0,
+    var type: SelectedValueType? = SelectedValueType.NONE
+) {
 
     /**
      * Return true if selected value have meaningful value.
@@ -65,5 +69,4 @@ class SelectedValue(var firstIndex: Int = 0, var secondIndex: Int = 0, var type:
     enum class SelectedValueType {
         NONE, LINE, COLUMN
     }
-
 }

@@ -12,7 +12,11 @@ import co.csadev.kellocharts.view.Chart
  * Renderer for preview chart based on ColumnChart. In addition to drawing chart data it also draw current viewport as
  * preview area.
  */
-class PreviewColumnChartRenderer(context: Context, chart: Chart, dataProvider: ColumnChartDataProvider) : ColumnChartRenderer(context, chart, dataProvider) {
+class PreviewColumnChartRenderer(
+    context: Context,
+    chart: Chart,
+    dataProvider: ColumnChartDataProvider
+) : ColumnChartRenderer(context, chart, dataProvider) {
 
     private val previewPaint = Paint()
 
@@ -25,7 +29,8 @@ class PreviewColumnChartRenderer(context: Context, chart: Chart, dataProvider: C
     init {
         previewPaint.isAntiAlias = true
         previewPaint.color = Color.LTGRAY
-        previewPaint.strokeWidth = ChartUtils.dp2px(density, DEFAULT_PREVIEW_STROKE_WIDTH_DP).toFloat()
+        previewPaint.strokeWidth =
+            ChartUtils.dp2px(density, DEFAULT_PREVIEW_STROKE_WIDTH_DP).toFloat()
     }
 
     override fun drawUnclipped(canvas: Canvas) {
@@ -48,5 +53,4 @@ class PreviewColumnChartRenderer(context: Context, chart: Chart, dataProvider: C
         private val FULL_ALPHA = 255
         private val DEFAULT_PREVIEW_STROKE_WIDTH_DP = 2
     }
-
 }

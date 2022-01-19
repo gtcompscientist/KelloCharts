@@ -7,7 +7,7 @@ import co.csadev.kellocharts.util.ChartUtils
 annotation class AxisValueDsl
 
 @AxisValueDsl
-class AXISVALUES: ArrayList<AxisValue>() {
+class AXISVALUES : ArrayList<AxisValue>() {
     fun axis(block: AxisValue.() -> Unit) {
         add(AxisValue().apply(block))
     }
@@ -27,8 +27,9 @@ class BubbleValueBuilder {
 
     fun build() = BubbleValue(x, y, z, color, label, shape)
 }
+
 @BubbleValueDsl
-class BUBBLEVALUES: ArrayList<BubbleValue>() {
+class BUBBLEVALUES : ArrayList<BubbleValue>() {
     fun bubble(block: BubbleValueBuilder.() -> Unit) {
         add(BubbleValueBuilder().apply(block).build())
     }
@@ -45,8 +46,9 @@ class PointValueBuilder {
 
     fun build() = PointValue(x, y, label)
 }
+
 @PointValueDsl
-class POINTVALUES: ArrayList<PointValue>() {
+class POINTVALUES : ArrayList<PointValue>() {
     fun point(block: PointValueBuilder.() -> Unit) {
         add(PointValueBuilder().apply(block).build())
     }
@@ -56,7 +58,7 @@ class POINTVALUES: ArrayList<PointValue>() {
 annotation class SelectedValueDsl
 
 @SelectedValueDsl
-class SELECTEDVALUES: ArrayList<SelectedValue>() {
+class SELECTEDVALUES : ArrayList<SelectedValue>() {
     fun point(block: SelectedValue.() -> Unit) {
         add(SelectedValue().apply(block))
     }
@@ -66,8 +68,9 @@ class SELECTEDVALUES: ArrayList<SelectedValue>() {
 annotation class SliceValueDsl
 
 fun sliceValue(block: SliceValue.() -> Unit): SliceValue = SliceValue().apply(block)
+
 @SliceValueDsl
-class SLICEVALUES: ArrayList<SliceValue>() {
+class SLICEVALUES : ArrayList<SliceValue>() {
     fun slice(block: SliceValue.() -> Unit) {
         add(SliceValue().apply(block))
     }
@@ -77,7 +80,7 @@ class SLICEVALUES: ArrayList<SliceValue>() {
 annotation class SubcolumnValueDsl
 
 @SubcolumnValueDsl
-class SUBCOLUMNVALUES: ArrayList<SubcolumnValue>() {
+class SUBCOLUMNVALUES : ArrayList<SubcolumnValue>() {
     fun subcolumn(block: SubcolumnValue.() -> Unit) {
         add(SubcolumnValue().apply(block))
     }

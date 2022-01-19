@@ -3,7 +3,6 @@ package co.csadev.kellocharts.computator
 import android.graphics.Point
 import android.graphics.PointF
 import android.graphics.Rect
-
 import co.csadev.kellocharts.listener.DummyViewportChangeListener
 import co.csadev.kellocharts.listener.ViewportChangeListener
 import co.csadev.kellocharts.model.Viewport
@@ -27,7 +26,7 @@ open class ChartComputator {
         protected set
     var chartHeight: Int = 0
         protected set
-    //contentRectMinusAllMargins <= contentRectMinusAxesMargins <= maxContentRect
+    // contentRectMinusAllMargins <= contentRectMinusAxesMargins <= maxContentRect
     /**
      * Returns content rectangle in pixels.
      *
@@ -35,6 +34,7 @@ open class ChartComputator {
      */
     var contentRectMinusAllMargins = Rect()
         protected set
+
     /**
      * Returns content rectangle with chart internal margins, for example for LineChart contentRectMinusAxesMargins is
      * bigger
@@ -45,6 +45,7 @@ open class ChartComputator {
     var contentRectMinusAxesMargins = Rect()
         protected set
     protected var maxContentRect = Rect()
+
     /**
      * This rectangle represents the currently visible chart values ranges. The currently visible chart X values are
      * from this rectangle's left to its right. The currently visible chart Y values are from this rectangle's top to
@@ -54,6 +55,7 @@ open class ChartComputator {
         set(value) {
             constrainViewport(value.left, value.top, value.right, value.bottom)
         }
+
     /**
      * Returns maximum viewport - values ranges extremes.
      */
@@ -63,6 +65,7 @@ open class ChartComputator {
         protected set
     var minimumViewportHeight: Float = 0.toFloat()
         protected set
+
     /**
      * Warning! Viewport listener is disabled for all charts beside preview charts to avoid additional method calls
      * during animations.
@@ -77,14 +80,22 @@ open class ChartComputator {
      */
     open var visibleViewport: Viewport
         get() = currentViewport
-        set(visibleViewport) { currentViewport = visibleViewport }
+        set(visibleViewport) {
+            currentViewport = visibleViewport
+        }
 
     /**
      * Calculates available width and height. Should be called when chart dimensions change. ContentRect is relative to
      * chart view not the device's screen.
      */
-    fun setContentRect(width: Int, height: Int, paddingLeft: Int, paddingTop: Int, paddingRight: Int,
-                       paddingBottom: Int) {
+    fun setContentRect(
+        width: Int,
+        height: Int,
+        paddingLeft: Int,
+        paddingTop: Int,
+        paddingRight: Int,
+        paddingBottom: Int
+    ) {
         chartWidth = width
         chartHeight = height
         maxContentRect.set(paddingLeft, paddingTop, width - paddingRight, height - paddingBottom)
@@ -106,7 +117,12 @@ open class ChartComputator {
         insetContentRectByInternalMargins(deltaLeft, deltaTop, deltaRight, deltaBottom)
     }
 
-    fun insetContentRectByInternalMargins(deltaLeft: Int, deltaTop: Int, deltaRight: Int, deltaBottom: Int) {
+    fun insetContentRectByInternalMargins(
+        deltaLeft: Int,
+        deltaTop: Int,
+        deltaRight: Int,
+        deltaBottom: Int
+    ) {
         contentRectMinusAllMargins.left = contentRectMinusAllMargins.left + deltaLeft
         contentRectMinusAllMargins.top = contentRectMinusAllMargins.top + deltaTop
         contentRectMinusAllMargins.right = contentRectMinusAllMargins.right - deltaRight
@@ -179,7 +195,8 @@ open class ChartComputator {
     open fun computeRawX(valueX: Float): Float {
         // TODO: (contentRectMinusAllMargins.width() / currentViewport.width()) can be recalculated only when viewport
         // change.
-        val pixelOffset = (valueX - currentViewport.left) * (contentRectMinusAllMargins.width() / currentViewport.width())
+        val pixelOffset =
+            (valueX - currentViewport.left) * (contentRectMinusAllMargins.width() / currentViewport.width())
         return contentRectMinusAllMargins.left + pixelOffset
     }
 
@@ -189,7 +206,8 @@ open class ChartComputator {
      * 0 that means top most pixel of the screen.
      */
     open fun computeRawY(valueY: Float): Float {
-        val pixelOffset = (valueY - currentViewport.bottom) * (contentRectMinusAllMargins.height() / currentViewport.height())
+        val pixelOffset =
+            (valueY - currentViewport.bottom) * (contentRectMinusAllMargins.height() / currentViewport.height())
         return contentRectMinusAllMargins.bottom - pixelOffset
     }
 
@@ -219,8 +237,10 @@ open class ChartComputator {
         if (!contentRectMinusAllMargins.contains(x.toInt(), y.toInt())) {
             return false
         }
-        dest.set(currentViewport.left + (x - contentRectMinusAllMargins.left) * currentViewport.width() / contentRectMinusAllMargins.width(),
-                currentViewport.bottom + (y - contentRectMinusAllMargins.bottom) * currentViewport.height() / -contentRectMinusAllMargins.height())
+        dest.set(
+            currentViewport.left + (x - contentRectMinusAllMargins.left) * currentViewport.width() / contentRectMinusAllMargins.width(),
+            currentViewport.bottom + (y - contentRectMinusAllMargins.bottom) * currentViewport.height() / -contentRectMinusAllMargins.height()
+        )
         return true
     }
 
@@ -231,8 +251,10 @@ open class ChartComputator {
      * returned size will be twice as large horizontally and vertically.
      */
     fun computeScrollSurfaceSize(out: Point) {
-        out.set((maximumViewport.width() * contentRectMinusAllMargins.width() / currentViewport.width()).toInt(),
-                (maximumViewport.height() * contentRectMinusAllMargins.height() / currentViewport.height()).toInt())
+        out.set(
+            (maximumViewport.width() * contentRectMinusAllMargins.width() / currentViewport.width()).toInt(),
+            (maximumViewport.height() * contentRectMinusAllMargins.height() / currentViewport.height()).toInt()
+        )
     }
 
     /**
@@ -275,5 +297,4 @@ open class ChartComputator {
          */
         protected const val DEFAULT_MAXIMUM_ZOOM = 20f
     }
-
 }

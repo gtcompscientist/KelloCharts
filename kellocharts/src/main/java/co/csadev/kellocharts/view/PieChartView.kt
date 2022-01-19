@@ -27,7 +27,11 @@ import co.csadev.kellocharts.renderer.PieChartRenderer
  *
  * @author Leszek Wach
  */
-class PieChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AbstractChartView(context, attrs, defStyle), PieChartDataProvider {
+class PieChartView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AbstractChartView(context, attrs, defStyle), PieChartDataProvider {
     var onValueTouchListener: PieChartOnValueSelectListener = DummyPieChartOnValueSelectListener()
     protected var pieChartRenderer: PieChartRenderer = PieChartRenderer(context, this, this)
     protected var rotationAnimator: PieChartRotationAnimator
@@ -120,7 +124,10 @@ class PieChartView @JvmOverloads constructor(context: Context, attrs: AttributeS
     fun setChartRotation(rotation: Int, isAnimated: Boolean) {
         if (isAnimated) {
             rotationAnimator.cancelAnimation()
-            rotationAnimator.startAnimation(pieChartRenderer.chartRotation.toFloat(), rotation.toFloat())
+            rotationAnimator.startAnimation(
+                pieChartRenderer.chartRotation.toFloat(),
+                rotation.toFloat()
+            )
         } else {
             pieChartRenderer.chartRotation = rotation
         }

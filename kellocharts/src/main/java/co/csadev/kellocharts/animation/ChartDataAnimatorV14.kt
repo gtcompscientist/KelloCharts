@@ -6,7 +6,10 @@ import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
 import co.csadev.kellocharts.view.Chart
 
-class ChartDataAnimatorV14(private val chart: Chart) : ChartDataAnimator, AnimatorListener, AnimatorUpdateListener {
+class ChartDataAnimatorV14(private val chart: Chart) :
+    ChartDataAnimator,
+    AnimatorListener,
+    AnimatorUpdateListener {
     private val animator: ValueAnimator = ValueAnimator.ofFloat(0.0f, 1.0f)
     private var animationListener: ChartAnimationListener? = DummyChartAnimationListener()
 
@@ -29,7 +32,8 @@ class ChartDataAnimatorV14(private val chart: Chart) : ChartDataAnimator, Animat
 
     override fun cancelAnimation() = animator.cancel()
 
-    override fun onAnimationUpdate(animation: ValueAnimator) = chart.animationDataUpdate(animation.animatedFraction)
+    override fun onAnimationUpdate(animation: ValueAnimator) =
+        chart.animationDataUpdate(animation.animatedFraction)
 
     override fun onAnimationCancel(animation: Animator) = Unit
 
@@ -47,5 +51,4 @@ class ChartDataAnimatorV14(private val chart: Chart) : ChartDataAnimator, Animat
     override fun setChartAnimationListener(animationListener: ChartAnimationListener?) {
         this.animationListener = animationListener
     }
-
 }

@@ -16,7 +16,10 @@ buildscript {
 
 plugins {
     id 'maven-publish'
+    id "io.gitlab.arturbosch.detekt" version "1.19.0"
 }
+
+apply from: file('config/detekt/detekt.gradle')
 
 allprojects {
     repositories {

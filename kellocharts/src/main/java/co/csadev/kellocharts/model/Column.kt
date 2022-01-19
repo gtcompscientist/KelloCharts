@@ -11,7 +11,12 @@ import java.util.*
  * column index is used as column X value, so first column has X value 0, second clumn has X value 1 etc.
  * If you want to display AxisValue for given column you should initialize AxisValue with X value of that column.
  */
-class Column(var values: MutableList<SubcolumnValue> = ArrayList(), hasLabels: Boolean = false, hasLabelsOnlyForSelected: Boolean = false, var formatter: ColumnChartValueFormatter = SimpleColumnChartValueFormatter()) {
+class Column(
+    var values: MutableList<SubcolumnValue> = ArrayList(),
+    hasLabels: Boolean = false,
+    hasLabelsOnlyForSelected: Boolean = false,
+    var formatter: ColumnChartValueFormatter = SimpleColumnChartValueFormatter()
+) {
     var hasLabels: Boolean = hasLabels
         set(value) {
             field = value
@@ -28,5 +33,10 @@ class Column(var values: MutableList<SubcolumnValue> = ArrayList(), hasLabels: B
 
     fun finish() = values.forEach { it.finish() }
 
-    fun copy() = Column(values.map { it.copy() }.toMutableList(), hasLabels, hasLabelsOnlyForSelected, formatter)
+    fun copy() = Column(
+        values.map { it.copy() }.toMutableList(),
+        hasLabels,
+        hasLabelsOnlyForSelected,
+        formatter
+    )
 }

@@ -5,7 +5,12 @@ import co.csadev.kellocharts.util.FloatUtils
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
-class ValueFormatterHelper(var decimalDigitsNumber: Int = Int.MIN_VALUE, var appendedText: CharArray = CharArray(0), var prependedText: CharArray = CharArray(0), var decimalSeparator: Char = '.') {
+class ValueFormatterHelper(
+    var decimalDigitsNumber: Int = Int.MIN_VALUE,
+    var appendedText: CharArray = CharArray(0),
+    var prependedText: CharArray = CharArray(0),
+    var decimalSeparator: Char = '.'
+) {
 
     fun determineDecimalSeparator() {
         val numberFormat = NumberFormat.getInstance()
@@ -31,16 +36,30 @@ class ValueFormatterHelper(var decimalDigitsNumber: Int = Int.MIN_VALUE, var app
      * method [.setDecimalDigitsNumber].
      */
     @JvmOverloads
-    fun formatFloatValueWithPrependedAndAppendedText(formattedValue: CharArray, value: Float, defaultDigitsNumber: Int, label: CharArray? = null): Int {
+    fun formatFloatValueWithPrependedAndAppendedText(
+        formattedValue: CharArray,
+        value: Float,
+        defaultDigitsNumber: Int,
+        label: CharArray? = null
+    ): Int {
         if (null != label) {
             // If custom label is not null use only name characters as formatted value.
             // Copy label into formatted value array.
             var labelLength = label.size
             if (labelLength > formattedValue.size) {
-                Log.w(TAG, "Label length is larger than buffer size(64chars), some chars will be skipped!")
+                Log.w(
+                    TAG,
+                    "Label length is larger than buffer size(64chars), some chars will be skipped!"
+                )
                 labelLength = formattedValue.size
             }
-            System.arraycopy(label, 0, formattedValue, formattedValue.size - labelLength, labelLength)
+            System.arraycopy(
+                label,
+                0,
+                formattedValue,
+                formattedValue.size - labelLength,
+                labelLength
+            )
             return labelLength
         }
 
@@ -54,34 +73,53 @@ class ValueFormatterHelper(var decimalDigitsNumber: Int = Int.MIN_VALUE, var app
     /**
      * @see .formatFloatValueWithPrependedAndAppendedText
      */
-    fun formatFloatValueWithPrependedAndAppendedText(formattedValue: CharArray, value: Float, label: CharArray?): Int {
-        return formatFloatValueWithPrependedAndAppendedText(formattedValue, value, DEFAULT_DIGITS_NUMBER, label)
+    fun formatFloatValueWithPrependedAndAppendedText(
+        formattedValue: CharArray,
+        value: Float,
+        label: CharArray?
+    ): Int {
+        return formatFloatValueWithPrependedAndAppendedText(
+            formattedValue,
+            value,
+            DEFAULT_DIGITS_NUMBER,
+            label
+        )
     }
 
     fun formatFloatValue(formattedValue: CharArray, value: Float, decimalDigitsNumber: Int): Int {
-        return FloatUtils.formatFloat(formattedValue, value, formattedValue.size - appendedText.size,
-                decimalDigitsNumber,
-                decimalSeparator)
+        return FloatUtils.formatFloat(
+            formattedValue, value, formattedValue.size - appendedText.size,
+            decimalDigitsNumber,
+            decimalSeparator
+        )
     }
 
     fun appendText(formattedValue: CharArray) {
         if (appendedText.isNotEmpty()) {
-            System.arraycopy(appendedText, 0, formattedValue, formattedValue.size - appendedText.size,
-                    appendedText.size)
+            System.arraycopy(
+                appendedText, 0, formattedValue, formattedValue.size - appendedText.size,
+                appendedText.size
+            )
         }
     }
 
     fun prependText(formattedValue: CharArray, charsNumber: Int) {
         if (prependedText.isNotEmpty()) {
-            System.arraycopy(prependedText, 0, formattedValue, formattedValue.size - charsNumber - appendedText.size
-                    - prependedText.size, prependedText.size)
+            System.arraycopy(
+                prependedText,
+                0,
+                formattedValue,
+                formattedValue.size - charsNumber - appendedText.size -
+                    prependedText.size,
+                prependedText.size
+            )
         }
     }
 
     fun getAppliedDecimalDigitsNumber(defaultDigitsNumber: Int): Int {
         val appliedDecimalDigitsNumber: Int
         if (decimalDigitsNumber < 0) {
-            //When decimalDigitsNumber < 0 that means that user didn't set that value and defaultDigitsNumber should
+            // When decimalDigitsNumber < 0 that means that user didn't set that value and defaultDigitsNumber should
             // be used.
             appliedDecimalDigitsNumber = defaultDigitsNumber
         } else {
@@ -94,7 +132,6 @@ class ValueFormatterHelper(var decimalDigitsNumber: Int = Int.MIN_VALUE, var app
         val DEFAULT_DIGITS_NUMBER = 0
         private val TAG = "ValueFormatterHelper"
     }
-
 }
 /**
  * @see .formatFloatValueWithPrependedAndAppendedText

@@ -18,9 +18,14 @@ import co.csadev.kellocharts.renderer.PreviewLineChartRenderer
  *
  * @author Leszek Wach
  */
-class PreviewLineChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : LineChartView(context, attrs, defStyle) {
+class PreviewLineChartView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : LineChartView(context, attrs, defStyle) {
     override val chartComputator: ChartComputator = PreviewChartComputator()
-    protected var previewChartRenderer: PreviewLineChartRenderer = PreviewLineChartRenderer(context, this, this)
+    protected var previewChartRenderer: PreviewLineChartRenderer =
+        PreviewLineChartRenderer(context, this, this)
 
     var previewColor: Int
         get() = previewChartRenderer.previewColor

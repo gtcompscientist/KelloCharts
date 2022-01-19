@@ -16,7 +16,11 @@ import co.csadev.kellocharts.view.Chart
  * Default renderer for PieChart. PieChart doesn't use viewport concept so it a little different than others chart
  * types.
  */
-class PieChartRenderer(context: Context, chart: Chart, private val dataProvider: PieChartDataProvider) : AbstractChartRenderer(context, chart) {
+class PieChartRenderer(
+    context: Context,
+    chart: Chart,
+    private val dataProvider: PieChartDataProvider
+) : AbstractChartRenderer(context, chart) {
     var chartRotation = DEFAULT_START_ROTATION
         set(rotation) {
             var rotation = rotation
@@ -46,12 +50,15 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
     private var hasCenterCircle: Boolean = false
     private var centerCircleScale: Float = 0.toFloat()
     private val centerCirclePaint = Paint()
+
     // Text1
     private val centerCircleText1Paint = Paint()
     private val centerCircleText1FontMetrics = FontMetricsInt()
+
     // Text2
     private val centerCircleText2Paint = Paint()
     private val centerCircleText2FontMetrics = FontMetricsInt()
+
     // Separation lines
     private val separationLinesPaint = Paint()
 
@@ -91,8 +98,10 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
         calculateCircleOval()
 
         if (computator.chartWidth > 0 && computator.chartHeight > 0) {
-            softwareBitmap = Bitmap.createBitmap(computator.chartWidth, computator.chartHeight,
-                    Bitmap.Config.ARGB_8888)
+            softwareBitmap = Bitmap.createBitmap(
+                computator.chartWidth, computator.chartHeight,
+                Bitmap.Config.ARGB_8888
+            )
             softwareCanvas.setBitmap(softwareBitmap)
         }
     }
@@ -110,13 +119,15 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
         if (null != data.centerText1Typeface) {
             centerCircleText1Paint.typeface = data.centerText1Typeface
         }
-        centerCircleText1Paint.textSize = ChartUtils.sp2px(scaledDensity, data.centerText1FontSize).toFloat()
+        centerCircleText1Paint.textSize =
+            ChartUtils.sp2px(scaledDensity, data.centerText1FontSize).toFloat()
         centerCircleText1Paint.color = data.centerText1Color
         centerCircleText1Paint.getFontMetricsInt(centerCircleText1FontMetrics)
         if (null != data.centerText2Typeface) {
             centerCircleText2Paint.typeface = data.centerText2Typeface
         }
-        centerCircleText2Paint.textSize = ChartUtils.sp2px(scaledDensity, data.centerText2FontSize).toFloat()
+        centerCircleText2Paint.textSize =
+            ChartUtils.sp2px(scaledDensity, data.centerText2FontSize).toFloat()
         centerCircleText2Paint.color = data.centerText2Color
         centerCircleText2Paint.getFontMetricsInt(centerCircleText2FontMetrics)
 
@@ -176,7 +187,8 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
         // Get touchAngle and align touch 0 degrees with chart 0 degrees, that why I subtracting start angle,
         // adding 360
         // and modulo 360 translates i.e -20 degrees to 340 degrees.
-        val touchAngle = (pointToAngle(touchX, touchY, centerX, centerY) - chartRotation + 360f) % 360f
+        val touchAngle =
+            (pointToAngle(touchX, touchY, centerX, centerY) - chartRotation + 360f) % 360f
         val sliceScale = 360f / maxSum
         var lastAngle = 0f // No start angle here, see above
         var sliceIndex = 0
@@ -211,10 +223,25 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
             if (!TextUtils.isEmpty(data.centerText2)) {
                 // Draw text 2 only if text 1 is not empty.
                 val text2Height = Math.abs(centerCircleText2FontMetrics.ascent)
-                canvas.drawText(data.centerText1!!, centerX, centerY - text1Height * 0.2f, centerCircleText1Paint)
-                canvas.drawText(data.centerText2!!, centerX, centerY + text2Height, centerCircleText2Paint)
+                canvas.drawText(
+                    data.centerText1!!,
+                    centerX,
+                    centerY - text1Height * 0.2f,
+                    centerCircleText1Paint
+                )
+                canvas.drawText(
+                    data.centerText2!!,
+                    centerX,
+                    centerY + text2Height,
+                    centerCircleText2Paint
+                )
             } else {
-                canvas.drawText(data.centerText1!!, centerX, centerY + text1Height / 4, centerCircleText1Paint)
+                canvas.drawText(
+                    data.centerText1!!,
+                    centerX,
+                    centerY + text1Height / 4,
+                    centerCircleText1Paint
+                )
             }
         }
     }
@@ -246,12 +273,12 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
     private fun drawSeparationLines(canvas: Canvas) {
         val data = dataProvider.pieChartData
         if (data.values.size < 2) {
-            //No need for separation lines for 0 or 1 slices.
+            // No need for separation lines for 0 or 1 slices.
             return
         }
         val sliceSpacing = ChartUtils.dp2px(density, data.sliceSpacing)
         if (sliceSpacing < 1) {
-            //No need for separation lines
+            // No need for separation lines
             return
         }
         val sliceScale = 360f / maxSum
@@ -261,14 +288,22 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
         for (sliceValue in data.values) {
             val angle = Math.abs(sliceValue.value) * sliceScale
 
-            sliceVector.set(Math.cos(Math.toRadians(lastAngle.toDouble())).toFloat(),
-                    Math.sin(Math.toRadians(lastAngle.toDouble())).toFloat())
+            sliceVector.set(
+                Math.cos(Math.toRadians(lastAngle.toDouble())).toFloat(),
+                Math.sin(Math.toRadians(lastAngle.toDouble())).toFloat()
+            )
             normalizeVector(sliceVector)
 
             val x1 = sliceVector.x * (circleRadius + touchAdditional) + circleOval.centerX()
             val y1 = sliceVector.y * (circleRadius + touchAdditional) + circleOval.centerY()
 
-            canvas.drawLine(circleOval.centerX(), circleOval.centerY(), x1, y1, separationLinesPaint)
+            canvas.drawLine(
+                circleOval.centerX(),
+                circleOval.centerY(),
+                x1,
+                y1,
+                separationLinesPaint
+            )
 
             lastAngle += angle
         }
@@ -302,9 +337,17 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
      * darken
      * and will have bigger radius.
      */
-    private fun drawSlice(canvas: Canvas, sliceValue: SliceValue, lastAngle: Float, angle: Float, mode: Int) {
-        sliceVector.set(Math.cos(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat(),
-                Math.sin(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat())
+    private fun drawSlice(
+        canvas: Canvas,
+        sliceValue: SliceValue,
+        lastAngle: Float,
+        angle: Float,
+        mode: Int
+    ) {
+        sliceVector.set(
+            Math.cos(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat(),
+            Math.sin(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat()
+        )
         normalizeVector(sliceVector)
         drawCircleOval.set(circleOval)
         if (MODE_HIGHLIGHT == mode) {
@@ -319,8 +362,10 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
     }
 
     private fun drawLabel(canvas: Canvas, sliceValue: SliceValue, lastAngle: Float, angle: Float) {
-        sliceVector.set(Math.cos(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat(),
-                Math.sin(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat())
+        sliceVector.set(
+            Math.cos(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat(),
+            Math.sin(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat()
+        )
         normalizeVector(sliceVector)
 
         val numChars = valueFormatter!!.formatChartValue(labelBuffer, sliceValue)
@@ -382,8 +427,10 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
         }
 
         labelBackgroundRect.set(left, top, right, bottom)
-        drawLabelTextAndBackground(canvas, labelBuffer, labelBuffer.size - numChars, numChars,
-                sliceValue.darkenColor)
+        drawLabelTextAndBackground(
+            canvas, labelBuffer, labelBuffer.size - numChars, numChars,
+            sliceValue.darkenColor
+        )
     }
 
     private fun normalizeVector(point: PointF) {
@@ -467,5 +514,4 @@ class PieChartRenderer(context: Context, chart: Chart, private val dataProvider:
         private val MODE_DRAW = 0
         private val MODE_HIGHLIGHT = 1
     }
-
 }

@@ -17,7 +17,11 @@ import co.csadev.kellocharts.renderer.LineChartRenderer
  *
  * @author Leszek Wach
  */
-open class LineChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AbstractChartView(context, attrs, defStyle), LineChartDataProvider {
+open class LineChartView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AbstractChartView(context, attrs, defStyle), LineChartDataProvider {
     var onValueTouchListener: LineChartOnValueSelectListener = DummyLineChartOnValueSelectListener()
 
     override var lineChartData: LineChartData = LineChartData.generateDummyData()
@@ -40,8 +44,13 @@ open class LineChartView @JvmOverloads constructor(context: Context, attrs: Attr
         val selectedValue = chartRenderer.selectedValue
 
         if (selectedValue.isSet) {
-            val point = lineChartData.lines[selectedValue.firstIndex].values[selectedValue.secondIndex]
-            onValueTouchListener.onValueSelected(selectedValue.firstIndex, selectedValue.secondIndex, point)
+            val point =
+                lineChartData.lines[selectedValue.firstIndex].values[selectedValue.secondIndex]
+            onValueTouchListener.onValueSelected(
+                selectedValue.firstIndex,
+                selectedValue.secondIndex,
+                point
+            )
         } else {
             onValueTouchListener.onValueDeselected()
         }

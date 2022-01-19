@@ -26,7 +26,5 @@ class HackyViewPager : ViewPager {
             e.printStackTrace()
             return false
         }
-
     }
-
 }

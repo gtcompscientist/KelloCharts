@@ -17,7 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -52,7 +53,11 @@ class MainActivity : AppCompatActivity() {
         private var listView: ListView? = null
         private var adapter: ChartSamplesAdapter? = null
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             val rootView = inflater.inflate(R.layout.fragment_main, container, false)
             listView = rootView.findViewById<View>(android.R.id.list) as ListView
             adapter = ChartSamplesAdapter(context!!, 0, generateSamplesDescriptions())
@@ -137,32 +142,70 @@ class MainActivity : AppCompatActivity() {
             list.add(ChartSampleDescription("Column Chart", "", ChartType.COLUMN_CHART))
             list.add(ChartSampleDescription("Pie Chart", "", ChartType.PIE_CHART))
             list.add(ChartSampleDescription("Bubble Chart", "", ChartType.BUBBLE_CHART))
-            list.add(ChartSampleDescription("Preview Line Chart",
-                    "Control line chart viewport with another line chart.", ChartType.PREVIEW_LINE_CHART))
-            list.add(ChartSampleDescription("Preview Column Chart",
-                    "Control column chart viewport with another column chart.", ChartType.PREVIEW_COLUMN_CHART))
-            list.add(ChartSampleDescription("Combo Line/Column Chart", "Combo chart with lines and columns.",
-                    ChartType.OTHER))
-            list.add(ChartSampleDescription("Line/Column Chart Dependency",
-                    "LineChart responds(with animation) to column chart value selection.", ChartType.OTHER))
-            list.add(ChartSampleDescription(
+            list.add(
+                ChartSampleDescription(
+                    "Preview Line Chart",
+                    "Control line chart viewport with another line chart.",
+                    ChartType.PREVIEW_LINE_CHART
+                )
+            )
+            list.add(
+                ChartSampleDescription(
+                    "Preview Column Chart",
+                    "Control column chart viewport with another column chart.",
+                    ChartType.PREVIEW_COLUMN_CHART
+                )
+            )
+            list.add(
+                ChartSampleDescription(
+                    "Combo Line/Column Chart", "Combo chart with lines and columns.",
+                    ChartType.OTHER
+                )
+            )
+            list.add(
+                ChartSampleDescription(
+                    "Line/Column Chart Dependency",
+                    "LineChart responds(with animation) to column chart value selection.",
+                    ChartType.OTHER
+                )
+            )
+            list.add(
+                ChartSampleDescription(
                     "Tempo Chart",
                     "Presents tempo and height values on a signle chart. Example of multiple axes and reverted Y axis" + " with time format [mm:ss].",
-                    ChartType.OTHER))
-            list.add(ChartSampleDescription("Speed Chart",
+                    ChartType.OTHER
+                )
+            )
+            list.add(
+                ChartSampleDescription(
+                    "Speed Chart",
                     "Presents speed and height values on a single chart. Example of multiple axes inside chart area.",
-                    ChartType.OTHER))
-            list.add(ChartSampleDescription("Good/Bad Chart",
-                    "Example of filled area line chart with custom labels", ChartType.OTHER))
-            list.add(ChartSampleDescription("ViewPager with Charts",
+                    ChartType.OTHER
+                )
+            )
+            list.add(
+                ChartSampleDescription(
+                    "Good/Bad Chart",
+                    "Example of filled area line chart with custom labels", ChartType.OTHER
+                )
+            )
+            list.add(
+                ChartSampleDescription(
+                    "ViewPager with Charts",
                     "Interactive charts within ViewPager. Each chart can be zoom/scroll except pie chart.",
-                    ChartType.OTHER))
+                    ChartType.OTHER
+                )
+            )
 
             return list
         }
     }
 
-    class ChartSamplesAdapter(context: Context, resource: Int, objects: List<ChartSampleDescription>) : ArrayAdapter<ChartSampleDescription>(context, resource, objects) {
+    class ChartSamplesAdapter(
+        context: Context,
+        resource: Int,
+        objects: List<ChartSampleDescription>
+    ) : ArrayAdapter<ChartSampleDescription>(context, resource, objects) {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             var convertView = convertView
@@ -174,7 +217,8 @@ class MainActivity : AppCompatActivity() {
                 holder = ViewHolder()
                 holder.text1 = convertView!!.findViewById<View>(R.id.text1) as TextView
                 holder.text2 = convertView.findViewById<View>(R.id.text2) as TextView
-                holder.chartLayout = convertView.findViewById<View>(R.id.chart_layout) as FrameLayout
+                holder.chartLayout =
+                    convertView.findViewById<View>(R.id.chart_layout) as FrameLayout
 
                 convertView.tag = holder
             } else {
@@ -218,7 +262,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (null != chart) {
-                chart.isInteractive = false// Disable touch handling for chart on the ListView.
+                chart.isInteractive = false // Disable touch handling for chart on the ListView.
             }
             holder.text1!!.text = item?.text1
             holder.text2!!.text = item?.text2
@@ -232,9 +276,11 @@ class MainActivity : AppCompatActivity() {
             var text2: TextView? = null
             var chartLayout: FrameLayout? = null
         }
-
     }
 
-    class ChartSampleDescription(internal var text1: String, internal var text2: String, internal var chartType: ChartType)
-
+    class ChartSampleDescription(
+        internal var text1: String,
+        internal var text2: String,
+        internal var chartType: ChartType
+    )
 }

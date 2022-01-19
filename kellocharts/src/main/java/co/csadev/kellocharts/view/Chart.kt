@@ -253,6 +253,8 @@ interface Chart {
      * Set isContainerScrollEnabled to true and containerScrollType to HORIZONTAL or VERTICAL if you are using chart
      * within scroll container.
      */
-    fun setContainerScrollEnabled(isContainerScrollEnabled: Boolean, containerScrollType: ContainerScrollType)
-
+    fun setContainerScrollEnabled(
+        isContainerScrollEnabled: Boolean,
+        containerScrollType: ContainerScrollType
+    )
 }

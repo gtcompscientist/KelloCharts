@@ -16,7 +16,11 @@ import co.csadev.kellocharts.provider.BubbleChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
 
-class BubbleChartRenderer(context: Context, chart: Chart, private val dataProvider: BubbleChartDataProvider) : AbstractChartRenderer(context, chart) {
+class BubbleChartRenderer(
+    context: Context,
+    chart: Chart,
+    private val dataProvider: BubbleChartDataProvider
+) : AbstractChartRenderer(context, chart) {
 
     /**
      * Additional value added to bubble radius when drawing highlighted bubble, used to give touch feedback.
@@ -64,7 +68,6 @@ class BubbleChartRenderer(context: Context, chart: Chart, private val dataProvid
 
         bubblePaint.isAntiAlias = true
         bubblePaint.style = Paint.Style.FILL
-
     }
 
     override fun onChartSizeChanged() {
@@ -176,10 +179,14 @@ class BubbleChartRenderer(context: Context, chart: Chart, private val dataProvid
         bubbleRect.inset(touchAdditional.toFloat(), touchAdditional.toFloat())
         bubblePaint.color = bubbleValue.color
         drawBubbleShapeAndLabel(canvas, bubbleValue, rawRadius, MODE_DRAW)
-
     }
 
-    private fun drawBubbleShapeAndLabel(canvas: Canvas, bubbleValue: BubbleValue, rawRadius: Float, mode: Int) {
+    private fun drawBubbleShapeAndLabel(
+        canvas: Canvas,
+        bubbleValue: BubbleValue,
+        rawRadius: Float,
+        mode: Int
+    ) {
         if (ValueShape.SQUARE == bubbleValue.shape) {
             canvas.drawRect(bubbleRect, bubblePaint)
         } else if (ValueShape.CIRCLE == bubbleValue.shape) {
@@ -275,14 +282,20 @@ class BubbleChartRenderer(context: Context, chart: Chart, private val dataProvid
         }
 
         labelBackgroundRect.set(left, top, right, bottom)
-        drawLabelTextAndBackground(canvas, labelBuffer, labelBuffer.size - numChars, numChars,
-                bubbleValue.darkenColor)
-
+        drawLabelTextAndBackground(
+            canvas, labelBuffer, labelBuffer.size - numChars, numChars,
+            bubbleValue.darkenColor
+        )
     }
 
     private fun calculateMaxViewport() {
         var maxZ = java.lang.Float.MIN_VALUE
-        tempMaximumViewport.set(java.lang.Float.MAX_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MIN_VALUE, java.lang.Float.MAX_VALUE)
+        tempMaximumViewport.set(
+            java.lang.Float.MAX_VALUE,
+            java.lang.Float.MIN_VALUE,
+            java.lang.Float.MIN_VALUE,
+            java.lang.Float.MAX_VALUE
+        )
         val data = dataProvider.bubbleChartData
         // TODO: Optimize.
         for (bubbleValue in data.values) {
@@ -325,7 +338,8 @@ class BubbleChartRenderer(context: Context, chart: Chart, private val dataProvid
         // Prevent cutting of bubbles on the edges of chart area.
         tempMaximumViewport.inset(-maxRadius * bubbleScaleX, -maxRadius * bubbleScaleY)
 
-        minRawRadius = ChartUtils.dp2px(density, dataProvider.bubbleChartData.minBubbleRadius).toFloat()
+        minRawRadius =
+            ChartUtils.dp2px(density, dataProvider.bubbleChartData.minBubbleRadius).toFloat()
     }
 
     companion object {
@@ -333,5 +347,4 @@ class BubbleChartRenderer(context: Context, chart: Chart, private val dataProvid
         private val MODE_DRAW = 0
         private val MODE_HIGHLIGHT = 1
     }
-
 }

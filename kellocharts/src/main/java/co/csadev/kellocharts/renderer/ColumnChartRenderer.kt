@@ -15,7 +15,11 @@ import co.csadev.kellocharts.view.Chart
 /**
  * Magic renderer for ColumnChart.
  */
-open class ColumnChartRenderer(context: Context, chart: Chart, private val dataProvider: ColumnChartDataProvider) : AbstractChartRenderer(context, chart) {
+open class ColumnChartRenderer(
+    context: Context,
+    chart: Chart,
+    private val dataProvider: ColumnChartDataProvider
+) : AbstractChartRenderer(context, chart) {
 
     /**
      * Additional width for hightlighted column, used to give tauch feedback.
@@ -125,7 +129,8 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
 
     private fun calculateMaxViewportForSubcolumns(data: ColumnChartData) {
         var tempMax = if (data.isHorizontal) tempMaximumViewport.right else tempMaximumViewport.top
-        var tempMin = if (data.isHorizontal) tempMaximumViewport.left else tempMaximumViewport.bottom
+        var tempMin =
+            if (data.isHorizontal) tempMaximumViewport.left else tempMaximumViewport.bottom
         for (column in data.columns) {
             for (columnValue in column.values) {
                 if (columnValue.value >= baseValue && columnValue.value > tempMax) {
@@ -147,7 +152,8 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
 
     private fun calculateMaxViewportForStacked(data: ColumnChartData) {
         var tempMax = if (data.isHorizontal) tempMaximumViewport.right else tempMaximumViewport.top
-        var tempMin = if (data.isHorizontal) tempMaximumViewport.left else tempMaximumViewport.bottom
+        var tempMin =
+            if (data.isHorizontal) tempMaximumViewport.left else tempMaximumViewport.bottom
         data.columns.forEach { column ->
             var sumPositive = baseValue
             var sumNegative = baseValue
@@ -181,7 +187,14 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         val columnWidth = calculateColumnWidth(isHorizontal)
         var columnIndex = 0
         for (column in data.columns) {
-            processColumnForSubcolumns(canvas, column, columnWidth, columnIndex, MODE_DRAW, isHorizontal)
+            processColumnForSubcolumns(
+                canvas,
+                column,
+                columnWidth,
+                columnIndex,
+                MODE_DRAW,
+                isHorizontal
+            )
             ++columnIndex
         }
     }
@@ -190,7 +203,14 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         val data = dataProvider.columnChartData
         val columnWidth = calculateColumnWidth(isHorizontal)
         val column = data.columns[selectedValue.firstIndex]
-        processColumnForSubcolumns(canvas, column, columnWidth, selectedValue.firstIndex, MODE_HIGHLIGHT, isHorizontal)
+        processColumnForSubcolumns(
+            canvas,
+            column,
+            columnWidth,
+            selectedValue.firstIndex,
+            MODE_HIGHLIGHT,
+            isHorizontal
+        )
     }
 
     private fun checkTouchForSubcolumns(touchX: Float, touchY: Float, isHorizontal: Boolean) {
@@ -202,23 +222,43 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         var columnIndex = 0
         for (column in data.columns) {
             // canvas is not needed for checking touch
-            processColumnForSubcolumns(null, column, columnWidth, columnIndex, MODE_CHECK_TOUCH, isHorizontal)
+            processColumnForSubcolumns(
+                null,
+                column,
+                columnWidth,
+                columnIndex,
+                MODE_CHECK_TOUCH,
+                isHorizontal
+            )
             ++columnIndex
         }
     }
 
-    private fun processColumnForSubcolumns(canvas: Canvas?, column: Column, columnWidth: Float, columnIndex: Int,
-                                           mode: Int, isHorizontal: Boolean) {
+    private fun processColumnForSubcolumns(
+        canvas: Canvas?,
+        column: Column,
+        columnWidth: Float,
+        columnIndex: Int,
+        mode: Int,
+        isHorizontal: Boolean
+    ) {
         // For n subcolumns there will be n-1 spacing and there will be one
         // subcolumn for every columnValue
-        var subcolumnWidth = (columnWidth - subcolumnSpacing * (column.values.size - 1)) / column.values.size
+        var subcolumnWidth =
+            (columnWidth - subcolumnSpacing * (column.values.size - 1)) / column.values.size
         if (subcolumnWidth < 1) {
             subcolumnWidth = 1f
         }
         // Columns are indexes from 0 to n, column index is also column X value
-        val rawX = if (isHorizontal) computator.computeRawY(columnIndex.toFloat()) else computator.computeRawX(columnIndex.toFloat())
+        val rawX =
+            if (isHorizontal) computator.computeRawY(columnIndex.toFloat()) else computator.computeRawX(
+                columnIndex.toFloat()
+            )
         val halfColumnWidth = columnWidth / 2
-        val baseRawY = if (isHorizontal) computator.computeRawX(baseValue) else computator.computeRawY(baseValue)
+        val baseRawY =
+            if (isHorizontal) computator.computeRawX(baseValue) else computator.computeRawY(
+                baseValue
+            )
         // First subcolumn will starts at the left edge of current column,
         // rawValueX is horizontal center of that column
         var subcolumnRawX = rawX - halfColumnWidth
@@ -228,8 +268,18 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
             if (subcolumnRawX > rawX + halfColumnWidth) {
                 break
             }
-            val rawY = if (isHorizontal) computator.computeRawX(columnValue.value) else computator.computeRawY(columnValue.value)
-            calculateRectToDraw(isHorizontal, columnValue, subcolumnRawX, subcolumnRawX + subcolumnWidth, baseRawY, rawY)
+            val rawY =
+                if (isHorizontal) computator.computeRawX(columnValue.value) else computator.computeRawY(
+                    columnValue.value
+                )
+            calculateRectToDraw(
+                isHorizontal,
+                columnValue,
+                subcolumnRawX,
+                subcolumnRawX + subcolumnWidth,
+                baseRawY,
+                rawY
+            )
             when (mode) {
                 MODE_DRAW -> drawSubcolumn(canvas, column, columnValue, false)
                 MODE_HIGHLIGHT -> highlightSubcolumn(canvas, column, columnValue, valueIndex, false)
@@ -250,7 +300,14 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         // Columns are indexes from 0 to n, column index is also column X value
         var columnIndex = 0
         for (column in data.columns) {
-            processColumnForStacked(canvas, column, columnWidth, columnIndex, MODE_DRAW, isHorizontal)
+            processColumnForStacked(
+                canvas,
+                column,
+                columnWidth,
+                columnIndex,
+                MODE_DRAW,
+                isHorizontal
+            )
             ++columnIndex
         }
     }
@@ -260,7 +317,14 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         val columnWidth = calculateColumnWidth(isHorizontal)
         // Columns are indexes from 0 to n, column index is also column X value
         val column = data.columns[selectedValue.firstIndex]
-        processColumnForStacked(canvas, column, columnWidth, selectedValue.firstIndex, MODE_HIGHLIGHT, isHorizontal)
+        processColumnForStacked(
+            canvas,
+            column,
+            columnWidth,
+            selectedValue.firstIndex,
+            MODE_HIGHLIGHT,
+            isHorizontal
+        )
     }
 
     private fun checkTouchForStacked(touchX: Float, touchY: Float, isHorizontal: Boolean) {
@@ -271,13 +335,30 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         var columnIndex = 0
         for (column in data.columns) {
             // canvas is not needed for checking touch
-            processColumnForStacked(null, column, columnWidth, columnIndex, MODE_CHECK_TOUCH, isHorizontal)
+            processColumnForStacked(
+                null,
+                column,
+                columnWidth,
+                columnIndex,
+                MODE_CHECK_TOUCH,
+                isHorizontal
+            )
             ++columnIndex
         }
     }
 
-    private fun processColumnForStacked(canvas: Canvas?, column: Column, columnWidth: Float, columnIndex: Int, mode: Int, isHorizontal: Boolean) {
-        val rawX = if (isHorizontal) computator.computeRawY(columnIndex.toFloat()) else computator.computeRawX(columnIndex.toFloat())
+    private fun processColumnForStacked(
+        canvas: Canvas?,
+        column: Column,
+        columnWidth: Float,
+        columnIndex: Int,
+        mode: Int,
+        isHorizontal: Boolean
+    ) {
+        val rawX =
+            if (isHorizontal) computator.computeRawY(columnIndex.toFloat()) else computator.computeRawX(
+                columnIndex.toFloat()
+            )
         val halfColumnWidth = columnWidth / 2
         var mostPositiveValue = baseValue
         var mostNegativeValue = baseValue
@@ -294,9 +375,22 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
                 subcolumnBaseValue = mostNegativeValue
                 mostNegativeValue += columnValue.value
             }
-            val rawBaseY = if (isHorizontal) computator.computeRawX(subcolumnBaseValue) else computator.computeRawY(subcolumnBaseValue)
-            val rawY = if (isHorizontal) computator.computeRawX(subcolumnBaseValue + columnValue.value) else computator.computeRawY(subcolumnBaseValue + columnValue.value)
-            calculateRectToDraw(isHorizontal, columnValue, rawX - halfColumnWidth, rawX + halfColumnWidth, rawBaseY, rawY)
+            val rawBaseY =
+                if (isHorizontal) computator.computeRawX(subcolumnBaseValue) else computator.computeRawY(
+                    subcolumnBaseValue
+                )
+            val rawY =
+                if (isHorizontal) computator.computeRawX(subcolumnBaseValue + columnValue.value) else computator.computeRawY(
+                    subcolumnBaseValue + columnValue.value
+                )
+            calculateRectToDraw(
+                isHorizontal,
+                columnValue,
+                rawX - halfColumnWidth,
+                rawX + halfColumnWidth,
+                rawBaseY,
+                rawY
+            )
             when (mode) {
                 MODE_DRAW -> drawSubcolumn(canvas, column, columnValue, true)
                 MODE_HIGHLIGHT -> highlightSubcolumn(canvas, column, columnValue, valueIndex, true)
@@ -310,19 +404,34 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         }
     }
 
-    private fun drawSubcolumn(canvas: Canvas?, column: Column, columnValue: SubcolumnValue, isStacked: Boolean) {
+    private fun drawSubcolumn(
+        canvas: Canvas?,
+        column: Column,
+        columnValue: SubcolumnValue,
+        isStacked: Boolean
+    ) {
         canvas!!.drawRect(drawRect, columnPaint)
         if (column.hasLabels) {
             drawLabel(canvas, column, columnValue, isStacked, labelOffset.toFloat())
         }
     }
 
-    private fun highlightSubcolumn(canvas: Canvas?, column: Column, columnValue: SubcolumnValue, valueIndex: Int,
-                                   isStacked: Boolean) {
+    private fun highlightSubcolumn(
+        canvas: Canvas?,
+        column: Column,
+        columnValue: SubcolumnValue,
+        valueIndex: Int,
+        isStacked: Boolean
+    ) {
         if (selectedValue.secondIndex == valueIndex) {
             columnPaint.color = columnValue.darkenColor
-            canvas!!.drawRect(drawRect.left - touchAdditionalWidth, drawRect.top, drawRect.right + touchAdditionalWidth,
-                    drawRect.bottom, columnPaint)
+            canvas!!.drawRect(
+                drawRect.left - touchAdditionalWidth,
+                drawRect.top,
+                drawRect.right + touchAdditionalWidth,
+                drawRect.bottom,
+                columnPaint
+            )
             if (column.hasLabels || column.hasLabelsOnlyForSelected) {
                 drawLabel(canvas, column, columnValue, isStacked, labelOffset.toFloat())
             }
@@ -339,14 +448,22 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         // columnWidth should be at least 2 px
         val rawRect = computator.contentRectMinusAllMargins
         val rawViewport = computator.visibleViewport
-        var columnWidth = fillRatio * (if (isHorizontal) rawRect.height() else rawRect.width()) / if (isHorizontal) rawViewport.height() else rawViewport.width()
+        var columnWidth =
+            fillRatio * (if (isHorizontal) rawRect.height() else rawRect.width()) / if (isHorizontal) rawViewport.height() else rawViewport.width()
         if (columnWidth < 2) {
             columnWidth = 2f
         }
         return columnWidth
     }
 
-    private fun calculateRectToDraw(isHorizontal: Boolean, columnValue: SubcolumnValue, left: Float, right: Float, rawBaseY: Float, rawY: Float) {
+    private fun calculateRectToDraw(
+        isHorizontal: Boolean,
+        columnValue: SubcolumnValue,
+        left: Float,
+        right: Float,
+        rawBaseY: Float,
+        rawY: Float
+    ) {
         // Calculate rect that will be drawn as column, subcolumn or label background.
         if (isHorizontal) {
             if (columnValue.value >= baseValue) {
@@ -371,7 +488,13 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         }
     }
 
-    private fun drawLabel(canvas: Canvas, column: Column, columnValue: SubcolumnValue, isStacked: Boolean, offset: Float) {
+    private fun drawLabel(
+        canvas: Canvas,
+        column: Column,
+        columnValue: SubcolumnValue,
+        isStacked: Boolean,
+        offset: Float
+    ) {
         val numChars = column.formatter.formatChartValue(labelBuffer, columnValue)
 
         if (numChars == 0) {
@@ -400,14 +523,17 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
                 top = drawRect.top - offset - labelHeight.toFloat() - (labelMargin * 2).toFloat()
                 if (top < computator.contentRectMinusAllMargins.top) {
                     top = drawRect.top + offset
-                    bottom = drawRect.top + offset + labelHeight.toFloat() + (labelMargin * 2).toFloat()
+                    bottom =
+                        drawRect.top + offset + labelHeight.toFloat() + (labelMargin * 2).toFloat()
                 } else {
                     bottom = drawRect.top - offset
                 }
             } else {
-                bottom = drawRect.bottom + offset + labelHeight.toFloat() + (labelMargin * 2).toFloat()
+                bottom =
+                    drawRect.bottom + offset + labelHeight.toFloat() + (labelMargin * 2).toFloat()
                 if (bottom > computator.contentRectMinusAllMargins.bottom) {
-                    top = drawRect.bottom - offset - labelHeight.toFloat() - (labelMargin * 2).toFloat()
+                    top =
+                        drawRect.bottom - offset - labelHeight.toFloat() - (labelMargin * 2).toFloat()
                     bottom = drawRect.bottom - offset
                 } else {
                     top = drawRect.bottom + offset
@@ -419,9 +545,10 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         }
 
         labelBackgroundRect.set(left, top, right, bottom)
-        drawLabelTextAndBackground(canvas, labelBuffer, labelBuffer.size - numChars, numChars,
-                columnValue.darkenColor)
-
+        drawLabelTextAndBackground(
+            canvas, labelBuffer, labelBuffer.size - numChars, numChars,
+            columnValue.darkenColor
+        )
     }
 
     companion object {
@@ -432,5 +559,4 @@ open class ColumnChartRenderer(context: Context, chart: Chart, private val dataP
         private val MODE_CHECK_TOUCH = 1
         private val MODE_HIGHLIGHT = 2
     }
-
 }

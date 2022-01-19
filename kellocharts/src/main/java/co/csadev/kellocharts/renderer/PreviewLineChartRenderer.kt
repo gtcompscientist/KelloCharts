@@ -12,7 +12,11 @@ import co.csadev.kellocharts.view.Chart
  * Renderer for preview chart based on LineChart. In addition to drawing chart data it also draw current viewport as
  * preview area.
  */
-class PreviewLineChartRenderer(context: Context, chart: Chart, dataProvider: LineChartDataProvider) : LineChartRenderer(context, chart, dataProvider) {
+class PreviewLineChartRenderer(
+    context: Context,
+    chart: Chart,
+    dataProvider: LineChartDataProvider
+) : LineChartRenderer(context, chart, dataProvider) {
 
     private val previewPaint = Paint()
 
@@ -25,7 +29,8 @@ class PreviewLineChartRenderer(context: Context, chart: Chart, dataProvider: Lin
     init {
         previewPaint.isAntiAlias = true
         previewPaint.color = Color.LTGRAY
-        previewPaint.strokeWidth = ChartUtils.dp2px(density, DEFAULT_PREVIEW_STROKE_WIDTH_DP).toFloat()
+        previewPaint.strokeWidth =
+            ChartUtils.dp2px(density, DEFAULT_PREVIEW_STROKE_WIDTH_DP).toFloat()
     }
 
     override fun drawUnclipped(canvas: Canvas) {

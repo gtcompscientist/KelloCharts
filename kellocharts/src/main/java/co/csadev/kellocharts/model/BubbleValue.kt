@@ -7,17 +7,26 @@ import java.util.*
 /**
  * Single value drawn as bubble on BubbleChart.
  */
-class BubbleValue(x: Float = 0f, y: Float = 0f, z: Float = 0f, color: Int = ChartUtils.DEFAULT_COLOR, var label: CharArray? = null, var shape: ValueShape? = ValueShape.CIRCLE) {
+class BubbleValue(
+    x: Float = 0f,
+    y: Float = 0f,
+    z: Float = 0f,
+    color: Int = ChartUtils.DEFAULT_COLOR,
+    var label: CharArray? = null,
+    var shape: ValueShape? = ValueShape.CIRCLE
+) {
     /**
      * Current X value.
      */
     var x: Float = x
         private set
+
     /**
      * Current Y value.
      */
     var y: Float = y
         private set
+
     /**
      * Current Z value , third bubble value interpreted as bubble area.
      */
@@ -36,10 +45,12 @@ class BubbleValue(x: Float = 0f, y: Float = 0f, z: Float = 0f, color: Int = Char
      * Origin X value, used during value animation.
      */
     private var originX: Float = x
+
     /**
      * Origin Y value, used during value animation.
      */
     private var originY: Float = y
+
     /**
      * Origin Z value, used during value animation.
      */
@@ -119,7 +130,6 @@ class BubbleValue(x: Float = 0f, y: Float = 0f, z: Float = 0f, color: Int = Char
         if (java.lang.Float.compare(that.z, z) != 0) return false
         if (!Arrays.equals(label, that.label)) return false
         return shape === that.shape
-
     }
 
     override fun hashCode(): Int {

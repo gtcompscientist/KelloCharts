@@ -16,7 +16,8 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_combo_line_column_chart)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, PlaceholderFragment())
+                .commit()
         }
     }
 
@@ -41,9 +42,14 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
         private var isCubic = false
         private var hasLabels = false
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             setHasOptionsMenu(true)
-            val rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false)
+            val rootView =
+                inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false)
 
             chart = rootView.findViewById<View>(R.id.chart) as ComboLineColumnChartView
             chart!!.onValueTouchListener = ValueTouchListener()
@@ -119,7 +125,6 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
             hasPoints = true
             hasLabels = false
             isCubic = false
-
         }
 
         private fun generateData() {
@@ -164,7 +169,6 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
             }
 
             return LineChartData(lines)
-
         }
 
         private fun generateColumnData(): ColumnChartData {
@@ -173,11 +177,16 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
             // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
-                    values.add(SubcolumnValue(Math.random().toFloat() * 50 + 5, ChartUtils.COLOR_GREEN))
+                repeat(numSubcolumns) {
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 50 + 5,
+                            ChartUtils.COLOR_GREEN
+                        )
+                    )
                 }
 
                 columns.add(Column(values))
@@ -255,14 +264,17 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
 
             override fun onValueDeselected() = Unit
 
-            override fun onColumnValueSelected(columnIndex: Int, subcolumnIndex: Int, value: SubcolumnValue) {
+            override fun onColumnValueSelected(
+                columnIndex: Int,
+                subcolumnIndex: Int,
+                value: SubcolumnValue
+            ) {
                 Toast.makeText(activity, "Selected column: $value", Toast.LENGTH_SHORT).show()
             }
 
             override fun onPointValueSelected(lineIndex: Int, pointIndex: Int, value: PointValue) {
                 Toast.makeText(activity, "Selected line point: $value", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 }

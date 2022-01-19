@@ -62,7 +62,10 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             // the adapter. Also specify this Activity object, which implements
             // the TabListener interface, as the callback (listener) for when
             // this tab is selected.
-            supportActionBar?.addTab(supportActionBar?.newTab()?.setText(mSectionsPagerAdapter?.getPageTitle(i))?.setTabListener(this as ActionBar.TabListener))
+            supportActionBar?.addTab(
+                supportActionBar?.newTab()?.setText(mSectionsPagerAdapter?.getPageTitle(i))
+                    ?.setTabListener(this as ActionBar.TabListener)
+            )
         }
     }
 
@@ -81,7 +84,11 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
      */
     class PlaceholderFragment : Fragment() {
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             val rootView = inflater.inflate(R.layout.fragment_view_pager_charts, container, false)
             val layout = rootView as RelativeLayout
             val sectionNum = arguments!!.getInt(ARG_SECTION_NUMBER)
@@ -121,7 +128,10 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
                     previewLineChartView.lineChartData = generatePreviewLineChartData()
 
                     /** Note: Chart is within ViewPager so enable container scroll mode.  */
-                    previewLineChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL)
+                    previewLineChartView.setContainerScrollEnabled(
+                        true,
+                        ContainerScrollType.HORIZONTAL
+                    )
 
                     val tempViewport = previewLineChartView.maximumViewport.copy()
                     val dx = tempViewport.width() / 6
@@ -163,7 +173,6 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             data.axisXBottom = Axis(name = "Axis X")
             data.axisYLeft = Axis(name = "Axis Y", hasLines = true)
             return data
-
         }
 
         private fun generateColumnChartData(): ColumnChartData {
@@ -172,11 +181,16 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
-            for (i in 0 until numColumns) {
+            repeat(numColumns) {
 
                 values = ArrayList()
-                for (j in 0 until numSubcolumns) {
-                    values.add(SubcolumnValue(Math.random().toFloat() * 50f + 5, ChartUtils.pickColor()))
+                repeat(numSubcolumns) {
+                    values.add(
+                        SubcolumnValue(
+                            Math.random().toFloat() * 50f + 5,
+                            ChartUtils.pickColor()
+                        )
+                    )
                 }
 
                 columns.add(Column(values))
@@ -187,7 +201,6 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             data.axisXBottom = Axis(name = "Axis X")
             data.axisYLeft = Axis(name = "Axis Y", hasLines = true)
             return data
-
         }
 
         private fun generateBubbleChartData(): BubbleChartData {
@@ -195,7 +208,11 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
 
             val values = ArrayList<BubbleValue>()
             for (i in 0 until numBubbles) {
-                val value = BubbleValue(i.toFloat(), Math.random().toFloat() * 100, Math.random().toFloat() * 1000)
+                val value = BubbleValue(
+                    i.toFloat(),
+                    Math.random().toFloat() * 100,
+                    Math.random().toFloat() * 1000
+                )
                 value.color = ChartUtils.pickColor()
                 values.add(value)
             }
@@ -217,7 +234,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
 
             val line = Line(values)
             line.color = ChartUtils.DEFAULT_DARKEN_COLOR
-            line.hasPoints = false// too many values so don't draw points.
+            line.hasPoints = false // too many values so don't draw points.
 
             val lines = ArrayList<Line>()
             lines.add(line)
@@ -227,7 +244,6 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             data.axisYLeft = Axis(hasLines = true)
 
             return data
-
         }
 
         private fun generatePieChartData(): PieChartData {
@@ -235,7 +251,12 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
 
             val values = ArrayList<SliceValue>()
             for (i in 0 until numValues) {
-                values.add(SliceValue(Math.random().toFloat() * 30 + 15, color = ChartUtils.pickColor()))
+                values.add(
+                    SliceValue(
+                        Math.random().toFloat() * 30 + 15,
+                        color = ChartUtils.pickColor()
+                    )
+                )
             }
 
             return PieChartData(values)
@@ -258,7 +279,6 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
                 return fragment
             }
         }
-
     }
 
     /**
@@ -287,5 +307,4 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             return null
         }
     }
-
 }

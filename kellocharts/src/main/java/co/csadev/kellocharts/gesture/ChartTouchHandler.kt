@@ -5,7 +5,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ViewParent
-
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.gesture.ChartScroller.ScrollResult
 import co.csadev.kellocharts.model.SelectedValue
@@ -115,8 +114,11 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
      * vertical
      * scroll container like ViewPager.
      */
-    fun handleTouchEvent(event: MotionEvent, viewParent: ViewParent,
-                         containerScrollType: ContainerScrollType): Boolean {
+    fun handleTouchEvent(
+        event: MotionEvent,
+        viewParent: ViewParent,
+        containerScrollType: ContainerScrollType
+    ): Boolean {
         this.viewParent = viewParent
         this.containerScrollType = containerScrollType
 
@@ -140,11 +142,13 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
      */
     private fun allowParentInterceptTouchEvent(scrollResult: ScrollResult) {
         if (null != viewParent) {
-            if (ContainerScrollType.HORIZONTAL == containerScrollType && !scrollResult.canScrollX
-                    && !scaleGestureDetector.isInProgress) {
+            if (ContainerScrollType.HORIZONTAL == containerScrollType && !scrollResult.canScrollX &&
+                !scaleGestureDetector.isInProgress
+            ) {
                 viewParent!!.requestDisallowInterceptTouchEvent(false)
-            } else if (ContainerScrollType.VERTICAL == containerScrollType && !scrollResult.canScrollY
-                    && !scaleGestureDetector.isInProgress) {
+            } else if (ContainerScrollType.VERTICAL == containerScrollType && !scrollResult.canScrollY &&
+                !scaleGestureDetector.isInProgress
+            ) {
                 viewParent!!.requestDisallowInterceptTouchEvent(false)
             }
         }
@@ -219,7 +223,8 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
         }
     }
 
-    protected inner class ChartScaleGestureListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    protected inner class ChartScaleGestureListener :
+        ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             if (isZoomEnabled) {
@@ -247,20 +252,23 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
             }
 
             return false
-
         }
 
         override fun onDoubleTap(e: MotionEvent): Boolean {
             return if (isZoomEnabled) {
                 chartZoomer.startZoom(e, computator)
             } else false
-
         }
 
-        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        override fun onScroll(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            distanceX: Float,
+            distanceY: Float
+        ): Boolean {
             if (isScrollEnabled) {
                 val canScroll = chartScroller
-                        .scroll(computator, distanceX, distanceY, scrollResult)
+                    .scroll(computator, distanceX, distanceY, scrollResult)
 
                 allowParentInterceptTouchEvent(scrollResult)
 
@@ -268,15 +276,17 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
             }
 
             return false
-
         }
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
             return if (isScrollEnabled) {
                 chartScroller.fling((-velocityX).toInt(), (-velocityY).toInt(), computator)
             } else false
-
         }
     }
-
 }

@@ -2,53 +2,125 @@ package co.csadev.kellocharts.formatter
 
 import co.csadev.kellocharts.model.*
 
-open class ValueFormatter(decimalDigitsNumber: Int = Int.MIN_VALUE, appendedText: CharArray = CharArray(0), prependedText: CharArray = CharArray(0), decimalSeparator: Char = '.') {
-    internal val valueFormatterHelper = ValueFormatterHelper(decimalDigitsNumber, appendedText, prependedText, decimalSeparator)
+open class ValueFormatter(
+    decimalDigitsNumber: Int = Int.MIN_VALUE,
+    appendedText: CharArray = CharArray(0),
+    prependedText: CharArray = CharArray(0),
+    decimalSeparator: Char = '.'
+) {
+    internal val valueFormatterHelper =
+        ValueFormatterHelper(decimalDigitsNumber, appendedText, prependedText, decimalSeparator)
 
     open var decimalDigitsNumber: Int
         get() = valueFormatterHelper.decimalDigitsNumber
-        set(value) { valueFormatterHelper.decimalDigitsNumber = value }
+        set(value) {
+            valueFormatterHelper.decimalDigitsNumber = value
+        }
 
     open var appendedText: CharArray
         get() = valueFormatterHelper.appendedText
-        set(value) { valueFormatterHelper.appendedText = value }
+        set(value) {
+            valueFormatterHelper.appendedText = value
+        }
 
     open var prependedText: CharArray
         get() = valueFormatterHelper.prependedText
-        set(value) { valueFormatterHelper.prependedText = value }
+        set(value) {
+            valueFormatterHelper.prependedText = value
+        }
 
     open var decimalSeparator: Char
         get() = valueFormatterHelper.decimalSeparator
-        set(value) { valueFormatterHelper.decimalSeparator = value }
+        set(value) {
+            valueFormatterHelper.decimalSeparator = value
+        }
 
     init {
         valueFormatterHelper.determineDecimalSeparator()
     }
 }
 
-open class SimplePieChartValueFormatter(decimalDigitsNumber: Int = Int.MIN_VALUE, appendedText: CharArray = CharArray(0), prependedText: CharArray = CharArray(0), decimalSeparator: Char = '.') : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator), PieChartValueFormatter {
-    override fun formatChartValue(formattedValue: CharArray, value: SliceValue)
-            = valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(formattedValue, value.value, value.label)
+open class SimplePieChartValueFormatter(
+    decimalDigitsNumber: Int = Int.MIN_VALUE,
+    appendedText: CharArray = CharArray(0),
+    prependedText: CharArray = CharArray(0),
+    decimalSeparator: Char = '.'
+) : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator),
+    PieChartValueFormatter {
+    override fun formatChartValue(formattedValue: CharArray, value: SliceValue) =
+        valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(
+            formattedValue,
+            value.value,
+            value.label
+        )
 }
 
-open class SimpleLineChartValueFormatter(decimalDigitsNumber: Int = Int.MIN_VALUE, appendedText: CharArray = CharArray(0), prependedText: CharArray = CharArray(0), decimalSeparator: Char = '.') : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator), LineChartValueFormatter {
-    override fun formatChartValue(formattedValue: CharArray, value: PointValue)
-            = valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(formattedValue, value.y, value.label)
+open class SimpleLineChartValueFormatter(
+    decimalDigitsNumber: Int = Int.MIN_VALUE,
+    appendedText: CharArray = CharArray(0),
+    prependedText: CharArray = CharArray(0),
+    decimalSeparator: Char = '.'
+) : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator),
+    LineChartValueFormatter {
+    override fun formatChartValue(formattedValue: CharArray, value: PointValue) =
+        valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(
+            formattedValue,
+            value.y,
+            value.label
+        )
 }
 
-open class SimpleColumnChartValueFormatter(decimalDigitsNumber: Int = Int.MIN_VALUE, appendedText: CharArray = CharArray(0), prependedText: CharArray = CharArray(0), decimalSeparator: Char = '.') : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator), ColumnChartValueFormatter {
-    override fun formatChartValue(formattedValue: CharArray, value: SubcolumnValue)
-            = valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(formattedValue, value.value, value.label)
+open class SimpleColumnChartValueFormatter(
+    decimalDigitsNumber: Int = Int.MIN_VALUE,
+    appendedText: CharArray = CharArray(0),
+    prependedText: CharArray = CharArray(0),
+    decimalSeparator: Char = '.'
+) : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator),
+    ColumnChartValueFormatter {
+    override fun formatChartValue(formattedValue: CharArray, value: SubcolumnValue) =
+        valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(
+            formattedValue,
+            value.value,
+            value.label
+        )
 }
 
-open class SimpleBubbleChartValueFormatter(decimalDigitsNumber: Int = Int.MIN_VALUE, appendedText: CharArray = CharArray(0), prependedText: CharArray = CharArray(0), decimalSeparator: Char = '.') : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator), BubbleChartValueFormatter {
-    override fun formatChartValue(formattedValue: CharArray, value: BubbleValue)
-            = valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(formattedValue, value.z, value.label)
+open class SimpleBubbleChartValueFormatter(
+    decimalDigitsNumber: Int = Int.MIN_VALUE,
+    appendedText: CharArray = CharArray(0),
+    prependedText: CharArray = CharArray(0),
+    decimalSeparator: Char = '.'
+) : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator),
+    BubbleChartValueFormatter {
+    override fun formatChartValue(formattedValue: CharArray, value: BubbleValue) =
+        valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(
+            formattedValue,
+            value.z,
+            value.label
+        )
 }
 
-open class SimpleAxisValueFormatter(decimalDigitsNumber: Int = Int.MIN_VALUE, appendedText: CharArray = CharArray(0), prependedText: CharArray = CharArray(0), decimalSeparator: Char = '.') : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator), AxisValueFormatter {
-    override fun formatValueForManualAxis(formattedValue: CharArray, axisValue: AxisValue)
-            = valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(formattedValue, axisValue.value, axisValue.label)
-    override fun formatValueForAutoGeneratedAxis(formattedValue: CharArray, value: Float, autoDecimalDigits: Int)
-            = valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(formattedValue, value, autoDecimalDigits)
+open class SimpleAxisValueFormatter(
+    decimalDigitsNumber: Int = Int.MIN_VALUE,
+    appendedText: CharArray = CharArray(0),
+    prependedText: CharArray = CharArray(0),
+    decimalSeparator: Char = '.'
+) : ValueFormatter(decimalDigitsNumber, appendedText, prependedText, decimalSeparator),
+    AxisValueFormatter {
+    override fun formatValueForManualAxis(formattedValue: CharArray, axisValue: AxisValue) =
+        valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(
+            formattedValue,
+            axisValue.value,
+            axisValue.label
+        )
+
+    override fun formatValueForAutoGeneratedAxis(
+        formattedValue: CharArray,
+        value: Float,
+        autoDecimalDigits: Int
+    ) = valueFormatterHelper.formatFloatValueWithPrependedAndAppendedText(
+        formattedValue,
+        value,
+        autoDecimalDigits
+    )
 }
