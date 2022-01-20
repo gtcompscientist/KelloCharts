@@ -91,9 +91,9 @@ class Line(
     fun finish() = values.forEach { it.finish() }
 
     companion object {
-        internal val DEFAULT_LINE_STROKE_WIDTH_DP = 3
-        internal val DEFAULT_POINT_RADIUS_DP = 6
-        internal val DEFAULT_AREA_TRANSPARENCY = 64
-        val UNINITIALIZED = 0
+        internal const val DEFAULT_LINE_STROKE_WIDTH_DP = 3
+        internal const val DEFAULT_POINT_RADIUS_DP = 6
+        internal const val DEFAULT_AREA_TRANSPARENCY = 64
+        const val UNINITIALIZED = 0
     }
 }

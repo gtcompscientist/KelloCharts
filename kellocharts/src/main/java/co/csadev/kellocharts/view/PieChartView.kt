@@ -33,8 +33,8 @@ class PieChartView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : AbstractChartView(context, attrs, defStyle), PieChartDataProvider {
     var onValueTouchListener: PieChartOnValueSelectListener = DummyPieChartOnValueSelectListener()
-    protected var pieChartRenderer: PieChartRenderer = PieChartRenderer(context, this, this)
-    protected var rotationAnimator: PieChartRotationAnimator
+    private var pieChartRenderer: PieChartRenderer = PieChartRenderer(context, this, this)
+    private var rotationAnimator: PieChartRotationAnimator
 
     override var pieChartData: PieChartData = PieChartData.generateDummyData()
         set(value) {
@@ -142,6 +142,6 @@ class PieChartView @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = "PieChartView"
+        private const val TAG = "PieChartView"
     }
 }

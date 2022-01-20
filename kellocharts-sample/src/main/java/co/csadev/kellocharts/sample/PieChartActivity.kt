@@ -12,6 +12,7 @@ import co.csadev.kellocharts.model.SliceValue
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
 import co.csadev.kellocharts.view.PieChartView
+import java.lang.Math.random
 
 class PieChartActivity : AppCompatActivity() {
 
@@ -145,9 +146,9 @@ class PieChartActivity : AppCompatActivity() {
             val numValues = 6
 
             val values = ArrayList<SliceValue>()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 val sliceValue =
-                    SliceValue(Math.random().toFloat() * 30 + 15, color = ChartUtils.pickColor())
+                    SliceValue(random().toFloat() * 30 + 15, color = ChartUtils.pickColor())
                 values.add(sliceValue)
             }
 
@@ -255,7 +256,7 @@ class PieChartActivity : AppCompatActivity() {
          */
         private fun prepareDataAnimation() {
             for (value in data!!.values) {
-                value.setTarget(Math.random().toFloat() * 30 + 15)
+                value.setTarget(random().toFloat() * 30 + 15)
             }
         }
 

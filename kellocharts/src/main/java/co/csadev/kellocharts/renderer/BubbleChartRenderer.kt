@@ -15,6 +15,8 @@ import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.BubbleChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 class BubbleChartRenderer(
     context: Context,
@@ -25,13 +27,13 @@ class BubbleChartRenderer(
     /**
      * Additional value added to bubble radius when drawing highlighted bubble, used to give touch feedback.
      */
-    private val touchAdditional: Int
+    private val touchAdditional: Int = ChartUtils.dp2px(density, DEFAULT_TOUCH_ADDITIONAL_DP)
 
     /**
      * Scales for bubble radius value, only one is used depending on screen orientation;
      */
-    private var bubbleScaleX: Float = 0.toFloat()
-    private var bubbleScaleY: Float = 0.toFloat()
+    private var bubbleScaleX: Float = 0f
+    private var bubbleScaleY: Float = 0f
 
     /**
      * True if bubbleScale = bubbleScaleX so the renderer should used [ChartComputator.computeRawDistanceX]
@@ -43,14 +45,17 @@ class BubbleChartRenderer(
     /**
      * Maximum bubble radius.
      */
-    private var maxRadius: Float = 0.toFloat()
+    private var maxRadius: Float = 0f
 
     /**
      * Minimal bubble radius in pixels.
      */
-    private var minRawRadius: Float = 0.toFloat()
+    private var minRawRadius: Float = 0f
     private val bubbleCenter = PointF()
-    private val bubblePaint = Paint()
+    private val bubblePaint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.FILL
+    }
 
     /**
      * Rect used for drawing bubbles with SHAPE_SQUARE.
@@ -61,14 +66,6 @@ class BubbleChartRenderer(
     private var hasLabelsOnlyForSelected: Boolean = false
     private var valueFormatter: BubbleChartValueFormatter? = null
     private val tempMaximumViewport = Viewport()
-
-    init {
-
-        touchAdditional = ChartUtils.dp2px(density, DEFAULT_TOUCH_ADDITIONAL_DP)
-
-        bubblePaint.isAntiAlias = true
-        bubblePaint.style = Paint.Style.FILL
-    }
 
     override fun onChartSizeChanged() {
         val computator = chart.chartComputator
@@ -105,10 +102,8 @@ class BubbleChartRenderer(
 
     override fun checkTouch(touchX: Float, touchY: Float): Boolean {
         selectedValue.clear()
-        val data = dataProvider.bubbleChartData
-        var valueIndex = 0
-        for (bubbleValue in data.values) {
-            val rawRadius = processBubble(bubbleValue, bubbleCenter)
+        dataProvider.bubbleChartData.values.forEachIndexed { valueIndex, bubbleValue ->
+            val rawRadius = processBubble(bubbleValue)
 
             if (ValueShape.SQUARE == bubbleValue.shape) {
                 if (bubbleRect.contains(touchX, touchY)) {
@@ -117,7 +112,7 @@ class BubbleChartRenderer(
             } else if (ValueShape.CIRCLE == bubbleValue.shape) {
                 val diffX = touchX - bubbleCenter.x
                 val diffY = touchY - bubbleCenter.y
-                val touchDistance = Math.sqrt((diffX * diffX + diffY * diffY).toDouble()).toFloat()
+                val touchDistance = sqrt((diffX * diffX + diffY * diffY).toDouble()).toFloat()
 
                 if (touchDistance <= rawRadius) {
                     selectedValue[valueIndex, valueIndex] = SelectedValueType.NONE
@@ -125,8 +120,6 @@ class BubbleChartRenderer(
             } else {
                 throw IllegalArgumentException("Invalid bubble shape: " + bubbleValue.shape!!)
             }
-
-            ++valueIndex
         }
 
         return isTouched
@@ -173,7 +166,7 @@ class BubbleChartRenderer(
     }
 
     private fun drawBubble(canvas: Canvas, bubbleValue: BubbleValue) {
-        var rawRadius = processBubble(bubbleValue, bubbleCenter)
+        var rawRadius = processBubble(bubbleValue)
         // Not touched bubbles are a little smaller than touched to give user touch feedback.
         rawRadius -= touchAdditional.toFloat()
         bubbleRect.inset(touchAdditional.toFloat(), touchAdditional.toFloat())
@@ -187,24 +180,25 @@ class BubbleChartRenderer(
         rawRadius: Float,
         mode: Int
     ) {
-        if (ValueShape.SQUARE == bubbleValue.shape) {
-            canvas.drawRect(bubbleRect, bubblePaint)
-        } else if (ValueShape.CIRCLE == bubbleValue.shape) {
-            canvas.drawCircle(bubbleCenter.x, bubbleCenter.y, rawRadius, bubblePaint)
-        } else {
-            throw IllegalArgumentException("Invalid bubble shape: " + bubbleValue.shape!!)
+        when (bubbleValue.shape) {
+            ValueShape.SQUARE -> canvas.drawRect(bubbleRect, bubblePaint)
+            ValueShape.CIRCLE -> canvas.drawCircle(
+                bubbleCenter.x,
+                bubbleCenter.y,
+                rawRadius,
+                bubblePaint
+            )
+            else -> throw IllegalArgumentException("Invalid bubble shape: " + bubbleValue.shape!!)
         }
 
-        if (MODE_HIGHLIGHT == mode) {
-            if (hasLabels || hasLabelsOnlyForSelected) {
+        when (mode) {
+            MODE_HIGHLIGHT -> if (hasLabels || hasLabelsOnlyForSelected) {
                 drawLabel(canvas, bubbleValue, bubbleCenter.x, bubbleCenter.y)
             }
-        } else if (MODE_DRAW == mode) {
-            if (hasLabels) {
+            MODE_DRAW -> if (hasLabels) {
                 drawLabel(canvas, bubbleValue, bubbleCenter.x, bubbleCenter.y)
             }
-        } else {
-            throw IllegalStateException("Cannot process bubble in mode: " + mode)
+            else -> throw IllegalStateException("Cannot process bubble in mode: $mode")
         }
     }
 
@@ -215,7 +209,7 @@ class BubbleChartRenderer(
     }
 
     private fun highlightBubble(canvas: Canvas, bubbleValue: BubbleValue) {
-        val rawRadius = processBubble(bubbleValue, bubbleCenter)
+        val rawRadius = processBubble(bubbleValue)
         bubblePaint.color = bubbleValue.darkenColor
         drawBubbleShapeAndLabel(canvas, bubbleValue, rawRadius, MODE_HIGHLIGHT)
     }
@@ -224,10 +218,10 @@ class BubbleChartRenderer(
      * Calculate bubble radius and center x and y coordinates. Center x and x will be stored in point parameter, radius
      * will be returned as float value.
      */
-    private fun processBubble(bubbleValue: BubbleValue, point: PointF): Float {
+    private fun processBubble(bubbleValue: BubbleValue): Float {
         val rawX = computator.computeRawX(bubbleValue.x)
         val rawY = computator.computeRawY(bubbleValue.y)
-        var radius = Math.sqrt(Math.abs(bubbleValue.z) / Math.PI).toFloat()
+        var radius = sqrt(abs(bubbleValue.z) / Math.PI).toFloat()
         var rawRadius: Float
         if (isBubbleScaledByX) {
             radius *= bubbleScaleX
@@ -258,7 +252,7 @@ class BubbleChartRenderer(
         }
 
         val labelWidth = labelPaint.measureText(labelBuffer, labelBuffer.size - numChars, numChars)
-        val labelHeight = Math.abs(fontMetrics.ascent)
+        val labelHeight = abs(fontMetrics.ascent)
         var left = rawX - labelWidth / 2 - labelMargin.toFloat()
         var right = rawX + labelWidth / 2 + labelMargin.toFloat()
         var top = rawY - (labelHeight / 2).toFloat() - labelMargin.toFloat()
@@ -297,26 +291,15 @@ class BubbleChartRenderer(
             java.lang.Float.MAX_VALUE
         )
         val data = dataProvider.bubbleChartData
-        // TODO: Optimize.
-        for (bubbleValue in data.values) {
-            if (Math.abs(bubbleValue.z) > maxZ) {
-                maxZ = Math.abs(bubbleValue.z)
-            }
-            if (bubbleValue.x < tempMaximumViewport.left) {
-                tempMaximumViewport.left = bubbleValue.x
-            }
-            if (bubbleValue.x > tempMaximumViewport.right) {
-                tempMaximumViewport.right = bubbleValue.x
-            }
-            if (bubbleValue.y < tempMaximumViewport.bottom) {
-                tempMaximumViewport.bottom = bubbleValue.y
-            }
-            if (bubbleValue.y > tempMaximumViewport.top) {
-                tempMaximumViewport.top = bubbleValue.y
-            }
+        data.values.forEach { bubbleValue ->
+            maxZ = abs(bubbleValue.z).coerceAtLeast(maxZ)
+            tempMaximumViewport.left = bubbleValue.x.coerceAtMost(tempMaximumViewport.left)
+            tempMaximumViewport.right = bubbleValue.x.coerceAtLeast(tempMaximumViewport.right)
+            tempMaximumViewport.bottom = bubbleValue.y.coerceAtMost(tempMaximumViewport.bottom)
+            tempMaximumViewport.top = bubbleValue.y.coerceAtLeast(tempMaximumViewport.top)
         }
 
-        maxRadius = Math.sqrt(maxZ / Math.PI).toFloat()
+        maxRadius = sqrt(maxZ / Math.PI).toFloat()
 
         // Number 4 is determined by trials and errors method, no magic behind it:).
         bubbleScaleX = tempMaximumViewport.width() / (maxRadius * 4)
@@ -343,8 +326,8 @@ class BubbleChartRenderer(
     }
 
     companion object {
-        private val DEFAULT_TOUCH_ADDITIONAL_DP = 4
-        private val MODE_DRAW = 0
-        private val MODE_HIGHLIGHT = 1
+        private const val DEFAULT_TOUCH_ADDITIONAL_DP = 4
+        private const val MODE_DRAW = 0
+        private const val MODE_HIGHLIGHT = 1
     }
 }

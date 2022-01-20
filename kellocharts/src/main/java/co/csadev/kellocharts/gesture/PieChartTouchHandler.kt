@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import androidx.core.widget.ScrollerCompat
+import android.widget.OverScroller
 import co.csadev.kellocharts.view.PieChartView
 
 /**
@@ -17,18 +17,18 @@ class PieChartTouchHandler(context: Context, chart: PieChartView) :
     /**
      * PieChartTouchHandler uses its own instance of Scroller.
      */
-    protected var scroller: ScrollerCompat
+    private var scroller: OverScroller
 
     /**
      * Reference to PieChartView to use some methods specific for that kind of chart.
      */
-    protected var pieChart: PieChartView
+    private var pieChart: PieChartView
 
     var isRotationEnabled = true
 
     init {
         pieChart = chart
-        scroller = ScrollerCompat.create(context)
+        scroller = OverScroller(context)
         gestureDetector = GestureDetector(context, ChartGestureListener())
         scaleGestureDetector = ScaleGestureDetector(context, ChartScaleGestureListener())
         isZoomEnabled = false
@@ -116,7 +116,7 @@ class PieChartTouchHandler(context: Context, chart: PieChartView) :
                 scroller.abortAnimation()
                 scroller.fling(
                     0,
-                    pieChart.chartRotation.toInt(),
+                    pieChart.chartRotation,
                     0,
                     scrollTheta.toInt() / FLING_VELOCITY_DOWNSCALE,
                     0,

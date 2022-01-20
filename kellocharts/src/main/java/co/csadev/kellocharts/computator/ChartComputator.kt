@@ -14,10 +14,7 @@ import co.csadev.kellocharts.model.set
 open class ChartComputator {
     internal var maxZoom = DEFAULT_MAXIMUM_ZOOM
         set(value) {
-            field = value
-            if (field < 1) {
-                field = 1f
-            }
+            field = value.coerceAtLeast(1f)
             computeMinimumWidthAndHeight()
             currentViewport = currentViewport
         }
@@ -44,7 +41,7 @@ open class ChartComputator {
      */
     var contentRectMinusAxesMargins = Rect()
         protected set
-    protected var maxContentRect = Rect()
+    private var maxContentRect = Rect()
 
     /**
      * This rectangle represents the currently visible chart values ranges. The currently visible chart X values are
@@ -61,16 +58,16 @@ open class ChartComputator {
      */
     var maximumViewport = Viewport()
         internal set
-    var minimumViewportWidth: Float = 0.toFloat()
+    var minimumViewportWidth: Float = 0f
         protected set
-    var minimumViewportHeight: Float = 0.toFloat()
+    var minimumViewportHeight: Float = 0f
         protected set
 
     /**
      * Warning! Viewport listener is disabled for all charts beside preview charts to avoid additional method calls
      * during animations.
      */
-    var viewportChangeListener: ViewportChangeListener? = DummyViewportChangeListener()
+    var viewportChangeListener: ViewportChangeListener = DummyViewportChangeListener()
         internal set
 
     /**
@@ -162,12 +159,12 @@ open class ChartComputator {
             }
         }
 
-        currentViewport.left = Math.max(maximumViewport.left, l)
-        currentViewport.top = Math.min(maximumViewport.top, t)
-        currentViewport.right = Math.min(maximumViewport.right, r)
-        currentViewport.bottom = Math.max(maximumViewport.bottom, b)
+        currentViewport.left = maximumViewport.left.coerceAtLeast(l)
+        currentViewport.top = maximumViewport.top.coerceAtMost(t)
+        currentViewport.right = maximumViewport.right.coerceAtMost(r)
+        currentViewport.bottom = maximumViewport.bottom.coerceAtLeast(b)
 
-        viewportChangeListener?.onViewportChanged(currentViewport)
+        viewportChangeListener.onViewportChanged(currentViewport)
     }
 
     /**

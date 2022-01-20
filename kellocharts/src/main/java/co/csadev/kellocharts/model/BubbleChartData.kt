@@ -46,19 +46,19 @@ class BubbleChartData(
 
     /**
      * Set true if you want to show value labels only for selected value, works best when chart has
-     * isValueSelectionEnabled set to true [Chart.setValueSelectionEnabled].
+     * isValueSelectionEnabled set to true [Chart.isValueSelectionEnabled].
      */
     fun setHasLabelsOnlyForSelected(hasLabelsOnlyForSelected: Boolean): BubbleChartData {
         this.hasLabelsOnlyForSelected = hasLabelsOnlyForSelected
         if (hasLabelsOnlyForSelected) {
-            this.hasLabels = false
+            hasLabels = false
         }
         return this
     }
 
     companion object {
-        val DEFAULT_MIN_BUBBLE_RADIUS_DP = 6
-        val DEFAULT_BUBBLE_SCALE = 1f
+        const val DEFAULT_MIN_BUBBLE_RADIUS_DP = 6
+        const val DEFAULT_BUBBLE_SCALE = 1f
 
         fun generateDummyData() =
             bubbleData {

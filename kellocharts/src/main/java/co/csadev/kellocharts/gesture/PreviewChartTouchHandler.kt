@@ -20,7 +20,7 @@ class PreviewChartTouchHandler(context: Context, chart: Chart) : ChartTouchHandl
         isValueSelectionEnabled = false
     }
 
-    protected inner class ChartScaleGestureListener :
+    private inner class ChartScaleGestureListener :
         ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
@@ -36,7 +36,7 @@ class PreviewChartTouchHandler(context: Context, chart: Chart) : ChartTouchHandl
         }
     }
 
-    protected inner class PreviewChartGestureListener : ChartTouchHandler.ChartGestureListener() {
+    private inner class PreviewChartGestureListener : ChartTouchHandler.ChartGestureListener() {
 
         override fun onScroll(
             e1: MotionEvent,

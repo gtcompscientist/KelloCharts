@@ -106,7 +106,7 @@ class PreviewLineChartActivity : AppCompatActivity() {
             val numValues = 50
 
             val values = ArrayList<PointValue>()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 values.add(PointValue(i.toFloat(), Math.random().toFloat() * 100f))
             }
 
@@ -167,9 +167,9 @@ class PreviewLineChartActivity : AppCompatActivity() {
          */
         private inner class ViewportListener : ViewportChangeListener {
 
-            override fun onViewportChanged(newViewport: Viewport) {
+            override fun onViewportChanged(viewport: Viewport) {
                 // don't use animation, it is unnecessary when using preview chart.
-                chart?.currentViewport = newViewport
+                chart?.currentViewport = viewport
             }
         }
     }

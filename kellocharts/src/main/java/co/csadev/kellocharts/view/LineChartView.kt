@@ -57,6 +57,6 @@ open class LineChartView @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = "LineChartView"
+        private const val TAG = "LineChartView"
     }
 }

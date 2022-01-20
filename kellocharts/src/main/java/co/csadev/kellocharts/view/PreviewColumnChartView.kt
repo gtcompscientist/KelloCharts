@@ -24,7 +24,7 @@ class PreviewColumnChartView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : ColumnChartView(context, attrs, defStyle) {
     override val chartComputator: ChartComputator = PreviewChartComputator()
-    protected var previewChartRenderer: PreviewColumnChartRenderer =
+    private var previewChartRenderer: PreviewColumnChartRenderer =
         PreviewColumnChartRenderer(context, this, this)
 
     var previewColor: Int
@@ -56,6 +56,6 @@ class PreviewColumnChartView @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = "ColumnChartView"
+        private const val TAG = "ColumnChartView"
     }
 }

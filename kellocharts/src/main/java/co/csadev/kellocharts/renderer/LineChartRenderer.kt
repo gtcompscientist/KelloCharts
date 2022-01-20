@@ -21,7 +21,7 @@ open class LineChartRenderer(
 
     private val checkPrecision: Int
 
-    private var baseValue: Float = 0.toFloat()
+    private var baseValue: Float = 0f
 
     private val touchToleranceMargin: Int
     private val path = Path()

@@ -41,8 +41,8 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
      * If true maximum and current viewport will be calculated when chart data change or during data animations.
      */
     override var isViewportCalculationEnabled = true
-    protected var density: Float = 0.toFloat()
-    protected var scaledDensity: Float = 0.toFloat()
+    protected var density: Float = 0f
+    protected var scaledDensity: Float = 0f
     override var selectedValue = SelectedValue()
     protected var labelBuffer = CharArray(64)
     protected var labelOffset: Int = 0

@@ -130,7 +130,7 @@ class ValueFormatterHelper(
 
     companion object {
         val DEFAULT_DIGITS_NUMBER = 0
-        private val TAG = "ValueFormatterHelper"
+        private const val TAG = "ValueFormatterHelper"
     }
 }
 /**

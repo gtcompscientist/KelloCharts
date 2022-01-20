@@ -51,7 +51,7 @@ class PreviewColumnChartActivity : AppCompatActivity() {
             // Generate data for previewed chart and copy of that data for preview chart.
             generateDefaultData()
 
-            chart?.columnChartData = data!!
+            chart?.columnChartData = data
             // Disable zoom/scroll for previewed chart, visible chart ranges depends on preview chart viewport so
             // zoom/scroll is unnecessary.
             chart?.isZoomEnabled = false
@@ -70,37 +70,48 @@ class PreviewColumnChartActivity : AppCompatActivity() {
             inflater.inflate(R.menu.preview_column_chart, menu)
         }
 
+        private fun resetAction(): Boolean {
+            generateDefaultData()
+            chart?.columnChartData = data
+            previewChart?.columnChartData = previewData
+            previewX(true)
+            return true
+        }
+
+        private fun previewBothAction(): Boolean {
+            previewXY()
+            previewChart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
+            return true
+        }
+
+        private fun previewHorizontalAction(): Boolean {
+            previewX(true)
+            return true
+        }
+
+        private fun previewVerticalAction(): Boolean {
+            previewY()
+            return true
+        }
+
+        private fun changeColorAction(): Boolean {
+            var color = ChartUtils.pickColor()
+            while (color == previewChart?.previewColor) {
+                color = ChartUtils.pickColor()
+            }
+            previewChart?.previewColor = color
+            return true
+        }
+
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == R.id.action_reset) {
-                generateDefaultData()
-                chart?.columnChartData = data
-                previewChart?.columnChartData = previewData
-                previewX(true)
-                return true
+            return when (item.itemId) {
+                R.id.action_reset -> resetAction()
+                R.id.action_preview_both -> previewBothAction()
+                R.id.action_preview_horizontal -> previewHorizontalAction()
+                R.id.action_preview_vertical -> previewVerticalAction()
+                R.id.action_change_color -> changeColorAction()
+                else -> super.onOptionsItemSelected(item)
             }
-            if (id == R.id.action_preview_both) {
-                previewXY()
-                previewChart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
-                return true
-            }
-            if (id == R.id.action_preview_horizontal) {
-                previewX(true)
-                return true
-            }
-            if (id == R.id.action_preview_vertical) {
-                previewY()
-                return true
-            }
-            if (id == R.id.action_change_color) {
-                var color = ChartUtils.pickColor()
-                while (color == previewChart?.previewColor) {
-                    color = ChartUtils.pickColor()
-                }
-                previewChart?.previewColor = color
-                return true
-            }
-            return super.onOptionsItemSelected(item)
         }
 
         private fun generateDefaultData(): ColumnChartData {

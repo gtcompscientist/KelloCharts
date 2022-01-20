@@ -24,7 +24,7 @@ class PreviewLineChartView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : LineChartView(context, attrs, defStyle) {
     override val chartComputator: ChartComputator = PreviewChartComputator()
-    protected var previewChartRenderer: PreviewLineChartRenderer =
+    private var previewChartRenderer: PreviewLineChartRenderer =
         PreviewLineChartRenderer(context, this, this)
 
     var previewColor: Int
@@ -56,6 +56,6 @@ class PreviewLineChartView @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = "PreviewLineChartView"
+        private const val TAG = "PreviewLineChartView"
     }
 }

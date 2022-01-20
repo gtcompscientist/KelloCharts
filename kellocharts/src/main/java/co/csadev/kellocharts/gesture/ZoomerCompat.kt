@@ -48,7 +48,7 @@ class ZoomerCompat(context: Context) {
      *
      * @see android.widget.Scroller.getCurrX
      */
-    var currZoom: Float = 0.toFloat()
+    var currZoom: Float = 0f
         private set
 
     /**
@@ -59,12 +59,11 @@ class ZoomerCompat(context: Context) {
     /**
      * The destination zoom factor.
      */
-    private var mEndZoom: Float = 0.toFloat()
+    private var mEndZoom: Float = 0f
 
     init {
         mInterpolator = DecelerateInterpolator()
-        // TODO: use constant
-        mAnimationDurationMillis = DEFAULT_SHORT_ANIMATION_DURATION.toLong()
+        mAnimationDurationMillis = DEFAULT_SHORT_ANIMATION_DURATION
     }
 
     /**
@@ -106,23 +105,23 @@ class ZoomerCompat(context: Context) {
      * @see android.widget.Scroller.computeScrollOffset
      */
     fun computeZoom(): Boolean {
-        if (mFinished) {
-            return false
-        }
-
         val tRTC = SystemClock.elapsedRealtime() - mStartRTC
-        if (tRTC >= mAnimationDurationMillis) {
-            mFinished = true
-            currZoom = mEndZoom
-            return false
+        return when {
+            mFinished -> false
+            tRTC >= mAnimationDurationMillis -> {
+                mFinished = true
+                currZoom = mEndZoom
+                false
+            }
+            else -> {
+                currZoom =
+                    mEndZoom * mInterpolator.getInterpolation(tRTC * 1f / mAnimationDurationMillis)
+                true
+            }
         }
-
-        val t = tRTC * 1f / mAnimationDurationMillis
-        currZoom = mEndZoom * mInterpolator.getInterpolation(t)
-        return true
     }
 
     companion object {
-        private val DEFAULT_SHORT_ANIMATION_DURATION = 200
+        private const val DEFAULT_SHORT_ANIMATION_DURATION = 200L
     }
 }

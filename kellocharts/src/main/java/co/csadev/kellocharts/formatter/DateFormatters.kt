@@ -12,11 +12,9 @@ private const val nullTerminator = '\u0000'
 private fun DateFormat.formatValue(formattedValue: CharArray, value: Float): Int {
     val dateResult = format(Date(value.roundToLong()))
     val dateLength = dateResult.length
+    formattedValue.fill(nullTerminator)
     dateResult.mapIndexed { index, c ->
         formattedValue[index] = c
-    }
-    for (i in dateLength until formattedValue.size) {
-        formattedValue[i] = nullTerminator
     }
     return dateLength
 }

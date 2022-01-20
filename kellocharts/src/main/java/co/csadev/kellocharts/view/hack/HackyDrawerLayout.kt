@@ -8,25 +8,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 /**
  * Hacky fix for issue with DrawerLayout https://github.com/chrisbanes/PhotoView/issues/72
  */
-class HackyDrawerLayout : DrawerLayout {
-
-    constructor(context: Context) : super(context) {}
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
-        context,
-        attrs,
-        defStyle
-    ) {
-    }
-
-    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        try {
-            return super.onInterceptTouchEvent(ev)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
+class HackyDrawerLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : DrawerLayout(context, attrs, defStyleAttr) {
+    override fun onInterceptTouchEvent(ev: MotionEvent) = try {
+        super.onInterceptTouchEvent(ev)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
     }
 }

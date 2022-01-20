@@ -26,7 +26,6 @@ class TempoChartActivity : AppCompatActivity() {
     class PlaceholderFragment : Fragment() {
 
         private var chart: LineChartView? = null
-        private var data: LineChartData? = null
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -64,7 +63,7 @@ class TempoChartActivity : AppCompatActivity() {
 
             // Height line, add it as first line to be drawn in the background.
             values = ArrayList()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 // Some random height values, add +200 to make line a little more natural
                 val rawHeight = (Math.random() * 100 + 200).toFloat()
                 val normalizedHeight = rawHeight * scale - sub
@@ -83,7 +82,7 @@ class TempoChartActivity : AppCompatActivity() {
             // tempoRange and set
             // chart values to minTempo - realTempo.
             values = ArrayList()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 // Some random raw tempo values.
                 val realTempo = Math.random().toFloat() * 6 + 2
                 val revertedTempo = tempoRange - realTempo

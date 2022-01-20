@@ -10,19 +10,13 @@ class PreviewChartComputator : ChartComputator() {
 
     override fun computeRawX(valueX: Float): Float {
         val pixelOffset =
-            (valueX - maximumViewport.left) * (
-                contentRectMinusAllMargins.width() / maximumViewport
-                    .width()
-                )
+            (valueX - maximumViewport.left) * (contentRectMinusAllMargins.width() / maximumViewport.width())
         return contentRectMinusAllMargins.left + pixelOffset
     }
 
     override fun computeRawY(valueY: Float): Float {
         val pixelOffset =
-            (valueY - maximumViewport.bottom) * (
-                contentRectMinusAllMargins.height() / maximumViewport
-                    .height()
-                )
+            (valueY - maximumViewport.bottom) * (contentRectMinusAllMargins.height() / maximumViewport.height())
         return contentRectMinusAllMargins.bottom - pixelOffset
     }
 

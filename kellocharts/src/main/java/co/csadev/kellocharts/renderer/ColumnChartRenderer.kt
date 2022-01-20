@@ -46,9 +46,9 @@ open class ColumnChartRenderer(
      */
     private val touchedPoint = PointF()
 
-    private var fillRatio: Float = 0.toFloat()
+    private var fillRatio: Float = 0f
 
-    private var baseValue: Float = 0.toFloat()
+    private var baseValue: Float = 0f
 
     private val tempMaximumViewport = Viewport()
 
@@ -170,8 +170,6 @@ open class ColumnChartRenderer(
             if (sumNegative < tempMin) {
                 tempMin = sumNegative
             }
-        }
-        for (column in data.columns) {
         }
         if (data.isHorizontal) {
             tempMaximumViewport.right = tempMax
@@ -362,7 +360,7 @@ open class ColumnChartRenderer(
         val halfColumnWidth = columnWidth / 2
         var mostPositiveValue = baseValue
         var mostNegativeValue = baseValue
-        var subcolumnBaseValue = baseValue
+        var subcolumnBaseValue: Float
         var valueIndex = 0
         for (columnValue in column.values) {
             columnPaint.color = columnValue.color
@@ -552,11 +550,11 @@ open class ColumnChartRenderer(
     }
 
     companion object {
-        val DEFAULT_SUBCOLUMN_SPACING_DP = 1
-        val DEFAULT_COLUMN_TOUCH_ADDITIONAL_WIDTH_DP = 4
+        const val DEFAULT_SUBCOLUMN_SPACING_DP = 1
+        const val DEFAULT_COLUMN_TOUCH_ADDITIONAL_WIDTH_DP = 4
 
-        private val MODE_DRAW = 0
-        private val MODE_CHECK_TOUCH = 1
-        private val MODE_HIGHLIGHT = 2
+        private const val MODE_DRAW = 0
+        private const val MODE_CHECK_TOUCH = 1
+        private const val MODE_HIGHLIGHT = 2
     }
 }

@@ -122,7 +122,7 @@ class LineColumnDependencyActivity : AppCompatActivity() {
 
             val axisValues = ArrayList<AxisValue>()
             val values = ArrayList<PointValue>()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 values.add(PointValue(i, 0))
                 axisValues.add(AxisValue(i, label = days[i]))
             }

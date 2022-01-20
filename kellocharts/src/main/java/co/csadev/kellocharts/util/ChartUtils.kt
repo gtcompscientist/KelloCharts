@@ -3,6 +3,8 @@ package co.csadev.kellocharts.util
 import android.content.Context
 import android.graphics.Color
 import android.util.TypedValue
+import java.lang.Math.random
+import kotlin.math.roundToInt
 
 object ChartUtils {
 
@@ -14,12 +16,12 @@ object ChartUtils {
     val COLOR_ORANGE = Color.parseColor("#FFBB33")
     val COLOR_RED = Color.parseColor("#FF4444")
     val COLORS = intArrayOf(COLOR_BLUE, COLOR_VIOLET, COLOR_GREEN, COLOR_ORANGE, COLOR_RED)
-    private val DARKEN_SATURATION = 1.1f
-    private val DARKEN_INTENSITY = 0.9f
+    private const val DARKEN_SATURATION = 1.1f
+    private const val DARKEN_INTENSITY = 0.9f
     private var COLOR_INDEX = 0
 
     fun pickColor(): Int {
-        return COLORS[Math.round(Math.random() * (COLORS.size - 1)).toInt()]
+        return COLORS[(random() * (COLORS.size - 1)).roundToInt()]
     }
 
     fun nextColor(): Int {

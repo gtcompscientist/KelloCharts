@@ -64,7 +64,7 @@ class SpeedChartActivity : AppCompatActivity() {
 
             // Height line, add it as first line to be drawn in the background.
             values = ArrayList()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 // Some random height values, add +200 to make line a little more natural
                 val rawHeight = (random() * 100 + 200).toFloat()
                 val normalizedHeight = rawHeight * scale - sub
@@ -80,7 +80,7 @@ class SpeedChartActivity : AppCompatActivity() {
 
             // Speed line
             values = ArrayList()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 // Some random speed values, add +20 to make line a little more natural.
                 values.add(PointValue(i.toFloat(), random().toFloat() * 30 + 20))
             }

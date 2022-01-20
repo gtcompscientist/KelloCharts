@@ -4,10 +4,8 @@ import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
-import android.annotation.SuppressLint
 import co.csadev.kellocharts.view.PieChartView
 
-@SuppressLint("NewApi")
 class PieChartRotationAnimatorV14 @JvmOverloads constructor(
     private val chart: PieChartView,
     duration: Long = 200L
@@ -56,11 +54,7 @@ class PieChartRotationAnimatorV14 @JvmOverloads constructor(
         animationListener.onAnimationStarted()
     }
 
-    override fun setChartAnimationListener(animationListener: ChartAnimationListener?) {
-        if (null == animationListener) {
-            this.animationListener = DummyChartAnimationListener()
-        } else {
-            this.animationListener = animationListener
-        }
+    override fun setChartAnimationListener(animationListener: ChartAnimationListener) {
+        this.animationListener = animationListener
     }
 }

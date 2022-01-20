@@ -19,8 +19,8 @@ class SubcolumnValue(
             this.originValue = value
             this.diff = 0f
         }
-    private var originValue: Float = 0.toFloat()
-    private var diff: Float = 0.toFloat()
+    private var originValue: Float = 0f
+    private var diff: Float = 0f
     var color: Int = color
         set(value) {
             field = value

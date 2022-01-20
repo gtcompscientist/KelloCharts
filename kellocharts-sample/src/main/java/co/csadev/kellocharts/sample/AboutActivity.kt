@@ -49,7 +49,7 @@ class AboutActivity : AppCompatActivity() {
     }
 
     companion object {
-        val TAG = AboutActivity::class.java.simpleName
+        private const val TAG = "AboutActivity"
         const val GITHUB_URL = "github.com/gtcompscientist/kellocharts"
 
         fun getAppVersionAndBuild(context: Context?): Pair<String, Long> {
@@ -62,8 +62,8 @@ class AboutActivity : AppCompatActivity() {
             }
         }
 
-        fun launchWebBrowser(context: Context?, url: String): Boolean {
-            var url = url
+        fun launchWebBrowser(context: Context?, u: String): Boolean {
+            var url = u
             try {
                 url = url.lowercase(Locale.getDefault())
                 if (!url.startsWith("http://") || !url.startsWith("https://")) {

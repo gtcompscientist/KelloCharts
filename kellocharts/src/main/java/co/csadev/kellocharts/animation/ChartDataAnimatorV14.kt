@@ -25,7 +25,7 @@ class ChartDataAnimatorV14(private val chart: Chart) :
         if (duration >= 0) {
             animator.duration = duration
         } else {
-            animator.duration = ChartDataAnimator.DEFAULT_ANIMATION_DURATION
+            animator.duration = DEFAULT_ANIMATION_DURATION
         }
         animator.start()
     }

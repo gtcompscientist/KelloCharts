@@ -62,6 +62,6 @@ open class ColumnChartView @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = "ColumnChartView"
+        private const val TAG = "ColumnChartView"
     }
 }

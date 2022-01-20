@@ -114,6 +114,6 @@ class ComboLineColumnChartView @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = "ComboLCChartView"
+        private const val TAG = "ComboLCChartView"
     }
 }

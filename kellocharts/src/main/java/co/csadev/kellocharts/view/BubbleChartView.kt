@@ -67,6 +67,6 @@ class BubbleChartView @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = "BubbleChartView"
+        private const val TAG = "BubbleChartView"
     }
 }

@@ -4,12 +4,10 @@ import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
-import android.annotation.SuppressLint
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.view.Chart
 
-@SuppressLint("NewApi")
 class ChartViewportAnimatorV14(private val chart: Chart) :
     ChartViewportAnimator,
     AnimatorListener,
@@ -18,7 +16,7 @@ class ChartViewportAnimatorV14(private val chart: Chart) :
     private val startViewport = Viewport()
     private val targetViewport = Viewport()
     private val newViewport = Viewport()
-    private var animationListener: ChartAnimationListener? = DummyChartAnimationListener()
+    private var animationListener: ChartAnimationListener = DummyChartAnimationListener()
 
     override val isAnimationStarted: Boolean
         get() = animator.isStarted
@@ -43,9 +41,7 @@ class ChartViewportAnimatorV14(private val chart: Chart) :
         animator.start()
     }
 
-    override fun cancelAnimation() {
-        animator.cancel()
-    }
+    override fun cancelAnimation() = animator.cancel()
 
     override fun onAnimationUpdate(animation: ValueAnimator) {
         val scale = animation.animatedFraction
@@ -66,16 +62,16 @@ class ChartViewportAnimatorV14(private val chart: Chart) :
 
     override fun onAnimationEnd(animation: Animator) {
         chart.currentViewport = targetViewport
-        animationListener?.onAnimationFinished()
+        animationListener.onAnimationFinished()
     }
 
     override fun onAnimationRepeat(animation: Animator) {}
 
     override fun onAnimationStart(animation: Animator) {
-        animationListener?.onAnimationStarted()
+        animationListener.onAnimationStarted()
     }
 
-    override fun setChartAnimationListener(animationListener: ChartAnimationListener?) {
+    override fun setChartAnimationListener(animationListener: ChartAnimationListener) {
         this.animationListener = animationListener
     }
 }

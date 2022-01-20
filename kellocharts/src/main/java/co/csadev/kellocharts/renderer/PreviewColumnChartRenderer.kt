@@ -49,8 +49,8 @@ class PreviewColumnChartRenderer(
     }
 
     companion object {
-        private val DEFAULT_PREVIEW_TRANSPARENCY = 64
-        private val FULL_ALPHA = 255
-        private val DEFAULT_PREVIEW_STROKE_WIDTH_DP = 2
+        private const val DEFAULT_PREVIEW_TRANSPARENCY = 64
+        private const val FULL_ALPHA = 255
+        private const val DEFAULT_PREVIEW_STROKE_WIDTH_DP = 2
     }
 }

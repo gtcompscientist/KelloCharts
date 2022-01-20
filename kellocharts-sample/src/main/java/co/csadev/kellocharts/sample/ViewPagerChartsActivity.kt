@@ -159,7 +159,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             val numValues = 20
 
             val values = ArrayList<PointValue>()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 values.add(PointValue(i.toFloat(), Math.random().toFloat() * 100f))
             }
 
@@ -228,7 +228,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             val numValues = 50
 
             val values = ArrayList<PointValue>()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 values.add(PointValue(i.toFloat(), Math.random().toFloat() * 100f))
             }
 
@@ -250,7 +250,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             val numValues = 6
 
             val values = ArrayList<SliceValue>()
-            for (i in 0 until numValues) {
+            repeat(numValues) {
                 values.add(
                     SliceValue(
                         Math.random().toFloat() * 30 + 15,
@@ -266,7 +266,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
             /**
              * The fragment argument representing the section number for this fragment.
              */
-            private val ARG_SECTION_NUMBER = "section_number"
+            private const val ARG_SECTION_NUMBER = "section_number"
 
             /**
              * Returns a new instance of this fragment for the given section number.
@@ -286,25 +286,19 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
      */
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-        override fun getItem(position: Int): Fragment {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1)
-        }
+        // getItem is called to instantiate the fragment for the given page.
+        // Return a PlaceholderFragment (defined as a static inner class below).
+        override fun getItem(position: Int) = PlaceholderFragment.newInstance(position + 1)
 
-        override fun getCount(): Int {
-            return 5
-        }
+        override fun getCount() = 5
 
-        override fun getPageTitle(position: Int): CharSequence? {
-            when (position) {
-                0 -> return "LineChart"
-                1 -> return "ColumnChart"
-                2 -> return "BubbleChart"
-                3 -> return "PreviewLineChart"
-                4 -> return "PieChart"
-            }
-            return null
+        override fun getPageTitle(position: Int): CharSequence? = when (position) {
+            0 -> "LineChart"
+            1 -> "ColumnChart"
+            2 -> "BubbleChart"
+            3 -> "PreviewLineChart"
+            4 -> "PieChart"
+            else -> null
         }
     }
 }

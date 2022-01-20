@@ -28,7 +28,7 @@ class PieChartRenderer(
             field = rotation
         }
     private val slicePaint = Paint()
-    private var maxSum: Float = 0.toFloat()
+    private var maxSum: Float = 0f
     var circleOval = RectF()
     private val drawCircleOval = RectF()
     private val sliceVector = PointF()
@@ -48,7 +48,7 @@ class PieChartRenderer(
 
     // Center circle related attributes
     private var hasCenterCircle: Boolean = false
-    private var centerCircleScale: Float = 0.toFloat()
+    private var centerCircleScale: Float = 0f
     private val centerCirclePaint = Paint()
 
     // Text1
