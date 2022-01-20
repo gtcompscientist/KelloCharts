@@ -205,15 +205,15 @@ abstract class AbstractChartView @JvmOverloads constructor(
         ViewCompat.postInvalidateOnAnimation(this)
     }
 
-    override fun setDataAnimationListener(animationListener: ChartAnimationListener?) {
+    override fun setDataAnimationListener(animationListener: ChartAnimationListener) {
         dataAnimator.setChartAnimationListener(animationListener)
     }
 
-    override fun setViewportAnimationListener(animationListener: ChartAnimationListener?) {
+    override fun setViewportAnimationListener(animationListener: ChartAnimationListener) {
         viewportAnimator.setChartAnimationListener(animationListener)
     }
 
-    override fun setViewportChangeListener(viewportChangeListener: ViewportChangeListener?) {
+    override fun setViewportChangeListener(viewportChangeListener: ViewportChangeListener) {
         chartComputator.viewportChangeListener = viewportChangeListener
     }
 

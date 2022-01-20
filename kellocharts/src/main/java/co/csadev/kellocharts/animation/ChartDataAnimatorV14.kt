@@ -11,7 +11,7 @@ class ChartDataAnimatorV14(private val chart: Chart) :
     AnimatorListener,
     AnimatorUpdateListener {
     private val animator: ValueAnimator = ValueAnimator.ofFloat(0.0f, 1.0f)
-    private var animationListener: ChartAnimationListener? = DummyChartAnimationListener()
+    private var animationListener: ChartAnimationListener = DummyChartAnimationListener()
 
     override val isAnimationStarted: Boolean
         get() = animator.isStarted
@@ -39,16 +39,16 @@ class ChartDataAnimatorV14(private val chart: Chart) :
 
     override fun onAnimationEnd(animation: Animator) {
         chart.animationDataFinished()
-        animationListener?.onAnimationFinished()
+        animationListener.onAnimationFinished()
     }
 
     override fun onAnimationRepeat(animation: Animator) = Unit
 
     override fun onAnimationStart(animation: Animator) {
-        animationListener?.onAnimationStarted()
+        animationListener.onAnimationStarted()
     }
 
-    override fun setChartAnimationListener(animationListener: ChartAnimationListener?) {
+    override fun setChartAnimationListener(animationListener: ChartAnimationListener) {
         this.animationListener = animationListener
     }
 }

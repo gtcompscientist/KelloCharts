@@ -182,19 +182,19 @@ interface Chart {
      * Set listener for data animation to be notified when data animation started and finished. By default that flag is
      * set to true so be careful with animation and custom viewports.
      */
-    fun setDataAnimationListener(animationListener: ChartAnimationListener?)
+    fun setDataAnimationListener(animationListener: ChartAnimationListener)
 
     /**
      * Set listener for viewport animation to be notified when viewport animation started and finished.
      */
-    fun setViewportAnimationListener(animationListener: ChartAnimationListener?)
+    fun setViewportAnimationListener(animationListener: ChartAnimationListener)
 
     /**
      * Set listener for current viewport changes. It will be called when viewport change either by gesture or
      * programmatically. Note! This method works only for preview charts. It is intentionally disabled for other types
      * of charts to avoid unnecessary method calls during invalidation.
      */
-    fun setViewportChangeListener(viewportChangeListener: ViewportChangeListener?)
+    fun setViewportChangeListener(viewportChangeListener: ViewportChangeListener)
 
     fun callTouchListener()
 

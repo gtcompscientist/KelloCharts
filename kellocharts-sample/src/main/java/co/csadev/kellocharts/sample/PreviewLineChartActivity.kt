@@ -107,7 +107,7 @@ class PreviewLineChartActivity : AppCompatActivity() {
 
             val values = ArrayList<PointValue>()
             repeat(numValues) {
-                values.add(PointValue(i.toFloat(), Math.random().toFloat() * 100f))
+                values.add(PointValue(it.toFloat(), Math.random().toFloat() * 100f))
             }
 
             val line = Line(values)

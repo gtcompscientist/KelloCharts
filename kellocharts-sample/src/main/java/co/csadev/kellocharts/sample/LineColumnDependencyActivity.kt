@@ -123,8 +123,8 @@ class LineColumnDependencyActivity : AppCompatActivity() {
             val axisValues = ArrayList<AxisValue>()
             val values = ArrayList<PointValue>()
             repeat(numValues) {
-                values.add(PointValue(i, 0))
-                axisValues.add(AxisValue(i, label = days[i]))
+                values.add(PointValue(it, 0))
+                axisValues.add(AxisValue(it, label = days[it]))
             }
 
             val line = Line(values, color = ChartUtils.COLOR_GREEN, isCubic = true)

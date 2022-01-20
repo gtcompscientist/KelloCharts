@@ -28,7 +28,6 @@ class SpeedChartActivity : AppCompatActivity() {
     class PlaceholderFragment : Fragment() {
 
         private var chart: LineChartView? = null
-        private var data: LineChartData? = null
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -68,7 +67,7 @@ class SpeedChartActivity : AppCompatActivity() {
                 // Some random height values, add +200 to make line a little more natural
                 val rawHeight = (random() * 100 + 200).toFloat()
                 val normalizedHeight = rawHeight * scale - sub
-                values.add(PointValue(i.toFloat(), normalizedHeight))
+                values.add(PointValue(it.toFloat(), normalizedHeight))
             }
 
             line = Line(values)
@@ -82,7 +81,7 @@ class SpeedChartActivity : AppCompatActivity() {
             values = ArrayList()
             repeat(numValues) {
                 // Some random speed values, add +20 to make line a little more natural.
-                values.add(PointValue(i.toFloat(), random().toFloat() * 30 + 20))
+                values.add(PointValue(it.toFloat(), random().toFloat() * 30 + 20))
             }
 
             line = Line(values)

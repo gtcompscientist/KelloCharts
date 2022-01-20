@@ -320,10 +320,9 @@ class LineChartActivity : AppCompatActivity() {
                     override fun onAnimationFinished() {
                         // Set max viewpirt and remove listener.
                         chart?.maximumViewport = v
-                        chart?.setViewportAnimationListener(null)
                     }
                 })
-                // Set current viewpirt with animation;
+                // Set current viewport with animation;
                 chart?.setCurrentViewportWithAnimation(v)
             }
         }
@@ -396,7 +395,7 @@ class LineChartActivity : AppCompatActivity() {
         /**
          * To animate values you have to change targets values and then call [Chart.startDataAnimation]
          * method(don't confuse with View.animate()). If you operate on data that was set before you don't have to call
-         * [LineChartView.setLineChartData] again.
+         * [LineChartView.lineChartData] again.
          */
         private fun prepareDataAnimation() {
             for (line in data!!.lines) {

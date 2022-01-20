@@ -28,6 +28,6 @@ class PreviewChartComputator : ChartComputator() {
 
     override fun constrainViewport(left: Float, top: Float, right: Float, bottom: Float) {
         super.constrainViewport(left, top, right, bottom)
-        viewportChangeListener?.onViewportChanged(currentViewport)
+        viewportChangeListener.onViewportChanged(currentViewport)
     }
 }

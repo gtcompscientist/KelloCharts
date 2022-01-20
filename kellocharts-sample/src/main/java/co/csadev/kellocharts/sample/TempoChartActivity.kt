@@ -67,7 +67,7 @@ class TempoChartActivity : AppCompatActivity() {
                 // Some random height values, add +200 to make line a little more natural
                 val rawHeight = (Math.random() * 100 + 200).toFloat()
                 val normalizedHeight = rawHeight * scale - sub
-                values.add(PointValue(i.toFloat(), normalizedHeight))
+                values.add(PointValue(it.toFloat(), normalizedHeight))
             }
 
             line = Line(values)
@@ -86,7 +86,7 @@ class TempoChartActivity : AppCompatActivity() {
                 // Some random raw tempo values.
                 val realTempo = Math.random().toFloat() * 6 + 2
                 val revertedTempo = tempoRange - realTempo
-                values.add(PointValue(i.toFloat(), revertedTempo))
+                values.add(PointValue(it.toFloat(), revertedTempo))
             }
 
             line = Line(values)
