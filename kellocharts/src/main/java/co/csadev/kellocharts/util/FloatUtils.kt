@@ -1,7 +1,9 @@
 package co.csadev.kellocharts.util
 
+import kotlin.math.*
+
 object FloatUtils {
-    val POW10 = intArrayOf(1, 10, 100, 1000, 10000, 100000, 1000000)
+    private val POW10 = intArrayOf(1, 10, 100, 1000, 10000, 100000, 1000000)
 
     /**
      * Returns next bigger float value considering precision of the argument.
@@ -36,11 +38,11 @@ object FloatUtils {
      */
     fun nextUp(d: Double): Double {
         var d = d
-        if (java.lang.Double.isNaN(d) || d == java.lang.Double.POSITIVE_INFINITY) {
-            return d
+        return if (java.lang.Double.isNaN(d) || d == java.lang.Double.POSITIVE_INFINITY) {
+            d
         } else {
             d += 0.0
-            return java.lang.Double.longBitsToDouble(java.lang.Double.doubleToRawLongBits(d) + if (d >= 0.0) +1 else -1)
+            java.lang.Double.longBitsToDouble(java.lang.Double.doubleToRawLongBits(d) + if (d >= 0.0) +1 else -1)
         }
     }
 
@@ -78,13 +80,14 @@ object FloatUtils {
     }
 
     /**
-     * Rounds the given number to the given number of significant digits. Based on an answer on [Stack Overflow](http://stackoverflow.com/questions/202302).
+     * Rounds the given number to the given number of significant digits.
+     * Based on an answer on [Stack Overflow](http://stackoverflow.com/questions/202302).
      */
-    fun roundToOneSignificantFigure(num: Double): Float {
-        val d = Math.ceil(Math.log10(if (num < 0) -num else num).toFloat().toDouble()).toFloat()
+    private fun roundToOneSignificantFigure(num: Double): Float {
+        val d = ceil(log10(if (num < 0) -num else num).toFloat().toDouble()).toFloat()
         val power = 1 - d.toInt()
-        val magnitude = Math.pow(10.0, power.toDouble()).toFloat()
-        val shifted = Math.round(num * magnitude)
+        val magnitude = 10.0.pow(power.toDouble()).toFloat()
+        val shifted = (num * magnitude).roundToInt()
         return shifted / magnitude
     }
 
@@ -121,13 +124,13 @@ object FloatUtils {
             digits = POW10.size - 1
         }
         value *= POW10[digits].toFloat()
-        var lval = Math.round(value).toLong()
+        var lval = value.roundToInt().toLong()
         var index = endIndex - 1
         var charsNumber = 0
         while (lval != 0L || charsNumber < digits + 1) {
             val digit = (lval % 10).toInt()
             lval /= 10
-            formattedValue[index--] = (digit + '0'.toInt()).toChar()
+            formattedValue[index--] = (digit + '0'.code).toChar()
             charsNumber++
             if (charsNumber == digits) {
                 formattedValue[index--] = separator
@@ -139,7 +142,7 @@ object FloatUtils {
             charsNumber++
         }
         if (negative) {
-            formattedValue[index--] = '-'
+            formattedValue[index] = '-'
             charsNumber++
         }
         return charsNumber
@@ -171,15 +174,15 @@ object FloatUtils {
 
         val rawInterval = range / steps
         var interval = roundToOneSignificantFigure(rawInterval).toDouble()
-        val intervalMagnitude = Math.pow(10.0, Math.log10(interval).toInt().toDouble())
+        val intervalMagnitude = 10.0.pow(log10(interval).toInt().toDouble())
         val intervalSigDigit = (interval / intervalMagnitude).toInt()
         if (intervalSigDigit > 5) {
             // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
-            interval = Math.floor(10 * intervalMagnitude)
+            interval = floor(10 * intervalMagnitude)
         }
 
-        val first = Math.ceil(start / interval) * interval
-        val last = nextUp(Math.floor(stop / interval) * interval)
+        val first = ceil(start / interval) * interval
+        val last = nextUp(floor(stop / interval) * interval)
 
         var intervalValue: Double
         var valueIndex: Int

@@ -8,6 +8,7 @@ import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
 
 /**
@@ -67,7 +68,7 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
         this.scaledDensity = context.resources.displayMetrics.scaledDensity
         this.computator = chart.chartComputator
 
-        labelMargin = ChartUtils.dp2px(density, DEFAULT_LABEL_MARGIN_DP)
+        labelMargin = DEFAULT_LABEL_MARGIN_DP.dp2px(density)
         labelOffset = labelMargin
 
         labelPaint.isAntiAlias = true
@@ -142,10 +143,10 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
 
 class InternalChartRendererBase(context: Context, chart: Chart) :
     AbstractChartRenderer(context, chart) {
-    override fun onChartSizeChanged() {}
-    override fun onChartViewportChanged() {}
-    override fun draw(canvas: Canvas) {}
-    override fun drawUnclipped(canvas: Canvas) {}
+    override fun onChartSizeChanged() = Unit
+    override fun onChartViewportChanged() = Unit
+    override fun draw(canvas: Canvas) = Unit
+    override fun drawUnclipped(canvas: Canvas) = Unit
     override fun checkTouch(touchX: Float, touchY: Float): Boolean {
         return false
     }

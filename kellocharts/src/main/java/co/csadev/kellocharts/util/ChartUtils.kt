@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.TypedValue
 import java.lang.Math.random
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 object ChartUtils {
@@ -31,15 +32,9 @@ object ChartUtils {
         return COLORS[COLOR_INDEX++]
     }
 
-    fun dp2px(density: Float, dp: Int): Int {
-        return if (dp == 0) {
-            0
-        } else (dp * density + 0.5f).toInt()
-    }
+    fun Int.dp2px(density: Float): Int = if (this == 0) 0 else (this * density + 0.5f).toInt()
 
-    fun px2dp(density: Float, px: Int): Int {
-        return Math.ceil((px / density).toDouble()).toInt()
-    }
+    fun px2dp(density: Float, px: Int): Int = ceil((px / density).toDouble()).toInt()
 
     fun sp2px(scaledDensity: Float, sp: Int): Int {
         return if (sp == 0) {
@@ -48,7 +43,7 @@ object ChartUtils {
     }
 
     fun px2sp(scaledDensity: Float, px: Int): Int {
-        return Math.ceil((px / scaledDensity).toDouble()).toInt()
+        return ceil((px / scaledDensity).toDouble()).toInt()
     }
 
     fun mm2px(context: Context, mm: Int): Int {
@@ -61,11 +56,11 @@ object ChartUtils {
             ).toInt()
     }
 
-    fun darkenColor(color: Int): Int {
+    fun Int.darken(): Int {
         val hsv = FloatArray(3)
-        val alpha = Color.alpha(color)
-        Color.colorToHSV(color, hsv)
-        hsv[1] = Math.min(hsv[1] * DARKEN_SATURATION, 1.0f)
+        val alpha = Color.alpha(this)
+        Color.colorToHSV(this, hsv)
+        hsv[1] = (hsv[1] * DARKEN_SATURATION).coerceAtMost(1.0f)
         hsv[2] = hsv[2] * DARKEN_INTENSITY
         val tempColor = Color.HSVToColor(hsv)
         return Color.argb(

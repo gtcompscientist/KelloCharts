@@ -1,6 +1,7 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.darken
 import co.csadev.kellocharts.view.Chart
 import java.util.*
 
@@ -24,9 +25,9 @@ class SubcolumnValue(
     var color: Int = color
         set(value) {
             field = value
-            this.darkenColor = ChartUtils.darkenColor(field)
+            this.darkenColor = field.darken()
         }
-    var darkenColor = ChartUtils.darkenColor(color)
+    var darkenColor = color.darken()
         private set
 
     fun update(scale: Float) {
@@ -57,13 +58,13 @@ class SubcolumnValue(
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
 
-        val that = other as SubcolumnValue?
+        val that = other as? SubcolumnValue ?: return false
 
-        if (color != that!!.color) return false
+        if (color != that.color) return false
         if (darkenColor != that.darkenColor) return false
-        if (java.lang.Float.compare(that.diff, diff) != 0) return false
-        if (java.lang.Float.compare(that.originValue, originValue) != 0) return false
-        if (java.lang.Float.compare(that.value, value) != 0) return false
+        if (that.diff.compareTo(diff) != 0) return false
+        if (that.originValue.compareTo(originValue) != 0) return false
+        if (that.value.compareTo(value) != 0) return false
         return Arrays.equals(label, that.label)
     }
 

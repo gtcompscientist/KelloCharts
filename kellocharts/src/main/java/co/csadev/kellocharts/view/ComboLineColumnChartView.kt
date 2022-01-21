@@ -37,12 +37,12 @@ class ComboLineColumnChartView @JvmOverloads constructor(
     var comboLineColumnChartData: ComboLineColumnChartData =
         ComboLineColumnChartData.generateDummyData()
         set(value) {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "Setting data for ComboLineColumnChartView")
-                }
-                field = value
-                super.onChartDataChange()
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Setting data for ComboLineColumnChartView")
             }
+            field = value
+            super.onChartDataChange()
+        }
 
     override val chartData: ChartData
         get() = comboLineColumnChartData
@@ -59,29 +59,33 @@ class ComboLineColumnChartView @JvmOverloads constructor(
     override fun callTouchListener() {
         val selectedValue = chartRenderer.selectedValue
 
-        if (selectedValue.isSet) {
-
-            if (SelectedValueType.COLUMN == selectedValue.type) {
-
+        if (!selectedValue.isSet) {
+            onValueTouchListener.onValueDeselected()
+            return
+        }
+        when (selectedValue.type) {
+            SelectedValueType.COLUMN -> {
                 val value =
-                    comboLineColumnChartData.columnChartData.columns[selectedValue.firstIndex].values[selectedValue.secondIndex]
+                    comboLineColumnChartData.columnChartData
+                        .columns[selectedValue.firstIndex]
+                        .values[selectedValue.secondIndex]
                 onValueTouchListener.onColumnValueSelected(
                     selectedValue.firstIndex,
                     selectedValue.secondIndex, value
                 )
-            } else if (SelectedValueType.LINE == selectedValue.type) {
-
+            }
+            SelectedValueType.LINE -> {
                 val value =
-                    comboLineColumnChartData.lineChartData.lines[selectedValue.firstIndex].values[selectedValue.secondIndex]
+                    comboLineColumnChartData.lineChartData
+                        .lines[selectedValue.firstIndex]
+                        .values[selectedValue.secondIndex]
                 onValueTouchListener.onPointValueSelected(
-                    selectedValue.firstIndex, selectedValue.secondIndex,
+                    selectedValue.firstIndex,
+                    selectedValue.secondIndex,
                     value
                 )
-            } else {
-                throw IllegalArgumentException("Invalid selected value type " + selectedValue.type!!.name)
             }
-        } else {
-            onValueTouchListener.onValueDeselected()
+            else -> throw IllegalArgumentException("Invalid selected value type " + selectedValue.type?.name)
         }
     }
 

@@ -75,9 +75,9 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
         mViewPager?.currentItem = tab.position
     }
 
-    override fun onTabUnselected(tab: ActionBar.Tab, fragmentTransaction: FragmentTransaction) {}
+    override fun onTabUnselected(tab: ActionBar.Tab, fragmentTransaction: FragmentTransaction) = Unit
 
-    override fun onTabReselected(tab: ActionBar.Tab, fragmentTransaction: FragmentTransaction) {}
+    override fun onTabReselected(tab: ActionBar.Tab, fragmentTransaction: FragmentTransaction) = Unit
 
     /**
      * A placeholder fragment containing a simple view.

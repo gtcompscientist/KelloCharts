@@ -10,7 +10,12 @@ import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
 import co.csadev.kellocharts.provider.PieChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
+import kotlin.math.abs
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * Default renderer for PieChart. PieChart doesn't use viewport concept so it a little different than others chart
@@ -23,16 +28,14 @@ class PieChartRenderer(
 ) : AbstractChartRenderer(context, chart) {
     var chartRotation = DEFAULT_START_ROTATION
         set(rotation) {
-            var rotation = rotation
-            rotation = (rotation % 360 + 360) % 360
-            field = rotation
+            field = (rotation % 360 + 360) % 360
         }
     private val slicePaint = Paint()
     private var maxSum: Float = 0f
     var circleOval = RectF()
     private val drawCircleOval = RectF()
     private val sliceVector = PointF()
-    private val touchAdditional: Int
+    private val touchAdditional: Int = DEFAULT_TOUCH_ADDITIONAL_DP.dp2px(density)
     /**
      * @see .setCircleFillRatio
      */
@@ -42,7 +45,7 @@ class PieChartRenderer(
      */
     var circleFillRatio = 1.0f
         set(value) {
-            field = Math.min(1f, Math.max(0f, value))
+            field = 1f.coerceIn(0f, value)
             calculateCircleOval()
         }
 
@@ -72,7 +75,6 @@ class PieChartRenderer(
     private val softwareCanvas = Canvas()
 
     init {
-        touchAdditional = ChartUtils.dp2px(density, DEFAULT_TOUCH_ADDITIONAL_DP)
 
         slicePaint.isAntiAlias = true
         slicePaint.style = Paint.Style.FILL
@@ -165,7 +167,7 @@ class PieChartRenderer(
         }
     }
 
-    override fun drawUnclipped(canvas: Canvas) {}
+    override fun drawUnclipped(canvas: Canvas) = Unit
 
     override fun checkTouch(touchX: Float, touchY: Float): Boolean {
         selectedValue.clear()
@@ -191,14 +193,12 @@ class PieChartRenderer(
             (pointToAngle(touchX, touchY, centerX, centerY) - chartRotation + 360f) % 360f
         val sliceScale = 360f / maxSum
         var lastAngle = 0f // No start angle here, see above
-        var sliceIndex = 0
-        for (sliceValue in data.values) {
-            val angle = Math.abs(sliceValue.value) * sliceScale
+        data.values.forEachIndexed { sliceIndex, sliceValue ->
+            val angle = abs(sliceValue.value) * sliceScale
             if (touchAngle >= lastAngle) {
                 selectedValue[sliceIndex, sliceIndex] = SelectedValueType.NONE
             }
             lastAngle += angle
-            ++sliceIndex
         }
         return isTouched
     }
@@ -218,11 +218,11 @@ class PieChartRenderer(
         // Draw center text1 and text2 if not empty.
         if (!TextUtils.isEmpty(data.centerText1)) {
 
-            val text1Height = Math.abs(centerCircleText1FontMetrics.ascent)
+            val text1Height = abs(centerCircleText1FontMetrics.ascent)
 
             if (!TextUtils.isEmpty(data.centerText2)) {
                 // Draw text 2 only if text 1 is not empty.
-                val text2Height = Math.abs(centerCircleText2FontMetrics.ascent)
+                val text2Height = abs(centerCircleText2FontMetrics.ascent)
                 canvas.drawText(
                     data.centerText1!!,
                     centerX,
@@ -259,7 +259,7 @@ class PieChartRenderer(
         var lastAngle = chartRotation.toFloat()
         var sliceIndex = 0
         for (sliceValue in data.values) {
-            val angle = Math.abs(sliceValue.value) * sliceScale
+            val angle = abs(sliceValue.value) * sliceScale
             if (isTouched && selectedValue.firstIndex == sliceIndex) {
                 drawSlice(canvas, sliceValue, lastAngle, angle, MODE_HIGHLIGHT)
             } else {
@@ -276,7 +276,7 @@ class PieChartRenderer(
             // No need for separation lines for 0 or 1 slices.
             return
         }
-        val sliceSpacing = ChartUtils.dp2px(density, data.sliceSpacing)
+        val sliceSpacing = data.sliceSpacing.dp2px(density)
         if (sliceSpacing < 1) {
             // No need for separation lines
             return
@@ -286,11 +286,11 @@ class PieChartRenderer(
         val circleRadius = circleOval.width() / 2f
         separationLinesPaint.strokeWidth = sliceSpacing.toFloat()
         for (sliceValue in data.values) {
-            val angle = Math.abs(sliceValue.value) * sliceScale
+            val angle = abs(sliceValue.value) * sliceScale
 
             sliceVector.set(
-                Math.cos(Math.toRadians(lastAngle.toDouble())).toFloat(),
-                Math.sin(Math.toRadians(lastAngle.toDouble())).toFloat()
+                cos(Math.toRadians(lastAngle.toDouble())).toFloat(),
+                sin(Math.toRadians(lastAngle.toDouble())).toFloat()
             )
             normalizeVector(sliceVector)
 
@@ -315,7 +315,7 @@ class PieChartRenderer(
         var lastAngle = chartRotation.toFloat()
         var sliceIndex = 0
         for (sliceValue in data.values) {
-            val angle = Math.abs(sliceValue.value) * sliceScale
+            val angle = abs(sliceValue.value) * sliceScale
             if (isTouched) {
                 if (hasLabels) {
                     drawLabel(canvas, sliceValue, lastAngle, angle)
@@ -345,8 +345,8 @@ class PieChartRenderer(
         mode: Int
     ) {
         sliceVector.set(
-            Math.cos(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat(),
-            Math.sin(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat()
+            cos(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat(),
+            sin(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat()
         )
         normalizeVector(sliceVector)
         drawCircleOval.set(circleOval)
@@ -363,8 +363,8 @@ class PieChartRenderer(
 
     private fun drawLabel(canvas: Canvas, sliceValue: SliceValue, lastAngle: Float, angle: Float) {
         sliceVector.set(
-            Math.cos(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat(),
-            Math.sin(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat()
+            cos(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat(),
+            sin(Math.toRadians((lastAngle + angle / 2).toDouble())).toFloat()
         )
         normalizeVector(sliceVector)
 
@@ -376,7 +376,7 @@ class PieChartRenderer(
         }
 
         val labelWidth = labelPaint.measureText(labelBuffer, labelBuffer.size - numChars, numChars)
-        val labelHeight = Math.abs(fontMetrics.ascent)
+        val labelHeight = abs(fontMetrics.ascent)
 
         val centerX = circleOval.centerX()
         val centerY = circleOval.centerY()
@@ -445,7 +445,7 @@ class PieChartRenderer(
         val diffX = (x - centerX).toDouble()
         val diffY = (y - centerY).toDouble()
         // Pass -diffX to get clockwise degrees order.
-        val radian = Math.atan2(-diffX, diffY)
+        val radian = atan2(-diffX, diffY)
 
         var angle = (Math.toDegrees(radian).toFloat() + 360) % 360
         // Add 90 because atan2 returns 0 degrees at 6 o'clock.
@@ -458,7 +458,7 @@ class PieChartRenderer(
      */
     private fun calculateCircleOval() {
         val contentRect = computator.contentRectMinusAllMargins
-        val circleRadius = Math.min(contentRect.width() / 2f, contentRect.height() / 2f)
+        val circleRadius = (contentRect.width() / 2f).coerceAtMost(contentRect.height() / 2f)
         val centerX = contentRect.centerX().toFloat()
         val centerY = contentRect.centerY().toFloat()
         val left = centerX - circleRadius + touchAdditional
@@ -478,7 +478,7 @@ class PieChartRenderer(
         tempMaximumViewport.set(0f, MAX_WIDTH_HEIGHT, MAX_WIDTH_HEIGHT, 0f)
         maxSum = 0.0f
         for (sliceValue in dataProvider.pieChartData.values) {
-            maxSum += Math.abs(sliceValue.value)
+            maxSum += abs(sliceValue.value)
         }
     }
 
@@ -490,9 +490,8 @@ class PieChartRenderer(
         val touchAngle = (angle - chartRotation + 360f) % 360f
         val sliceScale = 360f / maxSum
         var lastAngle = 0f
-        var sliceIndex = 0
-        for (sliceValue in data.values) {
-            val tempAngle = Math.abs(sliceValue.value) * sliceScale
+        for ((sliceIndex, sliceValue) in data.values.withIndex()) {
+            val tempAngle = abs(sliceValue.value) * sliceScale
             if (touchAngle >= lastAngle) {
                 if (null != selectedValue) {
                     selectedValue[sliceIndex, sliceIndex] = SelectedValueType.NONE
@@ -500,18 +499,17 @@ class PieChartRenderer(
                 return sliceValue
             }
             lastAngle += tempAngle
-            ++sliceIndex
         }
         return null
     }
 
     companion object {
-        private val MAX_WIDTH_HEIGHT = 100f
-        private val DEFAULT_START_ROTATION = 45
-        private val DEFAULT_LABEL_INSIDE_RADIUS_FACTOR = 0.7f
-        private val DEFAULT_LABEL_OUTSIDE_RADIUS_FACTOR = 1.0f
-        private val DEFAULT_TOUCH_ADDITIONAL_DP = 8
-        private val MODE_DRAW = 0
-        private val MODE_HIGHLIGHT = 1
+        private const val MAX_WIDTH_HEIGHT = 100f
+        private const val DEFAULT_START_ROTATION = 45
+        private const val DEFAULT_LABEL_INSIDE_RADIUS_FACTOR = 0.7f
+        private const val DEFAULT_LABEL_OUTSIDE_RADIUS_FACTOR = 1.0f
+        private const val DEFAULT_TOUCH_ADDITIONAL_DP = 8
+        private const val MODE_DRAW = 0
+        private const val MODE_HIGHLIGHT = 1
     }
 }

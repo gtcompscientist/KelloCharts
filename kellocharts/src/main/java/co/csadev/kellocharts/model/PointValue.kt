@@ -59,9 +59,9 @@ class PointValue(x: Float = 0f, y: Float = 0f, var label: CharArray? = null) {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
 
-        val that = other as PointValue?
+        val that = other as? PointValue ?: return false
 
-        if (that!!.diffX.compareTo(diffX) != 0) return false
+        if (that.diffX.compareTo(diffX) != 0) return false
         if (that.diffY.compareTo(diffY) != 0) return false
         if (that.originX.compareTo(originX) != 0) return false
         if (that.originY.compareTo(originY) != 0) return false

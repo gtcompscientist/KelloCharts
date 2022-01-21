@@ -129,10 +129,7 @@ class ValueFormatterHelper(
     }
 
     companion object {
-        val DEFAULT_DIGITS_NUMBER = 0
+        const val DEFAULT_DIGITS_NUMBER = 0
         private const val TAG = "ValueFormatterHelper"
     }
 }
-/**
- * @see .formatFloatValueWithPrependedAndAppendedText
- */

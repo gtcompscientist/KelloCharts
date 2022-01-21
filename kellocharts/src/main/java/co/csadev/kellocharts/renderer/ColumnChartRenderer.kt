@@ -10,7 +10,9 @@ import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
 import co.csadev.kellocharts.provider.ColumnChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
+import kotlin.math.abs
 
 /**
  * Magic renderer for ColumnChart.
@@ -24,12 +26,12 @@ open class ColumnChartRenderer(
     /**
      * Additional width for hightlighted column, used to give tauch feedback.
      */
-    private val touchAdditionalWidth: Int
+    private val touchAdditionalWidth: Int = DEFAULT_COLUMN_TOUCH_ADDITIONAL_WIDTH_DP.dp2px(density)
 
     /**
      * Spacing between sub-columns.
      */
-    private val subcolumnSpacing: Int
+    private val subcolumnSpacing: Int = DEFAULT_SUBCOLUMN_SPACING_DP.dp2px(density)
 
     /**
      * Paint used to draw every column.
@@ -53,15 +55,13 @@ open class ColumnChartRenderer(
     private val tempMaximumViewport = Viewport()
 
     init {
-        subcolumnSpacing = ChartUtils.dp2px(density, DEFAULT_SUBCOLUMN_SPACING_DP)
-        touchAdditionalWidth = ChartUtils.dp2px(density, DEFAULT_COLUMN_TOUCH_ADDITIONAL_WIDTH_DP)
 
         columnPaint.isAntiAlias = true
         columnPaint.style = Paint.Style.FILL
         columnPaint.strokeCap = Cap.SQUARE
     }
 
-    override fun onChartSizeChanged() {}
+    override fun onChartSizeChanged() = Unit
 
     override fun onChartDataChanged() {
         super.onChartDataChanged()
@@ -217,8 +217,7 @@ open class ColumnChartRenderer(
         touchedPoint.y = touchY
         val data = dataProvider.columnChartData
         val columnWidth = calculateColumnWidth(isHorizontal)
-        var columnIndex = 0
-        for (column in data.columns) {
+        data.columns.forEachIndexed { columnIndex, column ->
             // canvas is not needed for checking touch
             processColumnForSubcolumns(
                 null,
@@ -228,7 +227,6 @@ open class ColumnChartRenderer(
                 MODE_CHECK_TOUCH,
                 isHorizontal
             )
-            ++columnIndex
         }
     }
 
@@ -260,11 +258,10 @@ open class ColumnChartRenderer(
         // First subcolumn will starts at the left edge of current column,
         // rawValueX is horizontal center of that column
         var subcolumnRawX = rawX - halfColumnWidth
-        var valueIndex = 0
-        for (columnValue in column.values) {
+        column.values.forEachIndexed { valueIndex, columnValue ->
             columnPaint.color = columnValue.color
             if (subcolumnRawX > rawX + halfColumnWidth) {
-                break
+                return@forEachIndexed
             }
             val rawY =
                 if (isHorizontal) computator.computeRawX(columnValue.value) else computator.computeRawY(
@@ -283,12 +280,10 @@ open class ColumnChartRenderer(
                 MODE_HIGHLIGHT -> highlightSubcolumn(canvas, column, columnValue, valueIndex, false)
                 MODE_CHECK_TOUCH -> checkRectToDraw(columnIndex, valueIndex)
                 else ->
-                    // There no else, every case should be handled or exception will
-                    // be thrown
-                    throw IllegalStateException("Cannot process column in mode: " + mode)
+                    // There no else, every case should be handled or exception will be thrown
+                    throw IllegalStateException("Cannot process column in mode: $mode")
             }
             subcolumnRawX += subcolumnWidth + subcolumnSpacing
-            ++valueIndex
         }
     }
 
@@ -296,8 +291,7 @@ open class ColumnChartRenderer(
         val data = dataProvider.columnChartData
         val columnWidth = calculateColumnWidth(isHorizontal)
         // Columns are indexes from 0 to n, column index is also column X value
-        var columnIndex = 0
-        for (column in data.columns) {
+        data.columns.forEachIndexed { columnIndex, column ->
             processColumnForStacked(
                 canvas,
                 column,
@@ -306,7 +300,6 @@ open class ColumnChartRenderer(
                 MODE_DRAW,
                 isHorizontal
             )
-            ++columnIndex
         }
     }
 
@@ -501,7 +494,7 @@ open class ColumnChartRenderer(
         }
 
         val labelWidth = labelPaint.measureText(labelBuffer, labelBuffer.size - numChars, numChars)
-        val labelHeight = Math.abs(fontMetrics.ascent)
+        val labelHeight = abs(fontMetrics.ascent)
         val left = drawRect.centerX() - labelWidth / 2 - labelMargin.toFloat()
         val right = drawRect.centerX() + labelWidth / 2 + labelMargin.toFloat()
         var top: Float

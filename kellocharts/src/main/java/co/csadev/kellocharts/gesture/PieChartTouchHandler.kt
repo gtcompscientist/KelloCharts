@@ -6,6 +6,8 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.widget.OverScroller
 import co.csadev.kellocharts.view.PieChartView
+import kotlin.math.sign
+import kotlin.math.sqrt
 
 /**
  * Touch handler for PieChart. It doesn't handle zoom and scroll like default ChartTouchHandler. Instead it uses
@@ -17,18 +19,16 @@ class PieChartTouchHandler(context: Context, chart: PieChartView) :
     /**
      * PieChartTouchHandler uses its own instance of Scroller.
      */
-    private var scroller: OverScroller
+    private var scroller: OverScroller = OverScroller(context)
 
     /**
      * Reference to PieChartView to use some methods specific for that kind of chart.
      */
-    private var pieChart: PieChartView
+    private var pieChart: PieChartView = chart
 
     var isRotationEnabled = true
 
     init {
-        pieChart = chart
-        scroller = OverScroller(context)
         gestureDetector = GestureDetector(context, ChartGestureListener())
         scaleGestureDetector = ScaleGestureDetector(context, ChartScaleGestureListener())
         isZoomEnabled = false
@@ -141,14 +141,14 @@ class PieChartTouchHandler(context: Context, chart: PieChartView) :
          */
         private fun vectorToScalarScroll(dx: Float, dy: Float, x: Float, y: Float): Float {
             // get the length of the vector
-            val l = Math.sqrt((dx * dx + dy * dy).toDouble()).toFloat()
+            val l = sqrt((dx * dx + dy * dy).toDouble()).toFloat()
 
             // decide if the scalar should be negative or positive by finding
             // the dot product of the vector perpendicular to (x,y).
             val crossX = -y
 
             val dot = crossX * dx + x * dy
-            val sign = Math.signum(dot)
+            val sign = sign(dot)
 
             return l * sign
         }
@@ -158,6 +158,6 @@ class PieChartTouchHandler(context: Context, chart: PieChartView) :
         /**
          * The initial fling velocity is divided by this amount.
          */
-        val FLING_VELOCITY_DOWNSCALE = 4
+        const val FLING_VELOCITY_DOWNSCALE = 4
     }
 }

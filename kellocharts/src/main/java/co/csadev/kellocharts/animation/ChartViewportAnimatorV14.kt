@@ -58,14 +58,14 @@ class ChartViewportAnimatorV14(private val chart: Chart) :
         chart.currentViewport = newViewport
     }
 
-    override fun onAnimationCancel(animation: Animator) {}
+    override fun onAnimationCancel(animation: Animator) = Unit
 
     override fun onAnimationEnd(animation: Animator) {
         chart.currentViewport = targetViewport
         animationListener.onAnimationFinished()
     }
 
-    override fun onAnimationRepeat(animation: Animator) {}
+    override fun onAnimationRepeat(animation: Animator) = Unit
 
     override fun onAnimationStart(animation: Animator) {
         animationListener.onAnimationStarted()

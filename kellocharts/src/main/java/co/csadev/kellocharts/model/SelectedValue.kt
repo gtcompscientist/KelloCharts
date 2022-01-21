@@ -51,12 +51,12 @@ class SelectedValue(
             return false
         if (javaClass != other.javaClass)
             return false
-        val other = other as SelectedValue?
-        if (firstIndex != other!!.firstIndex)
+        val otherValue = other as? SelectedValue ?: return false
+        if (firstIndex != otherValue.firstIndex)
             return false
-        if (secondIndex != other.secondIndex)
+        if (secondIndex != otherValue.secondIndex)
             return false
-        return type == other.type
+        return type == otherValue.type
     }
 
     override fun toString(): String {

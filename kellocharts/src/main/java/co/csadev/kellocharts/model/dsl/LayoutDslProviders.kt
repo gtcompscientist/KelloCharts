@@ -7,6 +7,7 @@ import co.csadev.kellocharts.formatter.*
 import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.Axis.Companion.DEFAULT_MAX_AXIS_LABEL_CHARS
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.darken
 import java.util.*
 
 @DslMarker
@@ -91,7 +92,7 @@ class LineBuilder {
 
     var color: Int = ChartUtils.DEFAULT_COLOR
     var pointColor: Int = color
-    var darkenColor: Int = ChartUtils.darkenColor(color)
+    var darkenColor: Int = color.darken()
     var formatter: LineChartValueFormatter = SimpleLineChartValueFormatter()
     var shape: ValueShape = ValueShape.CIRCLE
     var isFilled: Boolean = false

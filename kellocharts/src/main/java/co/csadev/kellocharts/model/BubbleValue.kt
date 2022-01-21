@@ -1,6 +1,7 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.darken
 import co.csadev.kellocharts.view.Chart
 import java.util.*
 
@@ -36,7 +37,7 @@ class BubbleValue(
     var color = color
         set(value) {
             field = value
-            darkenColor = ChartUtils.darkenColor(field)
+            darkenColor = field.darken()
         }
     var darkenColor = ChartUtils.DEFAULT_DARKEN_COLOR
         private set
@@ -111,25 +112,25 @@ class BubbleValue(
         return "BubbleValue [x=$x, y=$y, z=$z]"
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o.javaClass) return false
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
 
-        val that = o as BubbleValue?
+        val that = other as? BubbleValue ?: return false
 
-        if (color != that!!.color) return false
+        if (color != that.color) return false
         if (darkenColor != that.darkenColor) return false
-        if (java.lang.Float.compare(that.diffX, diffX) != 0) return false
-        if (java.lang.Float.compare(that.diffY, diffY) != 0) return false
-        if (java.lang.Float.compare(that.diffZ, diffZ) != 0) return false
-        if (java.lang.Float.compare(that.originX, originX) != 0) return false
-        if (java.lang.Float.compare(that.originY, originY) != 0) return false
-        if (java.lang.Float.compare(that.originZ, originZ) != 0) return false
-        if (java.lang.Float.compare(that.x, x) != 0) return false
-        if (java.lang.Float.compare(that.y, y) != 0) return false
-        if (java.lang.Float.compare(that.z, z) != 0) return false
+        if (that.diffX.compareTo(diffX) != 0) return false
+        if (that.diffY.compareTo(diffY) != 0) return false
+        if (that.diffZ.compareTo(diffZ) != 0) return false
+        if (that.originX.compareTo(originX) != 0) return false
+        if (that.originY.compareTo(originY) != 0) return false
+        if (that.originZ.compareTo(originZ) != 0) return false
+        if (that.x.compareTo(x) != 0) return false
+        if (that.y.compareTo(y) != 0) return false
+        if (that.z.compareTo(z) != 0) return false
         if (!Arrays.equals(label, that.label)) return false
-        return shape === that.shape
+        return shape == that.shape
     }
 
     override fun hashCode(): Int {
@@ -144,7 +145,7 @@ class BubbleValue(
         result = 31 * result + if (diffZ != +0.0f) java.lang.Float.floatToIntBits(diffZ) else 0
         result = 31 * result + color
         result = 31 * result + darkenColor
-        result = 31 * result + if (shape != null) shape!!.hashCode() else 0
+        result = 31 * result + if (shape != null) shape?.hashCode() ?: 0 else 0
         result = 31 * result + if (label != null) Arrays.hashCode(label) else 0
         return result
     }

@@ -3,6 +3,7 @@ package co.csadev.kellocharts.model
 import android.graphics.Color
 import android.graphics.Typeface
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.darken
 
 /**
  * Base class for most chart data models.
@@ -32,7 +33,7 @@ abstract class AbstractChartData : ChartData {
      * will have background rectangle and that rectangle will be filled with this color. Helpful if you want all labels
      * to have the same background color.
      */
-    override var valueLabelBackgroundColor = ChartUtils.darkenColor(ChartUtils.DEFAULT_DARKEN_COLOR)
+    override var valueLabelBackgroundColor = ChartUtils.DEFAULT_DARKEN_COLOR.darken()
 
     fun deepCopy(newItem: AbstractChartData) {
         newItem.axisXBottom = axisXBottom
@@ -56,6 +57,6 @@ abstract class AbstractChartData : ChartData {
     }
 
     companion object {
-        val DEFAULT_TEXT_SIZE_SP = 12
+        const val DEFAULT_TEXT_SIZE_SP = 12
     }
 }

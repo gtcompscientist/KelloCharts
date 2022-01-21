@@ -41,14 +41,14 @@ class PieChartRotationAnimatorV14 @JvmOverloads constructor(
         chart.setChartRotation(rotation.toInt(), false)
     }
 
-    override fun onAnimationCancel(animation: Animator) {}
+    override fun onAnimationCancel(animation: Animator) = Unit
 
     override fun onAnimationEnd(animation: Animator) {
         chart.setChartRotation(targetRotation.toInt(), false)
         animationListener.onAnimationFinished()
     }
 
-    override fun onAnimationRepeat(animation: Animator) {}
+    override fun onAnimationRepeat(animation: Animator) = Unit
 
     override fun onAnimationStart(animation: Animator) {
         animationListener.onAnimationStarted()

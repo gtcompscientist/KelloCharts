@@ -1,6 +1,7 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.darken
 import co.csadev.kellocharts.view.Chart
 import java.util.*
 
@@ -14,7 +15,7 @@ class SliceValue(
     color: Int = ChartUtils.DEFAULT_COLOR,
     var label: CharArray? = null
 ) {
-    var darkenColor = ChartUtils.darkenColor(color)
+    var darkenColor = color.darken()
         private set
 
     fun update(scale: Float) {
@@ -35,7 +36,7 @@ class SliceValue(
     var color: Int = color
         set(value) {
             field = value
-            this.darkenColor = ChartUtils.darkenColor(field)
+            this.darkenColor = field.darken()
         }
 
     /**
@@ -54,13 +55,13 @@ class SliceValue(
         return "SliceValue [value=$value]"
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o.javaClass) return false
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
 
-        val that = o as SliceValue?
+        val that = other as? SliceValue ?: return false
 
-        if (color != that!!.color) return false
+        if (color != that.color) return false
         if (darkenColor != that.darkenColor) return false
         if (that.diff.compareTo(diff) != 0) return false
         if (that.originValue.compareTo(originValue) != 0) return false

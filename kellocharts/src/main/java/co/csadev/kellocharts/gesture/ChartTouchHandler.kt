@@ -86,7 +86,7 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
      * invalidated.
      */
     open fun handleTouchEvent(event: MotionEvent): Boolean {
-        var needInvalidate = false
+        var needInvalidate: Boolean
 
         // TODO: detectors always return true, use class member needInvalidate instead local variable as workaround.
         // This flag should be computed inside gesture listeners methods to avoid invalidation.
@@ -130,9 +130,7 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
      * ViewPager.
      */
     private fun disallowParentInterceptTouchEvent() {
-        if (null != viewParent) {
-            viewParent!!.requestDisallowInterceptTouchEvent(true)
-        }
+        viewParent?.requestDisallowInterceptTouchEvent(true)
     }
 
     /**
@@ -141,16 +139,15 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
      * current value of [.containerScrollType].
      */
     private fun allowParentInterceptTouchEvent(scrollResult: ScrollResult) {
-        if (null != viewParent) {
-            if (ContainerScrollType.HORIZONTAL == containerScrollType && !scrollResult.canScrollX &&
-                !scaleGestureDetector.isInProgress
-            ) {
-                viewParent!!.requestDisallowInterceptTouchEvent(false)
-            } else if (ContainerScrollType.VERTICAL == containerScrollType && !scrollResult.canScrollY &&
-                !scaleGestureDetector.isInProgress
-            ) {
-                viewParent!!.requestDisallowInterceptTouchEvent(false)
-            }
+        val parent = viewParent ?: return
+        if (ContainerScrollType.HORIZONTAL == containerScrollType && !scrollResult.canScrollX &&
+            !scaleGestureDetector.isInProgress
+        ) {
+            parent.requestDisallowInterceptTouchEvent(false)
+        } else if (ContainerScrollType.VERTICAL == containerScrollType && !scrollResult.canScrollY &&
+            !scaleGestureDetector.isInProgress
+        ) {
+            parent.requestDisallowInterceptTouchEvent(false)
         }
     }
 

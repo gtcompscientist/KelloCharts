@@ -30,14 +30,14 @@ class Viewport(
             return false
         if (javaClass != other.javaClass)
             return false
-        val other = other as Viewport?
-        if (java.lang.Float.floatToIntBits(bottom) != java.lang.Float.floatToIntBits(other!!.bottom))
+        val that = other as? Viewport ?: return false
+        if (java.lang.Float.floatToIntBits(bottom) != java.lang.Float.floatToIntBits(that.bottom))
             return false
-        if (java.lang.Float.floatToIntBits(left) != java.lang.Float.floatToIntBits(other.left))
+        if (java.lang.Float.floatToIntBits(left) != java.lang.Float.floatToIntBits(that.left))
             return false
-        if (java.lang.Float.floatToIntBits(right) != java.lang.Float.floatToIntBits(other.right))
+        if (java.lang.Float.floatToIntBits(right) != java.lang.Float.floatToIntBits(that.right))
             return false
-        return java.lang.Float.floatToIntBits(top) == java.lang.Float.floatToIntBits(other.top)
+        return java.lang.Float.floatToIntBits(top) == java.lang.Float.floatToIntBits(that.top)
     }
 
     /**

@@ -4,6 +4,7 @@ import android.graphics.PathEffect
 import co.csadev.kellocharts.formatter.LineChartValueFormatter
 import co.csadev.kellocharts.formatter.SimpleLineChartValueFormatter
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.darken
 import java.util.*
 
 /**
@@ -13,7 +14,7 @@ class Line(
     var values: MutableList<PointValue> = ArrayList(),
     color: Int = ChartUtils.DEFAULT_COLOR,
     pointColor: Int = color,
-    darkenColor: Int = ChartUtils.darkenColor(color),
+    darkenColor: Int = color.darken(),
     var formatter: LineChartValueFormatter = SimpleLineChartValueFormatter(),
     var shape: ValueShape = ValueShape.CIRCLE,
     var isFilled: Boolean = false,
@@ -31,14 +32,14 @@ class Line(
     var color = color
         set(value) {
             field = value
-            if (pointColor == UNINITIALIZED) darkenColor = ChartUtils.darkenColor(field)
+            if (pointColor == UNINITIALIZED) darkenColor = field.darken()
         }
 
     var pointColor = pointColor
         get() = if (field == UNINITIALIZED) color else field
         set(value) {
             field = value
-            darkenColor = ChartUtils.darkenColor(if (field == UNINITIALIZED) color else field)
+            darkenColor = (if (field == UNINITIALIZED) color else field).darken()
         }
 
     var darkenColor = darkenColor

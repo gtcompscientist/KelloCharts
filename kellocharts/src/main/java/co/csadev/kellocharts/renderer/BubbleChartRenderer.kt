@@ -13,7 +13,7 @@ import co.csadev.kellocharts.model.ValueShape
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.BubbleChartDataProvider
-import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
 import kotlin.math.abs
 import kotlin.math.sqrt
@@ -27,13 +27,13 @@ class BubbleChartRenderer(
     /**
      * Additional value added to bubble radius when drawing highlighted bubble, used to give touch feedback.
      */
-    private val touchAdditional: Int = ChartUtils.dp2px(density, DEFAULT_TOUCH_ADDITIONAL_DP)
+    private val touchAdditional: Int = DEFAULT_TOUCH_ADDITIONAL_DP.dp2px(density)
 
     /**
      * Scales for bubble radius value, only one is used depending on screen orientation;
      */
-    private var bubbleScaleX: Float = 0f
-    private var bubbleScaleY: Float = 0f
+    private var bubbleScaleX = 0f
+    private var bubbleScaleY = 0f
 
     /**
      * True if bubbleScale = bubbleScaleX so the renderer should used [ChartComputator.computeRawDistanceX]
@@ -98,27 +98,26 @@ class BubbleChartRenderer(
         }
     }
 
-    override fun drawUnclipped(canvas: Canvas) {}
+    override fun drawUnclipped(canvas: Canvas) = Unit
 
     override fun checkTouch(touchX: Float, touchY: Float): Boolean {
         selectedValue.clear()
         dataProvider.bubbleChartData.values.forEachIndexed { valueIndex, bubbleValue ->
             val rawRadius = processBubble(bubbleValue)
-
-            if (ValueShape.SQUARE == bubbleValue.shape) {
-                if (bubbleRect.contains(touchX, touchY)) {
+            when (bubbleValue.shape) {
+                ValueShape.SQUARE -> if (bubbleRect.contains(touchX, touchY)) {
                     selectedValue[valueIndex, valueIndex] = SelectedValueType.NONE
                 }
-            } else if (ValueShape.CIRCLE == bubbleValue.shape) {
-                val diffX = touchX - bubbleCenter.x
-                val diffY = touchY - bubbleCenter.y
-                val touchDistance = sqrt((diffX * diffX + diffY * diffY).toDouble()).toFloat()
+                ValueShape.CIRCLE -> {
+                    val diffX = touchX - bubbleCenter.x
+                    val diffY = touchY - bubbleCenter.y
+                    val touchDistance = sqrt((diffX * diffX + diffY * diffY).toDouble()).toFloat()
 
-                if (touchDistance <= rawRadius) {
-                    selectedValue[valueIndex, valueIndex] = SelectedValueType.NONE
+                    if (touchDistance <= rawRadius) {
+                        selectedValue[valueIndex, valueIndex] = SelectedValueType.NONE
+                    }
                 }
-            } else {
-                throw IllegalArgumentException("Invalid bubble shape: " + bubbleValue.shape!!)
+                else -> throw IllegalArgumentException("Invalid bubble shape: ${bubbleValue.shape}")
             }
         }
 
@@ -188,7 +187,7 @@ class BubbleChartRenderer(
                 rawRadius,
                 bubblePaint
             )
-            else -> throw IllegalArgumentException("Invalid bubble shape: " + bubbleValue.shape!!)
+            else -> throw IllegalArgumentException("Invalid bubble shape: ${bubbleValue.shape}")
         }
 
         when (mode) {
@@ -244,7 +243,7 @@ class BubbleChartRenderer(
 
     private fun drawLabel(canvas: Canvas, bubbleValue: BubbleValue, rawX: Float, rawY: Float) {
         val contentRect = computator.contentRectMinusAllMargins
-        val numChars = valueFormatter!!.formatChartValue(labelBuffer, bubbleValue)
+        val numChars = valueFormatter?.formatChartValue(labelBuffer, bubbleValue) ?: 0
 
         if (numChars == 0) {
             // No need to draw empty label
@@ -321,8 +320,7 @@ class BubbleChartRenderer(
         // Prevent cutting of bubbles on the edges of chart area.
         tempMaximumViewport.inset(-maxRadius * bubbleScaleX, -maxRadius * bubbleScaleY)
 
-        minRawRadius =
-            ChartUtils.dp2px(density, dataProvider.bubbleChartData.minBubbleRadius).toFloat()
+        minRawRadius = dataProvider.bubbleChartData.minBubbleRadius.dp2px(density).toFloat()
     }
 
     companion object {

@@ -7,7 +7,7 @@ import android.graphics.PorterDuff.Mode
 import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
 import co.csadev.kellocharts.provider.LineChartDataProvider
-import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
 
 /**
@@ -34,17 +34,17 @@ open class LineChartRenderer(
 
     init {
 
-        touchToleranceMargin = ChartUtils.dp2px(density, DEFAULT_TOUCH_TOLERANCE_MARGIN_DP)
+        touchToleranceMargin = DEFAULT_TOUCH_TOLERANCE_MARGIN_DP.dp2px(density)
 
         linePaint.isAntiAlias = true
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeCap = Cap.ROUND
-        linePaint.strokeWidth = ChartUtils.dp2px(density, DEFAULT_LINE_STROKE_WIDTH_DP).toFloat()
+        linePaint.strokeWidth = DEFAULT_LINE_STROKE_WIDTH_DP.dp2px(density).toFloat()
 
         pointPaint.isAntiAlias = true
         pointPaint.style = Paint.Style.FILL
 
-        checkPrecision = ChartUtils.dp2px(density, 2)
+        checkPrecision = 2.dp2px(density)
     }
 
     override fun onChartSizeChanged() {
@@ -136,7 +136,7 @@ open class LineChartRenderer(
         var lineIndex = 0
         for (line in data.lines) {
             if (checkIfShouldDrawPoints(line)) {
-                val pointRadius = ChartUtils.dp2px(density, line.pointRadius)
+                val pointRadius = line.pointRadius.dp2px(density)
                 var valueIndex = 0
                 for (pointValue in line.values) {
                     val rawValueX = computator.computeRawX(pointValue.x)
@@ -198,7 +198,7 @@ open class LineChartRenderer(
                 }
             }
         }
-        return ChartUtils.dp2px(density, contentAreaMargin)
+        return contentAreaMargin.dp2px(density)
     }
 
     /**
@@ -272,8 +272,8 @@ open class LineChartRenderer(
         var previousPointY = java.lang.Float.NaN
         var currentPointX = java.lang.Float.NaN
         var currentPointY = java.lang.Float.NaN
-        var nextPointX = java.lang.Float.NaN
-        var nextPointY = java.lang.Float.NaN
+        var nextPointX: Float
+        var nextPointY: Float
 
         for (valueIndex in 0 until lineSize) {
             if (java.lang.Float.isNaN(currentPointX)) {
@@ -354,7 +354,7 @@ open class LineChartRenderer(
     }
 
     private fun prepareLinePaint(line: Line) {
-        linePaint.strokeWidth = ChartUtils.dp2px(density, line.strokeWidth).toFloat()
+        linePaint.strokeWidth = line.strokeWidth.dp2px(density).toFloat()
         linePaint.color = line.color
         linePaint.pathEffect = line.pathEffect
     }
@@ -366,7 +366,7 @@ open class LineChartRenderer(
         pointPaint.color = line.pointColor
         var valueIndex = 0
         for (pointValue in line.values) {
-            val pointRadius = ChartUtils.dp2px(density, line.pointRadius)
+            val pointRadius = line.pointRadius.dp2px(density)
             val rawX = computator.computeRawX(pointValue.x)
             val rawY = computator.computeRawY(pointValue.y)
             if (computator.isWithinContentRect(rawX, rawY, checkPrecision.toFloat())) {
@@ -374,7 +374,7 @@ open class LineChartRenderer(
                 // instead of viewport to avoid some
                 // float rounding problems.
                 if (MODE_DRAW == mode) {
-                    drawPoint(canvas, line, pointValue, rawX, rawY, pointRadius.toFloat())
+                    drawPoint(canvas, line, rawX, rawY, pointRadius.toFloat())
                     if (line.hasLabels) {
                         drawLabel(
                             canvas,
@@ -398,28 +398,25 @@ open class LineChartRenderer(
     private fun drawPoint(
         canvas: Canvas,
         line: Line,
-        pointValue: PointValue,
         rawX: Float,
         rawY: Float,
         pointRadius: Float
     ) {
-        if (ValueShape.SQUARE == line.shape) {
-            canvas.drawRect(
+        when (line.shape) {
+            ValueShape.SQUARE -> canvas.drawRect(
                 rawX - pointRadius, rawY - pointRadius, rawX + pointRadius, rawY + pointRadius,
                 pointPaint
             )
-        } else if (ValueShape.CIRCLE == line.shape) {
-            canvas.drawCircle(rawX, rawY, pointRadius, pointPaint)
-        } else if (ValueShape.DIAMOND == line.shape) {
-            canvas.save()
-            canvas.rotate(45f, rawX, rawY)
-            canvas.drawRect(
-                rawX - pointRadius, rawY - pointRadius, rawX + pointRadius, rawY + pointRadius,
-                pointPaint
-            )
-            canvas.restore()
-        } else {
-            throw IllegalArgumentException("Invalid point shape: " + line.shape)
+            ValueShape.CIRCLE -> canvas.drawCircle(rawX, rawY, pointRadius, pointPaint)
+            ValueShape.DIAMOND -> {
+                canvas.save()
+                canvas.rotate(45f, rawX, rawY)
+                canvas.drawRect(
+                    rawX - pointRadius, rawY - pointRadius, rawX + pointRadius, rawY + pointRadius,
+                    pointPaint
+                )
+                canvas.restore()
+            }
         }
     }
 
@@ -439,12 +436,11 @@ open class LineChartRenderer(
         valueIndex: Int
     ) {
         if (selectedValue.firstIndex == lineIndex && selectedValue.secondIndex == valueIndex) {
-            val pointRadius = ChartUtils.dp2px(density, line.pointRadius)
+            val pointRadius = line.pointRadius.dp2px(density)
             pointPaint.color = line.darkenColor
             drawPoint(
                 canvas,
                 line,
-                pointValue,
                 rawX,
                 rawY,
                 (pointRadius + touchToleranceMargin).toFloat()

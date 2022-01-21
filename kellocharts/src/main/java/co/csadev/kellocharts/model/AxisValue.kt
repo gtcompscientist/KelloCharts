@@ -18,7 +18,7 @@ class AxisValue(var value: Float = 0f, var label: CharArray? = null) {
 
         val axisValue = other as AxisValue?
 
-        if (java.lang.Float.compare(axisValue!!.value, value) != 0) return false
+        if (axisValue?.value?.compareTo(value) != 0) return false
         return Arrays.equals(label, axisValue.label)
     }
 

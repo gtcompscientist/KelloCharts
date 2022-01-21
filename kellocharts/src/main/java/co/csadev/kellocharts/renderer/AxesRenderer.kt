@@ -10,7 +10,9 @@ import co.csadev.kellocharts.model.Axis
 import co.csadev.kellocharts.model.AxisValue
 import co.csadev.kellocharts.util.AxisAutoValues
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.util.FloatUtils
+import co.csadev.kellocharts.util.nullIfEmpty
 import co.csadev.kellocharts.view.Chart
 import kotlin.math.*
 
@@ -76,7 +78,7 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         arrayOf(AxisAutoValues(), AxisAutoValues(), AxisAutoValues(), AxisAutoValues())
 
     init {
-        axisMargin = ChartUtils.dp2px(density, DEFAULT_AXIS_MARGIN_DP)
+        axisMargin = DEFAULT_AXIS_MARGIN_DP.dp2px(density)
         for (position in 0..3) {
             labelPaintTab[position].style = Paint.Style.FILL
             labelPaintTab[position].isAntiAlias = true
@@ -611,7 +613,7 @@ class AxesRenderer(context: Context, private val chart: Chart) {
 
         // Drawing axis name
         val contentRectMargins = computator.contentRectMinusAxesMargins
-        if (!axis.name.isNullOrEmpty()) {
+        axis.name?.nullIfEmpty()?.let { axisName ->
             if (isAxisVertical) {
                 canvas.save()
                 canvas.rotate(
@@ -620,13 +622,13 @@ class AxesRenderer(context: Context, private val chart: Chart) {
                     contentRectMargins.centerY().toFloat()
                 )
                 canvas.drawText(
-                    axis.name!!, contentRectMargins.centerY().toFloat(), nameBaselineTab[position],
+                    axisName, contentRectMargins.centerY().toFloat(), nameBaselineTab[position],
                     namePaintTab[position]
                 )
                 canvas.restore()
             } else {
                 canvas.drawText(
-                    axis.name!!, contentRectMargins.centerX().toFloat(), nameBaselineTab[position],
+                    axisName, contentRectMargins.centerX().toFloat(), nameBaselineTab[position],
                     namePaintTab[position]
                 )
             }
@@ -654,71 +656,6 @@ class AxesRenderer(context: Context, private val chart: Chart) {
          * Used to measure label width. If label has mas 5 characters only 5 first characters of this array are used to
          * measure text width.
          */
-        private val labelWidthChars = charArrayOf(
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0',
-            '0'
-        )
+        private val labelWidthChars = (0 until 64).map { '0' }.toCharArray()
     }
 }

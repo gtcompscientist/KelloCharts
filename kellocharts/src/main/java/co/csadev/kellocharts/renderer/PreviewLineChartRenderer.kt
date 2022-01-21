@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import co.csadev.kellocharts.provider.LineChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
 
 /**
@@ -29,8 +30,7 @@ class PreviewLineChartRenderer(
     init {
         previewPaint.isAntiAlias = true
         previewPaint.color = Color.LTGRAY
-        previewPaint.strokeWidth =
-            ChartUtils.dp2px(density, DEFAULT_PREVIEW_STROKE_WIDTH_DP).toFloat()
+        previewPaint.strokeWidth = DEFAULT_PREVIEW_STROKE_WIDTH_DP.dp2px(density).toFloat()
     }
 
     override fun drawUnclipped(canvas: Canvas) {
