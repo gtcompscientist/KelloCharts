@@ -50,8 +50,8 @@ class MainActivity : AppCompatActivity() {
      */
     class PlaceholderFragment : Fragment(), OnItemClickListener {
 
-        private var listView: ListView? = null
-        private var adapter: ChartSamplesAdapter? = null
+        private lateinit var listView: ListView
+        private lateinit var adapter: ChartSamplesAdapter
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -59,10 +59,11 @@ class MainActivity : AppCompatActivity() {
             savedInstanceState: Bundle?
         ): View? {
             val rootView = inflater.inflate(R.layout.fragment_main, container, false)
-            listView = rootView.findViewById<View>(android.R.id.list) as ListView
-            adapter = ChartSamplesAdapter(context!!, 0, generateSamplesDescriptions())
-            listView!!.adapter = adapter
-            listView!!.onItemClickListener = this
+            adapter = ChartSamplesAdapter(requireContext(), 0, generateSamplesDescriptions())
+            listView = rootView.findViewById<ListView>(android.R.id.list).also {
+                it.adapter = adapter
+                it.onItemClickListener = this
+            }
             return rootView
         }
 
@@ -136,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun generateSamplesDescriptions(): List<ChartSampleDescription> {
-            val list = ArrayList<ChartSampleDescription>()
+            val list = mutableListOf<ChartSampleDescription>()
 
             list.add(ChartSampleDescription("Line Chart", "", ChartType.LINE_CHART))
             list.add(ChartSampleDescription("Column Chart", "", ChartType.COLUMN_CHART))
@@ -172,7 +173,8 @@ class MainActivity : AppCompatActivity() {
             list.add(
                 ChartSampleDescription(
                     "Tempo Chart",
-                    "Presents tempo and height values on a signle chart. Example of multiple axes and reverted Y axis" + " with time format [mm:ss].",
+                    "Presents tempo and height values on a single chart. Example of multiple axes and reverted Y axis"
+                            + " with time format [mm:ss].",
                     ChartType.OTHER
                 )
             )
@@ -208,66 +210,38 @@ class MainActivity : AppCompatActivity() {
     ) : ArrayAdapter<ChartSampleDescription>(context, resource, objects) {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            var convertView = convertView
-            val holder: ViewHolder
-
-            if (convertView == null) {
-                convertView = View.inflate(context, R.layout.list_item_sample, null)
-
-                holder = ViewHolder()
-                holder.text1 = convertView!!.findViewById<View>(R.id.text1) as TextView
-                holder.text2 = convertView.findViewById<View>(R.id.text2) as TextView
-                holder.chartLayout =
-                    convertView.findViewById<View>(R.id.chart_layout) as FrameLayout
-
-                convertView.tag = holder
-            } else {
-                holder = convertView.tag as ViewHolder
+            val chartView = convertView ?: View.inflate(context, R.layout.list_item_sample, null).apply {
+                val holder = ViewHolder().also {
+                    it.text1 = findViewById(R.id.text1)
+                    it.text2 = findViewById(R.id.text2)
+                    it.chartLayout = findViewById(R.id.chart_layout)
+                }
+                tag = holder
             }
-
+            val holder = chartView.tag as ViewHolder
             val item = getItem(position)
+            val chartLayout = holder.chartLayout ?: return chartView
 
-            holder.chartLayout!!.visibility = View.VISIBLE
-            holder.chartLayout!!.removeAllViews()
-            val chart: AbstractChartView?
-            when (item?.chartType) {
-                ChartType.LINE_CHART -> {
-                    chart = LineChartView(context)
-                    holder.chartLayout!!.addView(chart)
+            chartLayout.visibility = View.VISIBLE
+            chartLayout.removeAllViews()
+            if (item?.chartType == null) {
+                chartLayout.visibility = View.GONE
+            } else {
+                val chart = when (item.chartType) {
+                    ChartType.LINE_CHART, ChartType.OTHER -> LineChartView(context)
+                    ChartType.COLUMN_CHART -> ColumnChartView(context)
+                    ChartType.PIE_CHART -> PieChartView(context)
+                    ChartType.BUBBLE_CHART -> BubbleChartView(context)
+                    ChartType.PREVIEW_LINE_CHART -> PreviewLineChartView(context)
+                    ChartType.PREVIEW_COLUMN_CHART -> PreviewColumnChartView(context)
                 }
-                ChartType.COLUMN_CHART -> {
-                    chart = ColumnChartView(context)
-                    holder.chartLayout!!.addView(chart)
-                }
-                ChartType.PIE_CHART -> {
-                    chart = PieChartView(context)
-                    holder.chartLayout!!.addView(chart)
-                }
-                ChartType.BUBBLE_CHART -> {
-                    chart = BubbleChartView(context)
-                    holder.chartLayout!!.addView(chart)
-                }
-                ChartType.PREVIEW_LINE_CHART -> {
-                    chart = PreviewLineChartView(context)
-                    holder.chartLayout!!.addView(chart)
-                }
-                ChartType.PREVIEW_COLUMN_CHART -> {
-                    chart = PreviewColumnChartView(context)
-                    holder.chartLayout!!.addView(chart)
-                }
-                else -> {
-                    chart = null
-                    holder.chartLayout!!.visibility = View.GONE
-                }
-            }
-
-            if (null != chart) {
+                chartLayout.addView(chart)
                 chart.isInteractive = false // Disable touch handling for chart on the ListView.
             }
-            holder.text1!!.text = item?.text1
-            holder.text2!!.text = item?.text2
+            holder.text1?.text = item?.text1
+            holder.text2?.text = item?.text2
 
-            return convertView
+            return chartView
         }
 
         private inner class ViewHolder {

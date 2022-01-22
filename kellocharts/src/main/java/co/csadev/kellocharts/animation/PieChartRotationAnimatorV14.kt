@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
+import co.csadev.kellocharts.util.THREE_SIXTY
 import co.csadev.kellocharts.view.PieChartView
 
 class PieChartRotationAnimatorV14 @JvmOverloads constructor(
@@ -25,8 +26,8 @@ class PieChartRotationAnimatorV14 @JvmOverloads constructor(
     }
 
     override fun startAnimation(startAngle: Float, angleToRotate: Float) {
-        this.startRotation = (startAngle % 360 + 360) % 360
-        this.targetRotation = (angleToRotate % 360 + 360) % 360
+        this.startRotation = (startAngle % THREE_SIXTY + THREE_SIXTY) % THREE_SIXTY
+        this.targetRotation = (angleToRotate % THREE_SIXTY + THREE_SIXTY) % THREE_SIXTY
         animator.start()
     }
 
@@ -37,7 +38,7 @@ class PieChartRotationAnimatorV14 @JvmOverloads constructor(
     override fun onAnimationUpdate(animation: ValueAnimator) {
         val scale = animation.animatedFraction
         var rotation = startRotation + (targetRotation - startRotation) * scale
-        rotation = (rotation % 360 + 360) % 360
+        rotation = (rotation % THREE_SIXTY + THREE_SIXTY) % THREE_SIXTY
         chart.setChartRotation(rotation.toInt(), false)
     }
 

@@ -11,6 +11,8 @@ import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
 import co.csadev.kellocharts.provider.PieChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px
+import co.csadev.kellocharts.util.THREE_SIXTY
+import co.csadev.kellocharts.util.THREE_SIXTY_F
 import co.csadev.kellocharts.view.Chart
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -28,7 +30,7 @@ class PieChartRenderer(
 ) : AbstractChartRenderer(context, chart) {
     var chartRotation = DEFAULT_START_ROTATION
         set(rotation) {
-            field = (rotation % 360 + 360) % 360
+            field = (rotation % THREE_SIXTY + THREE_SIXTY) % THREE_SIXTY
         }
     private val slicePaint = Paint()
     private var maxSum: Float = 0f
@@ -187,11 +189,11 @@ class PieChartRenderer(
         }
 
         // Get touchAngle and align touch 0 degrees with chart 0 degrees, that why I subtracting start angle,
-        // adding 360
-        // and modulo 360 translates i.e -20 degrees to 340 degrees.
+        // adding THREE_SIXTY
+        // and modulo THREE_SIXTY translates i.e -20 degrees to 340 degrees.
         val touchAngle =
-            (pointToAngle(touchX, touchY, centerX, centerY) - chartRotation + 360f) % 360f
-        val sliceScale = 360f / maxSum
+            (pointToAngle(touchX, touchY, centerX, centerY) - chartRotation + THREE_SIXTY_F) % THREE_SIXTY_F
+        val sliceScale = THREE_SIXTY_F / maxSum
         var lastAngle = 0f // No start angle here, see above
         data.values.forEachIndexed { sliceIndex, sliceValue ->
             val angle = abs(sliceValue.value) * sliceScale
@@ -255,7 +257,7 @@ class PieChartRenderer(
      */
     private fun drawSlices(canvas: Canvas) {
         val data = dataProvider.pieChartData
-        val sliceScale = 360f / maxSum
+        val sliceScale = THREE_SIXTY_F / maxSum
         var lastAngle = chartRotation.toFloat()
         var sliceIndex = 0
         for (sliceValue in data.values) {
@@ -281,7 +283,7 @@ class PieChartRenderer(
             // No need for separation lines
             return
         }
-        val sliceScale = 360f / maxSum
+        val sliceScale = THREE_SIXTY_F / maxSum
         var lastAngle = chartRotation.toFloat()
         val circleRadius = circleOval.width() / 2f
         separationLinesPaint.strokeWidth = sliceSpacing.toFloat()
@@ -311,7 +313,7 @@ class PieChartRenderer(
 
     fun drawLabels(canvas: Canvas) {
         val data = dataProvider.pieChartData
-        val sliceScale = 360f / maxSum
+        val sliceScale = THREE_SIXTY_F / maxSum
         var lastAngle = chartRotation.toFloat()
         var sliceIndex = 0
         for (sliceValue in data.values) {
@@ -447,7 +449,7 @@ class PieChartRenderer(
         // Pass -diffX to get clockwise degrees order.
         val radian = atan2(-diffX, diffY)
 
-        var angle = (Math.toDegrees(radian).toFloat() + 360) % 360
+        var angle = (Math.toDegrees(radian).toFloat() + THREE_SIXTY) % THREE_SIXTY
         // Add 90 because atan2 returns 0 degrees at 6 o'clock.
         angle += 90f
         return angle
@@ -487,8 +489,8 @@ class PieChartRenderer(
      */
     fun getValueForAngle(angle: Int, selectedValue: SelectedValue?): SliceValue? {
         val data = dataProvider.pieChartData
-        val touchAngle = (angle - chartRotation + 360f) % 360f
-        val sliceScale = 360f / maxSum
+        val touchAngle = (angle - chartRotation + THREE_SIXTY_F) % THREE_SIXTY_F
+        val sliceScale = THREE_SIXTY_F / maxSum
         var lastAngle = 0f
         for ((sliceIndex, sliceValue) in data.values.withIndex()) {
             val tempAngle = abs(sliceValue.value) * sliceScale

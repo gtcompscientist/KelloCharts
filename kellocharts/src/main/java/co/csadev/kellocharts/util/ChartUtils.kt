@@ -7,6 +7,9 @@ import java.lang.Math.random
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
+const val THREE_SIXTY = 360
+const val THREE_SIXTY_F = 360f
+
 object ChartUtils {
 
     val DEFAULT_COLOR = Color.parseColor("#DFDFDF")
