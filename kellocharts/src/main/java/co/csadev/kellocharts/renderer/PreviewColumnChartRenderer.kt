@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import co.csadev.kellocharts.provider.ColumnChartDataProvider
-import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
 

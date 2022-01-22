@@ -1,7 +1,7 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.view.Chart
-import java.util.*
+import java.util.Arrays
 
 /**
  * Single point coordinates, used for LineChartData.

@@ -2,7 +2,12 @@ package co.csadev.kellocharts.sample
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -63,72 +68,59 @@ class PieChartActivity : AppCompatActivity() {
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == R.id.action_reset) {
-                reset()
-                generateData()
-                return true
-            }
-            if (id == R.id.action_explode) {
-                explodeChart()
-                return true
-            }
-            if (id == R.id.action_center_circle) {
-                hasCenterCircle = !hasCenterCircle
-                if (!hasCenterCircle) {
-                    hasCenterText1 = false
+            when (item.itemId) {
+                R.id.action_reset -> {
+                    reset()
+                    generateData()
+                }
+                R.id.action_explode -> explodeChart()
+                R.id.action_center_circle -> {
+                    hasCenterCircle = !hasCenterCircle
+                    if (!hasCenterCircle) {
+                        hasCenterText1 = false
+                        hasCenterText2 = false
+                    }
+
+                    generateData()
+                }
+                R.id.action_center_text1 -> {
+                    hasCenterText1 = !hasCenterText1
+
+                    if (hasCenterText1) {
+                        hasCenterCircle = true
+                    }
+
                     hasCenterText2 = false
+
+                    generateData()
                 }
+                R.id.action_center_text2 -> {
+                    hasCenterText2 = !hasCenterText2
 
-                generateData()
-                return true
-            }
-            if (id == R.id.action_center_text1) {
-                hasCenterText1 = !hasCenterText1
+                    if (hasCenterText2) {
+                        hasCenterText1 = true // text 2 need text 1 to by also drawn.
+                        hasCenterCircle = true
+                    }
 
-                if (hasCenterText1) {
-                    hasCenterCircle = true
+                    generateData()
                 }
-
-                hasCenterText2 = false
-
-                generateData()
-                return true
-            }
-            if (id == R.id.action_center_text2) {
-                hasCenterText2 = !hasCenterText2
-
-                if (hasCenterText2) {
-                    hasCenterText1 = true // text 2 need text 1 to by also drawn.
-                    hasCenterCircle = true
+                R.id.action_toggle_labels -> toggleLabels()
+                R.id.action_toggle_labels_outside -> toggleLabelsOutside()
+                R.id.action_animate -> {
+                    prepareDataAnimation()
+                    chart!!.startDataAnimation()
                 }
-
-                generateData()
-                return true
+                R.id.action_toggle_selection_mode -> {
+                    toggleLabelForSelected()
+                    Toast.makeText(
+                        activity,
+                        "Selection mode set to " + chart!!.isValueSelectionEnabled + " select any point.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else -> return super.onOptionsItemSelected(item)
             }
-            if (id == R.id.action_toggle_labels) {
-                toggleLabels()
-                return true
-            }
-            if (id == R.id.action_toggle_labels_outside) {
-                toggleLabelsOutside()
-                return true
-            }
-            if (id == R.id.action_animate) {
-                prepareDataAnimation()
-                chart!!.startDataAnimation()
-                return true
-            }
-            if (id == R.id.action_toggle_selection_mode) {
-                toggleLabelForSelected()
-                Toast.makeText(
-                    activity,
-                    "Selection mode set to " + chart!!.isValueSelectionEnabled + " select any point.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return true
-            }
-            return super.onOptionsItemSelected(item)
+            return true
         }
 
         private fun reset() {

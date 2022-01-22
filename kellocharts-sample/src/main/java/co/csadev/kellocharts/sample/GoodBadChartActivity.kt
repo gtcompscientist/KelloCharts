@@ -10,6 +10,7 @@ import co.csadev.kellocharts.model.Line
 import co.csadev.kellocharts.model.LineChartData
 import co.csadev.kellocharts.model.PointValue
 import co.csadev.kellocharts.util.ChartUtils
+import co.csadev.kellocharts.util.HALF
 import co.csadev.kellocharts.view.LineChartView
 
 class GoodBadChartActivity : AppCompatActivity() {
@@ -84,7 +85,7 @@ class GoodBadChartActivity : AppCompatActivity() {
             // Second good triangle
             values = ArrayList()
             values.add(PointValue(3, 0, "".toCharArray()))
-            values.add(PointValue(4f, 0.5f, "Good Enough".toCharArray()))
+            values.add(PointValue(4f, HALF, "Good Enough".toCharArray()))
             values.add(PointValue(5, 0, "".toCharArray()))
 
             line = Line(values)

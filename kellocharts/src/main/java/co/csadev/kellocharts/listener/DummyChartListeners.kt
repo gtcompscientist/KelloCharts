@@ -1,6 +1,10 @@
 package co.csadev.kellocharts.listener
 
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.BubbleValue
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.SliceValue
+import co.csadev.kellocharts.model.SubcolumnValue
+import co.csadev.kellocharts.model.Viewport
 
 class DummyBubbleChartOnValueSelectListener : BubbleChartOnValueSelectListener {
     override fun onValueSelected(bubbleIndex: Int, value: BubbleValue) = Unit
@@ -17,8 +21,7 @@ class DummyCompoLineColumnChartOnValueSelectListener : ComboLineColumnChartOnVal
         columnIndex: Int,
         subcolumnIndex: Int,
         value: SubcolumnValue
-    ) {
-    }
+    ) = Unit
 
     override fun onPointValueSelected(lineIndex: Int, pointIndex: Int, value: PointValue) = Unit
     override fun onValueDeselected() = Unit

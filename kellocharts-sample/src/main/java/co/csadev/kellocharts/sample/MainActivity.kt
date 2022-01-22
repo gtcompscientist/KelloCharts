@@ -3,13 +3,25 @@ package co.csadev.kellocharts.sample
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import co.csadev.kellocharts.view.*
-import java.util.*
+import co.csadev.kellocharts.view.BubbleChartView
+import co.csadev.kellocharts.view.ColumnChartView
+import co.csadev.kellocharts.view.LineChartView
+import co.csadev.kellocharts.view.PieChartView
+import co.csadev.kellocharts.view.PreviewColumnChartView
+import co.csadev.kellocharts.view.PreviewLineChartView
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,13 +44,13 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-        if (id == R.id.action_about) {
+        return if (item.itemId == R.id.action_about) {
             val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
-            return true
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     enum class ChartType {
@@ -173,8 +185,7 @@ class MainActivity : AppCompatActivity() {
             list.add(
                 ChartSampleDescription(
                     "Tempo Chart",
-                    "Presents tempo and height values on a single chart. Example of multiple axes and reverted Y axis"
-                            + " with time format [mm:ss].",
+                    "Presents tempo and height values on a single chart. Example of multiple axes and reverted Y axis with time format [mm:ss].",
                     ChartType.OTHER
                 )
             )

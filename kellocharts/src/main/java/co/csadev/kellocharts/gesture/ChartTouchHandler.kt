@@ -58,7 +58,7 @@ open class ChartTouchHandler(context: Context, protected var chart: Chart) {
         gestureDetector = GestureDetector(context, ChartGestureListener())
         scaleGestureDetector = ScaleGestureDetector(context, ChartScaleGestureListener())
         chartScroller = ChartScroller(context)
-        chartZoomer = ChartZoomer(context, ZoomType.HORIZONTAL_AND_VERTICAL)
+        chartZoomer = ChartZoomer(ZoomType.HORIZONTAL_AND_VERTICAL)
     }
 
     fun resetTouchHandler() {

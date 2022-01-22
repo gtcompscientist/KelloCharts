@@ -1,7 +1,7 @@
 package co.csadev.kellocharts.animation
 
 import co.csadev.kellocharts.model.Viewport
-import java.util.*
+import java.util.EventListener
 
 const val FAST_ANIMATION_DURATION = 200L
 const val DEFAULT_ANIMATION_DURATION: Long = 500

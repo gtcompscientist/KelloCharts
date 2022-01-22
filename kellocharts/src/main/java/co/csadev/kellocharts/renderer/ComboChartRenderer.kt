@@ -5,7 +5,7 @@ import android.graphics.Canvas
 import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.view.Chart
-import java.util.*
+import java.util.ArrayList
 
 open class ComboChartRenderer(context: Context, chart: Chart) :
     AbstractChartRenderer(context, chart) {

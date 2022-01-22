@@ -1,11 +1,19 @@
 package co.csadev.kellocharts.renderer
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.Paint.Cap
+import android.graphics.Path
 import android.graphics.PorterDuff.Mode
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.Line
+import co.csadev.kellocharts.model.PointValue
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
+import co.csadev.kellocharts.model.ValueShape
+import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.LineChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
@@ -19,33 +27,24 @@ open class LineChartRenderer(
     private val dataProvider: LineChartDataProvider
 ) : AbstractChartRenderer(context, chart) {
 
-    private val checkPrecision: Int
-
+    private val checkPrecision = 2.dp2px(density)
     private var baseValue: Float = 0f
-
-    private val touchToleranceMargin: Int
+    private val touchToleranceMargin: Int = DEFAULT_TOUCH_TOLERANCE_MARGIN_DP.dp2px(density)
     private val path = Path()
-    private val linePaint = Paint()
-    private val pointPaint = Paint()
+    private val linePaint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.STROKE
+        strokeCap = Cap.ROUND
+        strokeWidth = DEFAULT_LINE_STROKE_WIDTH_DP.dp2px(density).toFloat()
+    }
+    private val pointPaint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.FILL
+    }
 
     private var softwareBitmap: Bitmap? = null
     private val softwareCanvas = Canvas()
     private val tempMaximumViewport = Viewport()
-
-    init {
-
-        touchToleranceMargin = DEFAULT_TOUCH_TOLERANCE_MARGIN_DP.dp2px(density)
-
-        linePaint.isAntiAlias = true
-        linePaint.style = Paint.Style.STROKE
-        linePaint.strokeCap = Cap.ROUND
-        linePaint.strokeWidth = DEFAULT_LINE_STROKE_WIDTH_DP.dp2px(density).toFloat()
-
-        pointPaint.isAntiAlias = true
-        pointPaint.style = Paint.Style.FILL
-
-        checkPrecision = 2.dp2px(density)
-    }
 
     override fun onChartSizeChanged() {
         val internalMargin = calculateContentRectInternalMargin()
@@ -555,11 +554,11 @@ open class LineChartRenderer(
     }
 
     companion object {
-        private val LINE_SMOOTHNESS = 0.16f
-        private val DEFAULT_LINE_STROKE_WIDTH_DP = 3
-        private val DEFAULT_TOUCH_TOLERANCE_MARGIN_DP = 4
+        private const val LINE_SMOOTHNESS = 0.16f
+        private const val DEFAULT_LINE_STROKE_WIDTH_DP = 3
+        private const val DEFAULT_TOUCH_TOLERANCE_MARGIN_DP = 4
 
-        private val MODE_DRAW = 0
-        private val MODE_HIGHLIGHT = 1
+        private const val MODE_DRAW = 0
+        private const val MODE_HIGHLIGHT = 1
     }
 }

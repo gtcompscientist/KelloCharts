@@ -3,7 +3,7 @@ package co.csadev.kellocharts.model
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.darken
 import co.csadev.kellocharts.view.Chart
-import java.util.*
+import java.util.Arrays
 
 /**
  * Model representing single slice on PieChart.

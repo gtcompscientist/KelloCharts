@@ -9,8 +9,8 @@ import android.graphics.RectF
 import co.csadev.kellocharts.model.*
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
 import co.csadev.kellocharts.provider.ColumnChartDataProvider
-import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px
+import co.csadev.kellocharts.util.HALF
 import co.csadev.kellocharts.view.Chart
 import kotlin.math.abs
 
@@ -24,7 +24,7 @@ open class ColumnChartRenderer(
 ) : AbstractChartRenderer(context, chart) {
 
     /**
-     * Additional width for hightlighted column, used to give tauch feedback.
+     * Additional width for highlighted column, used to give touch feedback.
      */
     private val touchAdditionalWidth: Int = DEFAULT_COLUMN_TOUCH_ADDITIONAL_WIDTH_DP.dp2px(density)
 
@@ -44,7 +44,7 @@ open class ColumnChartRenderer(
     private val drawRect = RectF()
 
     /**
-     * Coordinated of user tauch.
+     * Coordinated of user touch.
      */
     private val touchedPoint = PointF()
 
@@ -117,9 +117,9 @@ open class ColumnChartRenderer(
         // extra 0.5 to the each side, that margins will be negative scaled according to number of columns, so for more
         // columns there will be less margin.
         if (data.isHorizontal)
-            tempMaximumViewport.set(baseValue, data.columns.size - 0.5f, baseValue, -0.5f)
+            tempMaximumViewport.set(baseValue, data.columns.size - HALF, baseValue, -HALF)
         else
-            tempMaximumViewport.set(-0.5f, baseValue, data.columns.size - 0.5f, baseValue)
+            tempMaximumViewport.set(-1 * HALF, baseValue, data.columns.size - 0.5f, baseValue)
         if (data.isStacked) {
             calculateMaxViewportForStacked(data)
         } else {

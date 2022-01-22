@@ -14,9 +14,24 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.ViewPager
 import co.csadev.kellocharts.gesture.ContainerScrollType
 import co.csadev.kellocharts.gesture.ZoomType
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.Axis
+import co.csadev.kellocharts.model.BubbleChartData
+import co.csadev.kellocharts.model.BubbleValue
+import co.csadev.kellocharts.model.Column
+import co.csadev.kellocharts.model.ColumnChartData
+import co.csadev.kellocharts.model.Line
+import co.csadev.kellocharts.model.LineChartData
+import co.csadev.kellocharts.model.PieChartData
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.SliceValue
+import co.csadev.kellocharts.model.SubcolumnValue
+import co.csadev.kellocharts.model.copy
 import co.csadev.kellocharts.util.ChartUtils
-import co.csadev.kellocharts.view.*
+import co.csadev.kellocharts.view.BubbleChartView
+import co.csadev.kellocharts.view.ColumnChartView
+import co.csadev.kellocharts.view.LineChartView
+import co.csadev.kellocharts.view.PieChartView
+import co.csadev.kellocharts.view.PreviewLineChartView
 
 class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
 
@@ -91,10 +106,11 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
         ): View? {
             val rootView = inflater.inflate(R.layout.fragment_view_pager_charts, container, false)
             val layout = rootView as RelativeLayout
-            val sectionNum = arguments!!.getInt(ARG_SECTION_NUMBER)
+            val sectionNum = requireArguments().getInt(ARG_SECTION_NUMBER)
+            val act = requireActivity()
             when (sectionNum) {
                 1 -> {
-                    val lineChartView = LineChartView(activity!!)
+                    val lineChartView = LineChartView(act)
                     lineChartView.lineChartData = generateLineChartData()
                     lineChartView.zoomType = ZoomType.HORIZONTAL
 
@@ -104,7 +120,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
                     layout.addView(lineChartView)
                 }
                 2 -> {
-                    val columnChartView = ColumnChartView(activity!!)
+                    val columnChartView = ColumnChartView(act)
                     columnChartView.columnChartData = generateColumnChartData()
                     columnChartView.zoomType = ZoomType.HORIZONTAL
 
@@ -114,7 +130,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
                     layout.addView(columnChartView)
                 }
                 3 -> {
-                    val bubbleChartView = BubbleChartView(activity!!)
+                    val bubbleChartView = BubbleChartView(act)
                     bubbleChartView.bubbleChartData = generateBubbleChartData()
                     bubbleChartView.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
 
@@ -124,7 +140,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
                     layout.addView(bubbleChartView)
                 }
                 4 -> {
-                    val previewLineChartView = PreviewLineChartView(activity!!)
+                    val previewLineChartView = PreviewLineChartView(act)
                     previewLineChartView.lineChartData = generatePreviewLineChartData()
 
                     /** Note: Chart is within ViewPager so enable container scroll mode.  */
@@ -142,7 +158,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
                     layout.addView(previewLineChartView)
                 }
                 5 -> {
-                    val pieChartView = PieChartView(activity!!)
+                    val pieChartView = PieChartView(act)
                     pieChartView.pieChartData = generatePieChartData()
 
                     /** Note: Chart is within ViewPager so enable container scroll mode.  */
@@ -187,7 +203,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
                 repeat(numSubcolumns) {
                     values.add(
                         SubcolumnValue(
-                            Math.random().toFloat() * 50f + 5,
+                            Math.random().toFloat() * SAMPLES_F + 5,
                             ChartUtils.pickColor()
                         )
                     )
@@ -225,7 +241,7 @@ class ViewPagerChartsActivity : AppCompatActivity(), ActionBar.TabListener {
         }
 
         private fun generatePreviewLineChartData(): LineChartData {
-            val numValues = 50
+            val numValues = SAMPLES
 
             val values = ArrayList<PointValue>()
             repeat(numValues) {

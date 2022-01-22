@@ -1,6 +1,10 @@
 package co.csadev.kellocharts.listener
 
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.BubbleValue
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.SliceValue
+import co.csadev.kellocharts.model.SubcolumnValue
+import co.csadev.kellocharts.model.Viewport
 
 interface BubbleChartOnValueSelectListener : OnValueDeselectListener {
     fun onValueSelected(bubbleIndex: Int, value: BubbleValue)

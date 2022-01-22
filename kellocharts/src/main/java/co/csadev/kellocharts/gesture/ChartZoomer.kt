@@ -1,6 +1,5 @@
 package co.csadev.kellocharts.gesture
 
-import android.content.Context
 import android.graphics.PointF
 import android.view.MotionEvent
 import co.csadev.kellocharts.computator.ChartComputator
@@ -10,8 +9,8 @@ import co.csadev.kellocharts.model.set
 /**
  * Encapsulates zooming functionality.
  */
-class ChartZoomer(context: Context, var zoomType: ZoomType?) {
-    private val zoomer = ZoomerCompat(context)
+class ChartZoomer(var zoomType: ZoomType?) {
+    private val zoomer = ZoomerCompat()
     private val zoomFocalPoint = PointF() // Used for double tap zoom
     private val viewportFocus = PointF()
     private val scrollerStartViewport = Viewport() // Used only for zooms and flings
@@ -49,7 +48,7 @@ class ChartZoomer(context: Context, var zoomType: ZoomType?) {
 
     fun scale(computator: ChartComputator, focusX: Float, focusY: Float, scale: Float): Boolean {
         /**
-         * Smaller viewport means bigger zoom so for zoomIn scale should have value <1, for zoomOout >1
+         * Smaller viewport means bigger zoom so for zoomIn scale should have value <1, for zoomOut >1
          */
         val newWidth = scale * computator.currentViewport.width()
         val newHeight = scale * computator.currentViewport.height()
@@ -99,6 +98,6 @@ class ChartZoomer(context: Context, var zoomType: ZoomType?) {
     }
 
     companion object {
-        val ZOOM_AMOUNT = 0.25f
+        const val ZOOM_AMOUNT = 0.25f
     }
 }

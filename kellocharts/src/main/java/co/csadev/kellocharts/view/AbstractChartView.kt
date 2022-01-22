@@ -6,7 +6,11 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.view.ViewCompat
-import co.csadev.kellocharts.animation.*
+import co.csadev.kellocharts.animation.ChartAnimationListener
+import co.csadev.kellocharts.animation.ChartDataAnimator
+import co.csadev.kellocharts.animation.ChartDataAnimatorV14
+import co.csadev.kellocharts.animation.ChartViewportAnimator
+import co.csadev.kellocharts.animation.ChartViewportAnimatorV14
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.gesture.ChartTouchHandler
 import co.csadev.kellocharts.gesture.ContainerScrollType

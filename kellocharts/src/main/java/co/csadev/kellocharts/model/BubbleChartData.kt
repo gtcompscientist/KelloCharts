@@ -4,7 +4,6 @@ import co.csadev.kellocharts.formatter.BubbleChartValueFormatter
 import co.csadev.kellocharts.formatter.SimpleBubbleChartValueFormatter
 import co.csadev.kellocharts.model.dsl.bubbleData
 import co.csadev.kellocharts.view.Chart
-import java.util.*
 
 /**
  * Data for BubbleChart.
@@ -60,6 +59,7 @@ class BubbleChartData(
         const val DEFAULT_MIN_BUBBLE_RADIUS_DP = 6
         const val DEFAULT_BUBBLE_SCALE = 1f
 
+        @Suppress("MagicNumber")
         fun generateDummyData() =
             bubbleData {
                 bubbles {

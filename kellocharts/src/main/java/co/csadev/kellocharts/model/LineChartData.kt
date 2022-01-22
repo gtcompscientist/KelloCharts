@@ -1,7 +1,7 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.model.dsl.lineData
-import java.util.*
+import java.util.ArrayList
 
 /**
  * Data model for LineChartView.
@@ -31,6 +31,7 @@ class LineChartData(
     companion object {
         const val DEFAULT_BASE_VALUE = 0.0f
 
+        @Suppress("MagicNumber")
         fun generateDummyData() =
             lineData {
                 lines {

@@ -1,7 +1,12 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -68,68 +73,42 @@ class BubbleChartActivity : AppCompatActivity() {
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == R.id.action_reset) {
-                reset()
-                generateData()
-                return true
+            when (item.itemId) {
+                R.id.action_reset -> {
+                    reset()
+                    generateData()
+                }
+                R.id.action_shape_circles -> setCircles()
+                R.id.action_shape_square -> setSquares()
+                R.id.action_toggle_labels -> toggleLabels()
+                R.id.action_toggle_axes -> toggleAxes()
+                R.id.action_toggle_axes_names -> toggleAxesNames()
+                R.id.action_animate -> {
+                    prepareDataAnimation()
+                    chart?.startDataAnimation()
+                }
+                R.id.action_toggle_selection_mode -> {
+                    toggleLabelForSelected()
+                    Toast.makeText(
+                        activity,
+                        "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                R.id.action_toggle_touch_zoom -> {
+                    chart?.isZoomEnabled = chart?.isZoomEnabled != true
+                    Toast.makeText(
+                        activity,
+                        "IsZoomEnabled " + chart?.isZoomEnabled,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                R.id.action_zoom_both -> chart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
+                R.id.action_zoom_horizontal -> chart?.zoomType = ZoomType.HORIZONTAL
+                R.id.action_zoom_vertical -> chart?.zoomType = ZoomType.VERTICAL
+                else -> return super.onOptionsItemSelected(item)
             }
-            if (id == R.id.action_shape_circles) {
-                setCircles()
-                return true
-            }
-            if (id == R.id.action_shape_square) {
-                setSquares()
-                return true
-            }
-            if (id == R.id.action_toggle_labels) {
-                toggleLabels()
-                return true
-            }
-            if (id == R.id.action_toggle_axes) {
-                toggleAxes()
-                return true
-            }
-            if (id == R.id.action_toggle_axes_names) {
-                toggleAxesNames()
-                return true
-            }
-            if (id == R.id.action_animate) {
-                prepareDataAnimation()
-                chart?.startDataAnimation()
-                return true
-            }
-            if (id == R.id.action_toggle_selection_mode) {
-                toggleLabelForSelected()
-                Toast.makeText(
-                    activity,
-                    "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return true
-            }
-            if (id == R.id.action_toggle_touch_zoom) {
-                chart?.isZoomEnabled = chart?.isZoomEnabled != true
-                Toast.makeText(
-                    activity,
-                    "IsZoomEnabled " + chart?.isZoomEnabled,
-                    Toast.LENGTH_SHORT
-                ).show()
-                return true
-            }
-            if (id == R.id.action_zoom_both) {
-                chart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
-                return true
-            }
-            if (id == R.id.action_zoom_horizontal) {
-                chart?.zoomType = ZoomType.HORIZONTAL
-                return true
-            }
-            if (id == R.id.action_zoom_vertical) {
-                chart?.zoomType = ZoomType.VERTICAL
-                return true
-            }
-            return super.onOptionsItemSelected(item)
+            return true
         }
 
         private fun reset() {

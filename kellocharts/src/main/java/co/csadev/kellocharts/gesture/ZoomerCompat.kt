@@ -16,7 +16,6 @@
 
 package co.csadev.kellocharts.gesture
 
-import android.content.Context
 import android.os.SystemClock
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
@@ -24,7 +23,7 @@ import android.view.animation.Interpolator
 /**
  * A simple class that animates double-touch zoom gestures. Functionally similar to a [android.widget.Scroller].
  */
-class ZoomerCompat(context: Context) {
+class ZoomerCompat {
     /**
      * The interpolator, used for making zooms animate 'naturally.'
      */

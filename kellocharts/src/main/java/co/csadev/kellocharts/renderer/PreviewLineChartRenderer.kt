@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import co.csadev.kellocharts.provider.LineChartDataProvider
-import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
 
@@ -19,19 +18,17 @@ class PreviewLineChartRenderer(
     dataProvider: LineChartDataProvider
 ) : LineChartRenderer(context, chart, dataProvider) {
 
-    private val previewPaint = Paint()
+    private val previewPaint = Paint().apply {
+        isAntiAlias = true
+        color = Color.LTGRAY
+        strokeWidth = DEFAULT_PREVIEW_STROKE_WIDTH_DP.dp2px(density).toFloat()
+    }
 
     var previewColor: Int
         get() = previewPaint.color
         set(color) {
             previewPaint.color = color
         }
-
-    init {
-        previewPaint.isAntiAlias = true
-        previewPaint.color = Color.LTGRAY
-        previewPaint.strokeWidth = DEFAULT_PREVIEW_STROKE_WIDTH_DP.dp2px(density).toFloat()
-    }
 
     override fun drawUnclipped(canvas: Canvas) {
         super.drawUnclipped(canvas)
@@ -49,8 +46,8 @@ class PreviewLineChartRenderer(
     }
 
     companion object {
-        private val DEFAULT_PREVIEW_TRANSPARENCY = 64
-        private val FULL_ALPHA = 255
-        private val DEFAULT_PREVIEW_STROKE_WIDTH_DP = 2
+        private const val DEFAULT_PREVIEW_TRANSPARENCY = 64
+        private const val FULL_ALPHA = 255
+        private const val DEFAULT_PREVIEW_STROKE_WIDTH_DP = 2
     }
 }

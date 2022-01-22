@@ -34,8 +34,7 @@ class ComboLineColumnChartView @JvmOverloads constructor(
         DummyCompoLineColumnChartOnValueSelectListener()
 
     override // generateDummyData();
-    var comboLineColumnChartData: ComboLineColumnChartData =
-        ComboLineColumnChartData.generateDummyData()
+    var comboLineColumnChartData: ComboLineColumnChartData = ComboLineColumnChartData.generateDummyData()
         set(value) {
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "Setting data for ComboLineColumnChartView")

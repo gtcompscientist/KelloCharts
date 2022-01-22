@@ -1,13 +1,24 @@
 package co.csadev.kellocharts.renderer
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.graphics.Paint.FontMetricsInt
+import android.graphics.PointF
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
 import android.text.TextUtils
 import co.csadev.kellocharts.formatter.PieChartValueFormatter
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.PieChartData
+import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
+import co.csadev.kellocharts.model.SliceValue
+import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.PieChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px

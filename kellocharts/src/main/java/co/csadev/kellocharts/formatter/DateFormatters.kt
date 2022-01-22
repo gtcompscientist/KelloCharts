@@ -2,17 +2,21 @@
 
 package co.csadev.kellocharts.formatter
 
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.AxisValue
+import co.csadev.kellocharts.model.BubbleValue
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.SliceValue
+import co.csadev.kellocharts.model.SubcolumnValue
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
 import kotlin.math.roundToLong
 
-private const val nullTerminator = '\u0000'
+private const val NULL_TERM = '\u0000'
 
 private fun DateFormat.formatValue(formattedValue: CharArray, value: Float): Int {
     val dateResult = format(Date(value.roundToLong()))
     val dateLength = dateResult.length
-    formattedValue.fill(nullTerminator)
+    formattedValue.fill(NULL_TERM)
     dateResult.mapIndexed { index, c ->
         formattedValue[index] = c
     }

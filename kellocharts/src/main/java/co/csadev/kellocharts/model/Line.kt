@@ -5,7 +5,7 @@ import co.csadev.kellocharts.formatter.LineChartValueFormatter
 import co.csadev.kellocharts.formatter.SimpleLineChartValueFormatter
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.darken
-import java.util.*
+import java.util.ArrayList
 
 /**
  * Single line for line chart.

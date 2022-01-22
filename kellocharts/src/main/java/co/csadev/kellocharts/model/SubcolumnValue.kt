@@ -3,7 +3,6 @@ package co.csadev.kellocharts.model
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.darken
 import co.csadev.kellocharts.view.Chart
-import java.util.*
 
 /**
  * Single sub-column value for ColumnChart.
@@ -65,7 +64,7 @@ class SubcolumnValue(
         if (that.diff.compareTo(diff) != 0) return false
         if (that.originValue.compareTo(originValue) != 0) return false
         if (that.value.compareTo(value) != 0) return false
-        return Arrays.equals(label, that.label)
+        return label.contentEquals(that.label)
     }
 
     override fun hashCode(): Int {
@@ -75,7 +74,7 @@ class SubcolumnValue(
         result = 31 * result + if (diff != +0.0f) java.lang.Float.floatToIntBits(diff) else 0
         result = 31 * result + color
         result = 31 * result + darkenColor
-        result = 31 * result + if (label != null) Arrays.hashCode(label) else 0
+        result = 31 * result + (label?.hashCode() ?: 0)
         return result
     }
 

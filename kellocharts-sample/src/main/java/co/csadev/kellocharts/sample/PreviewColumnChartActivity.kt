@@ -1,12 +1,22 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.gesture.ZoomType
 import co.csadev.kellocharts.listener.ViewportChangeListener
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.Axis
+import co.csadev.kellocharts.model.Column
+import co.csadev.kellocharts.model.ColumnChartData
+import co.csadev.kellocharts.model.SubcolumnValue
+import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.copy
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.ColumnChartView
 import co.csadev.kellocharts.view.PreviewColumnChartView
@@ -116,7 +126,7 @@ class PreviewColumnChartActivity : AppCompatActivity() {
 
         private fun generateDefaultData(): ColumnChartData {
             val numSubcolumns = 1
-            val numColumns = 50
+            val numColumns = SAMPLES
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
             repeat(numColumns) {
@@ -125,7 +135,7 @@ class PreviewColumnChartActivity : AppCompatActivity() {
                 repeat(numSubcolumns) {
                     values.add(
                         SubcolumnValue(
-                            Math.random().toFloat() * 50f + 5,
+                            Math.random().toFloat() * SAMPLES_F + 5,
                             ChartUtils.pickColor()
                         )
                     )

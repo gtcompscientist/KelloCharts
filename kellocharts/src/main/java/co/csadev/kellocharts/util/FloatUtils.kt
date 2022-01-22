@@ -1,82 +1,26 @@
 package co.csadev.kellocharts.util
 
-import kotlin.math.*
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.log10
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 object FloatUtils {
+    @Suppress("MagicNumber")
     private val POW10 = intArrayOf(1, 10, 100, 1000, 10000, 100000, 1000000)
-
-    /**
-     * Returns next bigger float value considering precision of the argument.
-     */
-    fun nextUpF(f: Float): Float {
-        var f = f
-        if (java.lang.Float.isNaN(f) || f == java.lang.Float.POSITIVE_INFINITY) {
-            return f
-        } else {
-            f += 0.0f
-            return java.lang.Float.intBitsToFloat(java.lang.Float.floatToRawIntBits(f) + if (f >= 0.0f) +1 else -1)
-        }
-    }
-
-    /**
-     * Returns next smaller float value considering precision of the argument.
-     */
-    fun nextDownF(f: Float): Float {
-        return if (java.lang.Float.isNaN(f) || f == java.lang.Float.NEGATIVE_INFINITY) {
-            f
-        } else {
-            if (f == 0.0f) {
-                -java.lang.Float.MIN_VALUE
-            } else {
-                java.lang.Float.intBitsToFloat(java.lang.Float.floatToRawIntBits(f) + if (f > 0.0f) -1 else +1)
-            }
-        }
-    }
 
     /**
      * Returns next bigger double value considering precision of the argument.
      */
-    fun nextUp(d: Double): Double {
-        var d = d
-        return if (java.lang.Double.isNaN(d) || d == java.lang.Double.POSITIVE_INFINITY) {
-            d
+    private fun nextUp(d: Double): Double {
+        var dub = d
+        return if (java.lang.Double.isNaN(dub) || dub == java.lang.Double.POSITIVE_INFINITY) {
+            dub
         } else {
-            d += 0.0
-            java.lang.Double.longBitsToDouble(java.lang.Double.doubleToRawLongBits(d) + if (d >= 0.0) +1 else -1)
+            dub += 0.0
+            java.lang.Double.longBitsToDouble(java.lang.Double.doubleToRawLongBits(dub) + if (dub >= 0.0) +1 else -1)
         }
-    }
-
-    /**
-     * Returns next smaller float value considering precision of the argument.
-     */
-    fun nextDown(d: Double): Double {
-        return if (java.lang.Double.isNaN(d) || d == java.lang.Double.NEGATIVE_INFINITY) {
-            d
-        } else {
-            if (d == 0.0) {
-                (-java.lang.Float.MIN_VALUE).toDouble()
-            } else {
-                java.lang.Double.longBitsToDouble(java.lang.Double.doubleToRawLongBits(d) + if (d > 0.0f) -1 else +1)
-            }
-        }
-    }
-
-    /**
-     * Method checks if two float numbers are similar.
-     */
-    fun almostEqual(a: Float, b: Float, absoluteDiff: Float, relativeDiff: Float): Boolean {
-        var a = a
-        var b = b
-        val diff = Math.abs(a - b)
-        if (diff <= absoluteDiff) {
-            return true
-        }
-
-        a = Math.abs(a)
-        b = Math.abs(b)
-        val largest = if (a > b) a else b
-
-        return diff <= largest * relativeDiff
     }
 
     /**
@@ -105,34 +49,34 @@ object FloatUtils {
         digits: Int,
         separator: Char
     ): Int {
-        var value = value
-        var digits = digits
-        if (digits >= POW10.size) {
+        var floatVal = value
+        var valDigits = digits
+        if (valDigits >= POW10.size) {
             formattedValue[endIndex - 1] = '.'
             return 1
         }
         var negative = false
-        if (value == 0f) {
+        if (floatVal == 0f) {
             formattedValue[endIndex - 1] = '0'
             return 1
         }
-        if (value < 0) {
+        if (floatVal < 0) {
             negative = true
-            value = -value
+            floatVal = -floatVal
         }
-        if (digits > POW10.size) {
-            digits = POW10.size - 1
+        if (valDigits > POW10.size) {
+            valDigits = POW10.size - 1
         }
-        value *= POW10[digits].toFloat()
-        var lval = value.roundToInt().toLong()
+        floatVal *= POW10[valDigits].toFloat()
+        var lVal = floatVal.roundToInt().toLong()
         var index = endIndex - 1
         var charsNumber = 0
-        while (lval != 0L || charsNumber < digits + 1) {
-            val digit = (lval % 10).toInt()
-            lval /= 10
+        while (lVal != 0L || charsNumber < valDigits + 1) {
+            val digit = (lVal % 10).toInt()
+            lVal /= 10
             formattedValue[index--] = (digit + '0'.code).toChar()
             charsNumber++
-            if (charsNumber == digits) {
+            if (charsNumber == valDigits) {
                 formattedValue[index--] = separator
                 charsNumber++
             }
@@ -184,10 +128,8 @@ object FloatUtils {
         val first = ceil(start / interval) * interval
         val last = nextUp(floor(stop / interval) * interval)
 
-        var intervalValue: Double
-        var valueIndex: Int
         var valuesNum = 0
-        intervalValue = first
+        var intervalValue: Double = first
         while (intervalValue <= last) {
             ++valuesNum
             intervalValue += interval
@@ -201,7 +143,7 @@ object FloatUtils {
         }
 
         intervalValue = first
-        valueIndex = 0
+        var valueIndex = 0
         while (valueIndex < valuesNum) {
             outValues.values[valueIndex] = intervalValue.toFloat()
             intervalValue += interval
@@ -209,7 +151,7 @@ object FloatUtils {
         }
 
         if (interval < 1) {
-            outValues.decimals = Math.ceil(-Math.log10(interval)).toInt()
+            outValues.decimals = ceil(-log10(interval)).toInt()
         } else {
             outValues.decimals = 0
         }

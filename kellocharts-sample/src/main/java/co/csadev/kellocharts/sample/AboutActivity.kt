@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import java.util.*
+import java.util.Locale
 
 class AboutActivity : AppCompatActivity() {
 
@@ -67,7 +67,7 @@ class AboutActivity : AppCompatActivity() {
             try {
                 url = url.lowercase(Locale.getDefault())
                 if (!url.startsWith("http://") || !url.startsWith("https://")) {
-                    url = "http://$url"
+                    url = "https://$url"
                 }
 
                 val intent = Intent(Intent.ACTION_VIEW)

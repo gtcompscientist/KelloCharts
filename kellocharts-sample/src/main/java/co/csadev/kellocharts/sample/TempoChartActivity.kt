@@ -8,7 +8,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.formatter.SimpleAxisValueFormatter
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.Axis
+import co.csadev.kellocharts.model.AxisValue
+import co.csadev.kellocharts.model.Line
+import co.csadev.kellocharts.model.LineChartData
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.LineChartView
 

@@ -1,7 +1,12 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -67,86 +72,60 @@ class ColumnChartActivity : AppCompatActivity() {
             inflater.inflate(R.menu.column_chart, menu)
         }
 
+        @Suppress("ComplexMethod")
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == R.id.action_reset) {
-                reset()
-                generateData()
-                return true
-            }
-            if (id == R.id.action_subcolumns) {
-                dataType = SUBCOLUMNS_DATA
-                generateData()
-                return true
-            }
-            if (id == R.id.action_stacked) {
-                dataType = STACKED_DATA
-                generateData()
-                return true
-            }
-            if (id == R.id.action_negative_subcolumns) {
-                dataType = NEGATIVE_SUBCOLUMNS_DATA
-                generateData()
-                return true
-            }
-            if (id == R.id.action_negative_stacked) {
-                dataType = NEGATIVE_STACKED_DATA
-                generateData()
-                return true
-            }
-            if (id == R.id.action_toggle_labels) {
-                toggleLabels()
-                return true
-            }
-            if (id == R.id.action_toggle_axes) {
-                toggleAxes()
-                return true
-            }
-            if (id == R.id.action_toggle_axes_names) {
-                toggleAxesNames()
-                return true
-            }
-            if (id == R.id.action_toggle_horizontal_data) {
-                toggleHorizontal()
-                return true
-            }
-            if (id == R.id.action_animate) {
-                prepareDataAnimation()
-                chart?.startDataAnimation()
-                return true
-            }
-            if (id == R.id.action_toggle_selection_mode) {
-                toggleLabelForSelected()
+            when (item.itemId) {
+                R.id.action_reset -> {
+                    reset()
+                    generateData()
+                }
+                R.id.action_subcolumns -> {
+                    dataType = SUBCOLUMNS_DATA
+                    generateData()
+                }
+                R.id.action_stacked -> {
+                    dataType = STACKED_DATA
+                    generateData()
+                }
+                R.id.action_negative_subcolumns -> {
+                    dataType = NEGATIVE_SUBCOLUMNS_DATA
+                    generateData()
+                }
+                R.id.action_negative_stacked -> {
+                    dataType = NEGATIVE_STACKED_DATA
+                    generateData()
+                }
+                R.id.action_toggle_labels -> toggleLabels()
+                R.id.action_toggle_axes -> toggleAxes()
+                R.id.action_toggle_axes_names -> toggleAxesNames()
+                R.id.action_toggle_horizontal_data -> toggleHorizontal()
+                R.id.action_animate -> {
+                    prepareDataAnimation()
+                    chart?.startDataAnimation()
+                }
+                R.id.action_toggle_selection_mode -> {
+                    toggleLabelForSelected()
 
-                Toast.makeText(
-                    activity,
-                    "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return true
+                    Toast.makeText(
+                        activity,
+                        "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                R.id.action_toggle_touch_zoom -> {
+                    chart?.isZoomEnabled = chart?.isZoomEnabled != true
+                    Toast.makeText(
+                        activity,
+                        "IsZoomEnabled " + chart?.isZoomEnabled,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                R.id.action_zoom_both -> chart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
+                R.id.action_zoom_horizontal -> chart?.zoomType = ZoomType.HORIZONTAL
+                R.id.action_zoom_vertical -> chart?.zoomType = ZoomType.VERTICAL
+                else -> return super.onOptionsItemSelected(item)
             }
-            if (id == R.id.action_toggle_touch_zoom) {
-                chart?.isZoomEnabled = chart?.isZoomEnabled != true
-                Toast.makeText(
-                    activity,
-                    "IsZoomEnabled " + chart?.isZoomEnabled,
-                    Toast.LENGTH_SHORT
-                ).show()
-                return true
-            }
-            if (id == R.id.action_zoom_both) {
-                chart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
-                return true
-            }
-            if (id == R.id.action_zoom_horizontal) {
-                chart?.zoomType = ZoomType.HORIZONTAL
-                return true
-            }
-            if (id == R.id.action_zoom_vertical) {
-                chart?.zoomType = ZoomType.VERTICAL
-                return true
-            }
-            return super.onOptionsItemSelected(item)
+            return true
         }
 
         private fun reset() {
@@ -170,7 +149,7 @@ class ColumnChartActivity : AppCompatActivity() {
                 repeat(numSubcolumns) {
                     values.add(
                         SubcolumnValue(
-                            Math.random().toFloat() * 50f + 5,
+                            Math.random().toFloat() * SAMPLES_F + 5,
                             ChartUtils.pickColor()
                         )
                     )
@@ -204,8 +183,8 @@ class ColumnChartActivity : AppCompatActivity() {
          * Generates columns with subcolumns, columns have larger separation than subcolumns.
          */
         private fun generateSubcolumnsData() {
-            val numSubcolumns = 4
-            val numColumns = 4
+            val numSubcolumns = CHART_AXES
+            val numColumns = CHART_AXES
             // Column can have many subcolumns, here I use 4 subcolumn in each of 8 columns.
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
@@ -215,7 +194,7 @@ class ColumnChartActivity : AppCompatActivity() {
                 repeat(numSubcolumns) {
                     values.add(
                         SubcolumnValue(
-                            Math.random().toFloat() * 50f + 5,
+                            Math.random().toFloat() * SAMPLES_F + 5,
                             ChartUtils.pickColor()
                         )
                     )
@@ -252,7 +231,7 @@ class ColumnChartActivity : AppCompatActivity() {
          * Generates columns with stacked subcolumns.
          */
         private fun generateStackedData() {
-            val numSubcolumns = 4
+            val numSubcolumns = CHART_AXES
             val numColumns = 8
             // Column can have many stacked subcolumns, here I use 4 stacke subcolumn in each of 4 columns.
             val columns = ArrayList<Column>()
@@ -301,8 +280,8 @@ class ColumnChartActivity : AppCompatActivity() {
 
         private fun generateNegativeSubcolumnsData() {
 
-            val numSubcolumns = 4
-            val numColumns = 4
+            val numSubcolumns = CHART_AXES
+            val numColumns = CHART_AXES
             val columns = ArrayList<Column>()
             var values: MutableList<SubcolumnValue>
             repeat(numColumns) {
@@ -312,7 +291,7 @@ class ColumnChartActivity : AppCompatActivity() {
                     val sign = sign
                     values.add(
                         SubcolumnValue(
-                            Math.random().toFloat() * 50f * sign.toFloat() + 5 * sign,
+                            Math.random().toFloat() * SAMPLES_F * sign.toFloat() + 5 * sign,
                             ChartUtils.pickColor()
                         )
                     )
@@ -347,7 +326,7 @@ class ColumnChartActivity : AppCompatActivity() {
 
         private fun generateNegativeStackedData() {
 
-            val numSubcolumns = 4
+            val numSubcolumns = CHART_AXES
             val numColumns = 8
             // Column can have many stacked subcolumns, here I use 4 stacke subcolumn in each of 4 columns.
             val columns = ArrayList<Column>()

@@ -6,7 +6,7 @@ import co.csadev.kellocharts.formatter.PieChartValueFormatter
 import co.csadev.kellocharts.formatter.SimplePieChartValueFormatter
 import co.csadev.kellocharts.model.dsl.pieData
 import co.csadev.kellocharts.model.dsl.sliceValue
-import java.util.*
+import java.util.ArrayList
 
 /**
  * Data for PieChart, by default it doesn't have axes.
@@ -83,6 +83,7 @@ class PieChartData(
         const val DEFAULT_CENTER_CIRCLE_SCALE = 0.6f
         internal const val DEFAULT_SLICE_SPACING_DP = 2
 
+        @Suppress("MagicNumber")
         fun generateDummyData() =
             pieData {
                 sliceValues {

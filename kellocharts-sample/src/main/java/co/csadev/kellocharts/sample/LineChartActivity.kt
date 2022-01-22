@@ -32,7 +32,7 @@ class LineChartActivity : AppCompatActivity() {
         private var chart: LineChartView? = null
         private var data: LineChartData? = null
         private var numberOfLines = 1
-        private val maxNumberOfLines = 4
+        private val maxNumberOfLines = CHART_AXES
         private val numberOfPoints = 12
 
         internal var randomNumbersTab = Array(maxNumberOfLines) { FloatArray(numberOfPoints) }
@@ -77,98 +77,52 @@ class LineChartActivity : AppCompatActivity() {
             inflater.inflate(R.menu.line_chart, menu)
         }
 
+        @Suppress("ComplexMethod")
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == R.id.action_reset) {
-                reset()
-                generateData()
-                return true
-            }
-            if (id == R.id.action_add_line) {
-                addLineToData()
-                return true
-            }
-            if (id == R.id.action_toggle_lines) {
-                toggleLines()
-                return true
-            }
-            if (id == R.id.action_toggle_points) {
-                togglePoints()
-                return true
-            }
-            if (id == R.id.action_toggle_cubic) {
-                toggleCubic()
-                return true
-            }
-            if (id == R.id.action_toggle_area) {
-                toggleFilled()
-                return true
-            }
-            if (id == R.id.action_point_color) {
-                togglePointColor()
-                return true
-            }
-            if (id == R.id.action_shape_circles) {
-                setCircles()
-                return true
-            }
-            if (id == R.id.action_shape_square) {
-                setSquares()
-                return true
-            }
-            if (id == R.id.action_shape_diamond) {
-                setDiamonds()
-                return true
-            }
-            if (id == R.id.action_toggle_labels) {
-                toggleLabels()
-                return true
-            }
-            if (id == R.id.action_toggle_axes) {
-                toggleAxes()
-                return true
-            }
-            if (id == R.id.action_toggle_axes_names) {
-                toggleAxesNames()
-                return true
-            }
-            if (id == R.id.action_animate) {
-                prepareDataAnimation()
-                chart?.startDataAnimation()
-                return true
-            }
-            if (id == R.id.action_toggle_selection_mode) {
-                toggleLabelForSelected()
+            when (item.itemId) {
+                R.id.action_reset -> {
+                    reset()
+                    generateData()
+                }
+                R.id.action_add_line -> addLineToData()
+                R.id.action_toggle_lines -> toggleLines()
+                R.id.action_toggle_points -> togglePoints()
+                R.id.action_toggle_cubic -> toggleCubic()
+                R.id.action_toggle_area -> toggleFilled()
+                R.id.action_point_color -> togglePointColor()
+                R.id.action_shape_circles -> setCircles()
+                R.id.action_shape_square -> setSquares()
+                R.id.action_shape_diamond -> setDiamonds()
+                R.id.action_toggle_labels -> toggleLabels()
+                R.id.action_toggle_axes -> toggleAxes()
+                R.id.action_toggle_axes_names -> toggleAxesNames()
+                R.id.action_animate -> {
+                    prepareDataAnimation()
+                    chart?.startDataAnimation()
+                }
+                R.id.action_toggle_selection_mode -> {
+                    toggleLabelForSelected()
 
-                Toast.makeText(
-                    activity,
-                    "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return true
+                    Toast.makeText(
+                        activity,
+                        "Selection mode set to " + chart?.isValueSelectionEnabled + " select any point.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                R.id.action_toggle_touch_zoom -> {
+                    chart?.isZoomEnabled = chart?.isZoomEnabled != true
+                    Toast.makeText(
+                        activity,
+                        "IsZoomEnabled " + chart?.isZoomEnabled,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                R.id.action_zoom_both -> chart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
+                R.id.action_zoom_horizontal -> chart?.zoomType = ZoomType.HORIZONTAL
+                R.id.action_zoom_vertical -> chart?.zoomType = ZoomType.VERTICAL
+                else -> return super.onOptionsItemSelected(item)
             }
-            if (id == R.id.action_toggle_touch_zoom) {
-                chart?.isZoomEnabled = chart?.isZoomEnabled != true
-                Toast.makeText(
-                    activity,
-                    "IsZoomEnabled " + chart?.isZoomEnabled,
-                    Toast.LENGTH_SHORT
-                ).show()
-                return true
-            }
-            if (id == R.id.action_zoom_both) {
-                chart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
-                return true
-            }
-            if (id == R.id.action_zoom_horizontal) {
-                chart?.zoomType = ZoomType.HORIZONTAL
-                return true
-            }
-            if (id == R.id.action_zoom_vertical) {
-                chart?.zoomType = ZoomType.VERTICAL
-                return true
-            }
-            return super.onOptionsItemSelected(item)
+            return true
         }
 
         private fun generateValues() {

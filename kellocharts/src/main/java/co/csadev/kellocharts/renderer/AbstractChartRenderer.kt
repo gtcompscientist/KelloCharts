@@ -1,9 +1,13 @@
 package co.csadev.kellocharts.renderer
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.graphics.Paint.FontMetricsInt
+import android.graphics.RectF
+import android.graphics.Typeface
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.Viewport
@@ -15,18 +19,29 @@ import co.csadev.kellocharts.view.Chart
  * Abstract renderer implementation, every chart renderer extends this class(although it is not required it helps).
  */
 abstract class AbstractChartRenderer(context: Context, protected var chart: Chart) : ChartRenderer {
-    var DEFAULT_LABEL_MARGIN_DP = 4
-    protected var computator: ChartComputator
+    private companion object {
+        const val DEFAULT_LABEL_MARGIN_DP = 4
+    }
+    protected var computator: ChartComputator = chart.chartComputator
 
     /**
      * Paint for value labels.
      */
-    protected var labelPaint = Paint()
+    protected var labelPaint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.FILL
+        textAlign = Align.LEFT
+        typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+        color = Color.WHITE
+    }
 
     /**
      * Paint for labels background.
      */
-    protected var labelBackgroundPaint = Paint()
+    private var labelBackgroundPaint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.FILL
+    }
 
     /**
      * Holds coordinates for label background rect.
@@ -42,14 +57,14 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
      * If true maximum and current viewport will be calculated when chart data change or during data animations.
      */
     override var isViewportCalculationEnabled = true
-    protected var density: Float = 0f
-    protected var scaledDensity: Float = 0f
+    protected var density: Float = context.resources.displayMetrics.density
+    protected var scaledDensity: Float = context.resources.displayMetrics.scaledDensity
     override var selectedValue = SelectedValue()
     protected var labelBuffer = CharArray(64)
-    protected var labelOffset: Int = 0
-    protected var labelMargin: Int = 0
-    protected var isValueLabelBackgroundEnabled: Boolean = false
-    protected var isValueLabelBackgroundAuto: Boolean = false
+    protected var labelMargin: Int = DEFAULT_LABEL_MARGIN_DP.dp2px(density)
+    protected var labelOffset: Int = labelMargin
+    private var isValueLabelBackgroundEnabled: Boolean = false
+    private var isValueLabelBackgroundAuto: Boolean = false
     override val isTouched: Boolean
         get() = selectedValue.isSet
     override var currentViewport: Viewport
@@ -62,24 +77,6 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
         set(value) {
             computator.maximumViewport = value
         }
-
-    init {
-        this.density = context.resources.displayMetrics.density
-        this.scaledDensity = context.resources.displayMetrics.scaledDensity
-        this.computator = chart.chartComputator
-
-        labelMargin = DEFAULT_LABEL_MARGIN_DP.dp2px(density)
-        labelOffset = labelMargin
-
-        labelPaint.isAntiAlias = true
-        labelPaint.style = Paint.Style.FILL
-        labelPaint.textAlign = Align.LEFT
-        labelPaint.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-        labelPaint.color = Color.WHITE
-
-        labelBackgroundPaint.isAntiAlias = true
-        labelBackgroundPaint.style = Paint.Style.FILL
-    }
 
     override fun resetRenderer() {
         this.computator = chart.chartComputator
@@ -147,7 +144,5 @@ class InternalChartRendererBase(context: Context, chart: Chart) :
     override fun onChartViewportChanged() = Unit
     override fun draw(canvas: Canvas) = Unit
     override fun drawUnclipped(canvas: Canvas) = Unit
-    override fun checkTouch(touchX: Float, touchY: Float): Boolean {
-        return false
-    }
+    override fun checkTouch(touchX: Float, touchY: Float) = false
 }

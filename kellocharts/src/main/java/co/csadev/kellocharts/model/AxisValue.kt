@@ -1,6 +1,6 @@
 package co.csadev.kellocharts.model
 
-import java.util.*
+import java.util.Arrays
 
 /**
  * Single axis value, use it to manually set axis labels position. You can use label attribute to display text instead

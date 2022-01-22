@@ -3,12 +3,24 @@ package co.csadev.kellocharts.model.dsl
 import android.graphics.Color
 import android.graphics.PathEffect
 import android.graphics.Typeface
-import co.csadev.kellocharts.formatter.*
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.formatter.AxisValueFormatter
+import co.csadev.kellocharts.formatter.ColumnChartValueFormatter
+import co.csadev.kellocharts.formatter.LineChartValueFormatter
+import co.csadev.kellocharts.formatter.SimpleAxisValueFormatter
+import co.csadev.kellocharts.formatter.SimpleColumnChartValueFormatter
+import co.csadev.kellocharts.formatter.SimpleLineChartValueFormatter
+import co.csadev.kellocharts.model.Axis
 import co.csadev.kellocharts.model.Axis.Companion.DEFAULT_MAX_AXIS_LABEL_CHARS
+import co.csadev.kellocharts.model.AxisValue
+import co.csadev.kellocharts.model.Column
+import co.csadev.kellocharts.model.Line
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.SubcolumnValue
+import co.csadev.kellocharts.model.ValueShape
+import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.darken
-import java.util.*
+import java.util.ArrayList
 
 @DslMarker
 annotation class AxisDsl

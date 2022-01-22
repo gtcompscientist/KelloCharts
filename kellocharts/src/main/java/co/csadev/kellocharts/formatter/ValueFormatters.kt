@@ -1,6 +1,10 @@
 package co.csadev.kellocharts.formatter
 
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.AxisValue
+import co.csadev.kellocharts.model.BubbleValue
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.SliceValue
+import co.csadev.kellocharts.model.SubcolumnValue
 
 open class ValueFormatter(
     decimalDigitsNumber: Int = Int.MIN_VALUE,

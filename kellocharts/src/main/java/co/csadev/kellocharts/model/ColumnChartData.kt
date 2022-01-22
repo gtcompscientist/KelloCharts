@@ -1,7 +1,7 @@
 package co.csadev.kellocharts.model
 
 import co.csadev.kellocharts.model.dsl.columnData
-import java.util.*
+import java.util.ArrayList
 
 /**
  * Data model for column chart. Note: you can set X value for columns or sub-columns, columns are by default indexed
@@ -20,7 +20,7 @@ class ColumnChartData(
         }
     var baseValue = DEFAULT_BASE_VALUE
 
-    var _axisXTop: Axis? = null
+    private var _axisXTop: Axis? = null
     override var axisXTop: Axis?
         get() {
             return if (isHorizontal) {
@@ -30,7 +30,7 @@ class ColumnChartData(
         set(value) {
             _axisXTop = value
         }
-    var _axisXBottom: Axis? = null
+    private var _axisXBottom: Axis? = null
     override var axisXBottom: Axis?
         get() {
             return if (isHorizontal) {
@@ -40,7 +40,7 @@ class ColumnChartData(
         set(value) {
             _axisXBottom = value
         }
-    var _axisYLeft: Axis? = null
+    private var _axisYLeft: Axis? = null
     override var axisYLeft: Axis?
         get() {
             return if (isHorizontal) {
@@ -50,7 +50,7 @@ class ColumnChartData(
         set(value) {
             _axisYLeft = value
         }
-    var _axisYRight: Axis? = null
+    private var _axisYRight: Axis? = null
     override var axisYRight: Axis?
         get() {
             return if (isHorizontal) {
@@ -78,6 +78,10 @@ class ColumnChartData(
     companion object {
         const val DEFAULT_FILL_RATIO = 0.75f
         const val DEFAULT_BASE_VALUE = 0.0f
+        private const val DEFAULT_VALUE_1 = 1f
+        private const val DEFAULT_VALUE_2 = 2f
+        private const val DEFAULT_VALUE_3 = 3f
+        private const val DEFAULT_VALUE_4 = 4f
 
         fun generateDummyData() =
             columnData {
@@ -85,16 +89,16 @@ class ColumnChartData(
                     column {
                         columnValues {
                             subcolumn {
-                                value = 4f
+                                value = DEFAULT_VALUE_4
                             }
                             subcolumn {
-                                value = 3f
+                                value = DEFAULT_VALUE_3
                             }
                             subcolumn {
-                                value = 2f
+                                value = DEFAULT_VALUE_2
                             }
                             subcolumn {
-                                value = 1f
+                                value = DEFAULT_VALUE_1
                             }
                         }
                     }

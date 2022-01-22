@@ -1,12 +1,24 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.listener.ComboLineColumnChartOnValueSelectListener
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.Axis
+import co.csadev.kellocharts.model.Column
+import co.csadev.kellocharts.model.ColumnChartData
+import co.csadev.kellocharts.model.ComboLineColumnChartData
+import co.csadev.kellocharts.model.Line
+import co.csadev.kellocharts.model.LineChartData
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.SubcolumnValue
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.ComboLineColumnChartView
 
@@ -30,10 +42,10 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
         private var data: ComboLineColumnChartData? = null
 
         private var numberOfLines = 1
-        private val maxNumberOfLines = 4
+        private val maxNumberOfLines = CHART_AXES
         private val numberOfPoints = 12
 
-        internal var randomNumbersTab = Array(maxNumberOfLines) { FloatArray(numberOfPoints) }
+        private var randomNumbersTab = Array(maxNumberOfLines) { FloatArray(numberOfPoints) }
 
         private var hasAxes = true
         private var hasAxesNames = true
@@ -66,52 +78,45 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == R.id.action_reset) {
-                reset()
-                generateData()
-                return true
+            when (item.itemId) {
+                R.id.action_reset -> {
+                    reset()
+                    generateData()
+                }
+                R.id.action_add_line -> {
+                    addLineToData()
+                }
+                R.id.action_toggle_lines -> {
+                    toggleLines()
+                }
+                R.id.action_toggle_points -> {
+                    togglePoints()
+                }
+                R.id.action_toggle_cubic -> {
+                    toggleCubic()
+                }
+                R.id.action_toggle_labels -> {
+                    toggleLabels()
+                }
+                R.id.action_toggle_axes -> {
+                    toggleAxes()
+                }
+                R.id.action_toggle_axes_names -> {
+                    toggleAxesNames()
+                }
+                R.id.action_animate -> {
+                    prepareDataAnimation()
+                    chart!!.startDataAnimation()
+                }
+                else -> return super.onOptionsItemSelected(item)
             }
-            if (id == R.id.action_add_line) {
-                addLineToData()
-                return true
-            }
-            if (id == R.id.action_toggle_lines) {
-                toggleLines()
-                return true
-            }
-            if (id == R.id.action_toggle_points) {
-                togglePoints()
-                return true
-            }
-            if (id == R.id.action_toggle_cubic) {
-                toggleCubic()
-                return true
-            }
-            if (id == R.id.action_toggle_labels) {
-                toggleLabels()
-                return true
-            }
-            if (id == R.id.action_toggle_axes) {
-                toggleAxes()
-                return true
-            }
-            if (id == R.id.action_toggle_axes_names) {
-                toggleAxesNames()
-                return true
-            }
-            if (id == R.id.action_animate) {
-                prepareDataAnimation()
-                chart!!.startDataAnimation()
-                return true
-            }
-            return super.onOptionsItemSelected(item)
+            return true
         }
 
         private fun generateValues() {
             for (i in 0 until maxNumberOfLines) {
                 for (j in 0 until numberOfPoints) {
-                    randomNumbersTab[i][j] = Math.random().toFloat() * 50f + 5
+                    randomNumbersTab[i][j] = Math.random().toFloat() * SAMPLES_F + 5
                 }
             }
         }
@@ -183,7 +188,7 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
                 repeat(numSubcolumns) {
                     values.add(
                         SubcolumnValue(
-                            Math.random().toFloat() * 50 + 5,
+                            Math.random().toFloat() * SAMPLES + 5,
                             ChartUtils.COLOR_GREEN
                         )
                     )
@@ -248,14 +253,14 @@ class ComboLineColumnChartActivity : AppCompatActivity() {
             for (line in data!!.lineChartData.lines) {
                 for (value in line.values) {
                     // Here I modify target only for Y values but it is OK to modify X targets as well.
-                    value.setTarget(value.x, Math.random().toFloat() * 50 + 5)
+                    value.setTarget(value.x, Math.random().toFloat() * SAMPLES + 5)
                 }
             }
 
             // Columns animations
             for (column in data!!.columnChartData.columns) {
                 for (value in column.values) {
-                    value.setTarget(Math.random().toFloat() * 50 + 5)
+                    value.setTarget(Math.random().toFloat() * SAMPLES + 5)
                 }
             }
         }

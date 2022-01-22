@@ -14,6 +14,7 @@ import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.BubbleChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils.dp2px
+import co.csadev.kellocharts.util.THREE_QTRS
 import co.csadev.kellocharts.view.Chart
 import kotlin.math.abs
 import kotlin.math.sqrt
@@ -144,9 +145,9 @@ class BubbleChartRenderer(
         var dx = 0f
         var dy = 0f
         if (isBubbleScaledByX) {
-            dy = (pxY - pxX) * scaleY * 0.75f
+            dy = (pxY - pxX) * scaleY * THREE_QTRS
         } else {
-            dx = (pxX - pxY) * scaleX * 0.75f
+            dx = (pxX - pxY) * scaleX * THREE_QTRS
         }
 
         val maxViewport = computator.maximumViewport

@@ -2,6 +2,7 @@ package co.csadev.kellocharts.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import co.csadev.kellocharts.util.HALF
 
 /**
  * Partial copy of android.graphics.Rect but here the top should be greater then the bottom. Viewport holds 4 float
@@ -71,7 +72,7 @@ class Viewport(
      * right`)
      */
     fun centerX(): Float {
-        return (left + right) * 0.5f
+        return (left + right) * HALF
     }
 
     /**
@@ -79,7 +80,7 @@ class Viewport(
      * top`)
      */
     fun centerY(): Float {
-        return (top + bottom) * 0.5f
+        return (top + bottom) * HALF
     }
 
     /**
@@ -299,23 +300,24 @@ class Viewport(
      * Set the viewport's coordinates from the data stored in the specified parcel. To write a viewport to a parcel,
      * call writeToParcel().
      *
-     * @param in The parcel to read the viewport's coordinates from
+     * @param `in` The parcel to read the viewport's coordinates from
      */
-    fun readFromParcel(`in`: Parcel) {
-        left = `in`.readFloat()
-        top = `in`.readFloat()
-        right = `in`.readFloat()
-        bottom = `in`.readFloat()
+    fun readFromParcel(p: Parcel) {
+        left = p.readFloat()
+        top = p.readFloat()
+        right = p.readFloat()
+        bottom = p.readFloat()
     }
 
     companion object {
+        @JvmField
         val CREATOR: Parcelable.Creator<Viewport> = object : Parcelable.Creator<Viewport> {
             /**
              * Return a new viewport from the data in the specified parcel.
              */
-            override fun createFromParcel(`in`: Parcel): Viewport {
+            override fun createFromParcel(p: Parcel): Viewport {
                 val v = Viewport()
-                v.readFromParcel(`in`)
+                v.readFromParcel(p)
                 return v
             }
 

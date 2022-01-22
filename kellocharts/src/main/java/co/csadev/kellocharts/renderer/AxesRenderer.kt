@@ -12,9 +12,14 @@ import co.csadev.kellocharts.util.AxisAutoValues
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.util.FloatUtils
+import co.csadev.kellocharts.util.THREE_QTRS
 import co.csadev.kellocharts.util.nullIfEmpty
 import co.csadev.kellocharts.view.Chart
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.pow
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 /**
  * Default axes renderer. Can draw maximum four axes - two horizontal(top/bottom) and two vertical(left/right).
@@ -174,7 +179,7 @@ class AxesRenderer(context: Context, private val chart: Chart) {
             sqrt(labelTextAscentTab[position].toDouble().pow(2.0) / 2).toInt()
         labelDimensionForMarginsTab[position] = pythagoreanFromAscent + pythagoreanFromLabelWidth
         labelDimensionForStepsTab[position] =
-            (labelDimensionForMarginsTab[position] * 0.75f).roundToInt()
+            (labelDimensionForMarginsTab[position] * THREE_QTRS).roundToInt()
     }
 
     private fun initAxisDimension(position: Int) {

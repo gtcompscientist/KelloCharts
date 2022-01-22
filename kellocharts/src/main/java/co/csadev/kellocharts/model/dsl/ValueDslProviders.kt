@@ -1,6 +1,12 @@
 package co.csadev.kellocharts.model.dsl
 
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.AxisValue
+import co.csadev.kellocharts.model.BubbleValue
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.SelectedValue
+import co.csadev.kellocharts.model.SliceValue
+import co.csadev.kellocharts.model.SubcolumnValue
+import co.csadev.kellocharts.model.ValueShape
 import co.csadev.kellocharts.util.ChartUtils
 
 @DslMarker

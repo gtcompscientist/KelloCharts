@@ -1,12 +1,22 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.gesture.ZoomType
 import co.csadev.kellocharts.listener.ViewportChangeListener
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.Axis
+import co.csadev.kellocharts.model.Line
+import co.csadev.kellocharts.model.LineChartData
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.copy
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.LineChartView
 import co.csadev.kellocharts.view.PreviewLineChartView
@@ -69,41 +79,40 @@ class PreviewLineChartActivity : AppCompatActivity() {
             inflater.inflate(R.menu.preview_line_chart, menu)
         }
 
-        override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == R.id.action_reset) {
+        override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+            R.id.action_reset -> {
                 generateDefaultData()
                 chart?.lineChartData = data
                 previewChart?.lineChartData = previewData
                 previewX(true)
-                return true
+                true
             }
-            if (id == R.id.action_preview_both) {
+            R.id.action_preview_both -> {
                 previewXY()
                 previewChart?.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
-                return true
+                true
             }
-            if (id == R.id.action_preview_horizontal) {
+            R.id.action_preview_horizontal -> {
                 previewX(true)
-                return true
+                true
             }
-            if (id == R.id.action_preview_vertical) {
+            R.id.action_preview_vertical -> {
                 previewY()
-                return true
+                true
             }
-            if (id == R.id.action_change_color) {
+            R.id.action_change_color -> {
                 var color = ChartUtils.pickColor()
                 while (color == previewChart?.previewColor) {
                     color = ChartUtils.pickColor()
                 }
                 previewChart?.previewColor = color
-                return true
+                true
             }
-            return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
 
         private fun generateDefaultData(): LineChartData {
-            val numValues = 50
+            val numValues = SAMPLES
 
             val values = ArrayList<PointValue>()
             repeat(numValues) {
