@@ -4,3 +4,4 @@ kellocharts-sample/release
 local.properties
 .gradle/*
 *.iml
+local
