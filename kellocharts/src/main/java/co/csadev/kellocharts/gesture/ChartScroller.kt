@@ -107,10 +107,10 @@ class ChartScroller(context: Context) {
         computator.computeScrollSurfaceSize(surfaceSizeBuffer)
         scrollerStartViewport.set(computator.currentViewport)
 
-        val startX =
-            (surfaceSizeBuffer.x * (scrollerStartViewport.left - computator.maximumViewport.left) / computator.maximumViewport.width()).toInt()
-        val startY =
-            (surfaceSizeBuffer.y * (computator.maximumViewport.top - scrollerStartViewport.top) / computator.maximumViewport.height()).toInt()
+        val left = surfaceSizeBuffer.x * (scrollerStartViewport.left - computator.maximumViewport.left)
+        val startX = (left / computator.maximumViewport.width()).toInt()
+        val top = surfaceSizeBuffer.y * (computator.maximumViewport.top - scrollerStartViewport.top)
+        val startY = (top / computator.maximumViewport.height()).toInt()
 
         // TODO probably should be mScroller.forceFinish but ScrollerCompat doesn't have that method.
         scroller.abortAnimation()

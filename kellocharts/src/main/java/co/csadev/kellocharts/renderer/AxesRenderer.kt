@@ -9,9 +9,12 @@ import android.graphics.Rect
 import co.csadev.kellocharts.model.Axis
 import co.csadev.kellocharts.model.AxisValue
 import co.csadev.kellocharts.util.AxisAutoValues
+import co.csadev.kellocharts.util.BUFFER_SIZE
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px
+import co.csadev.kellocharts.util.FORTY_FIVE_DEGREES
 import co.csadev.kellocharts.util.FloatUtils
+import co.csadev.kellocharts.util.NINETY_DEGREES
 import co.csadev.kellocharts.util.THREE_QTRS
 import co.csadev.kellocharts.util.nullIfEmpty
 import co.csadev.kellocharts.view.Chart
@@ -48,7 +51,7 @@ class AxesRenderer(context: Context, private val chart: Chart) {
     /**
      * Holds formatted axis value label.
      */
-    private val labelBuffer = CharArray(64)
+    private val labelBuffer = CharArray(BUFFER_SIZE)
 
     /**
      * Holds number of values that should be drown for each axis.
@@ -366,9 +369,8 @@ class AxesRenderer(context: Context, private val chart: Chart) {
         if (scale == 0f) {
             scale = 1f
         }
-        val module =
-            1.0.coerceAtLeast(ceil(axis.values.size.toDouble() * labelDimensionForStepsTab[position].toDouble() * 1.5 / scale))
-                .toInt()
+        val axisScale = axis.values.size.toDouble() * labelDimensionForStepsTab[position].toDouble() * 1.5
+        val module = 1.0.coerceAtLeast(ceil(axisScale / scale)).toInt()
         // Reinitialize tab to hold lines coordinates.
         if (axis.hasLines && linesDrawBufferTab[position].size < axis.values.size * 4) {
             linesDrawBufferTab[position] = FloatArray(axis.values.size * 4)
@@ -595,7 +597,7 @@ class AxesRenderer(context: Context, private val chart: Chart) {
                     tiltedLabelXTranslation[position].toFloat(),
                     tiltedLabelYTranslation[position].toFloat()
                 )
-                canvas.rotate(-45f, labelX, labelY)
+                canvas.rotate(-1 * FORTY_FIVE_DEGREES, labelX, labelY)
                 canvas.drawText(
                     labelBuffer, labelBuffer.size - charsNumber, charsNumber, labelX, labelY,
                     labelPaintTab[position]
@@ -622,7 +624,7 @@ class AxesRenderer(context: Context, private val chart: Chart) {
             if (isAxisVertical) {
                 canvas.save()
                 canvas.rotate(
-                    -90f,
+                    -1 * NINETY_DEGREES,
                     contentRectMargins.centerY().toFloat(),
                     contentRectMargins.centerY().toFloat()
                 )
@@ -661,6 +663,6 @@ class AxesRenderer(context: Context, private val chart: Chart) {
          * Used to measure label width. If label has mas 5 characters only 5 first characters of this array are used to
          * measure text width.
          */
-        private val labelWidthChars = (0 until 64).map { '0' }.toCharArray()
+        private val labelWidthChars = (0 until BUFFER_SIZE).map { '0' }.toCharArray()
     }
 }

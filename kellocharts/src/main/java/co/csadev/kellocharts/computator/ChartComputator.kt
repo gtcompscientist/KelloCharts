@@ -190,11 +190,9 @@ open class ChartComputator {
      * 0 that means left most pixel of the screen.
      */
     open fun computeRawX(valueX: Float): Float {
-        // TODO: (contentRectMinusAllMargins.width() / currentViewport.width()) can be recalculated only when viewport
-        // change.
-        val pixelOffset =
-            (valueX - currentViewport.left) * (contentRectMinusAllMargins.width() / currentViewport.width())
-        return contentRectMinusAllMargins.left + pixelOffset
+        val rect = contentRectMinusAllMargins
+        val pixelOffset = (valueX - currentViewport.left) * (rect.width() / rect.width())
+        return rect.left + pixelOffset
     }
 
     /**
@@ -231,12 +229,13 @@ open class ChartComputator {
      * unchanged.
      */
     fun rawPixelsToDataPoint(x: Float, y: Float, dest: PointF): Boolean {
-        if (!contentRectMinusAllMargins.contains(x.toInt(), y.toInt())) {
+        val rect = contentRectMinusAllMargins
+        if (!rect.contains(x.toInt(), y.toInt())) {
             return false
         }
         dest.set(
-            currentViewport.left + (x - contentRectMinusAllMargins.left) * currentViewport.width() / contentRectMinusAllMargins.width(),
-            currentViewport.bottom + (y - contentRectMinusAllMargins.bottom) * currentViewport.height() / -contentRectMinusAllMargins.height()
+            currentViewport.left + (x - rect.left) * currentViewport.width() / rect.width(),
+            currentViewport.bottom + (y - rect.bottom) * currentViewport.height() / -rect.height()
         )
         return true
     }

@@ -41,7 +41,10 @@ object FloatUtils {
      * Parameter [endIndex] can be helpful when you want to append some text to formatted value.
      *
      * @return number of characters of formatted value
+     *
+     * TODO: This needs to be refactored in a number of ways.
      */
+    @Suppress("ReturnCount")
     fun formatFloat(
         formattedValue: CharArray,
         value: Float,
@@ -120,7 +123,7 @@ object FloatUtils {
         var interval = roundToOneSignificantFigure(rawInterval).toDouble()
         val intervalMagnitude = 10.0.pow(log10(interval).toInt().toDouble())
         val intervalSigDigit = (interval / intervalMagnitude).toInt()
-        if (intervalSigDigit > 5) {
+        if (intervalSigDigit <= 4) {
             // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
             interval = floor(10 * intervalMagnitude)
         }

@@ -1,14 +1,24 @@
 package co.csadev.kellocharts.sample
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import co.csadev.kellocharts.animation.ChartAnimationListener
 import co.csadev.kellocharts.gesture.ZoomType
 import co.csadev.kellocharts.listener.LineChartOnValueSelectListener
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.Axis
+import co.csadev.kellocharts.model.Line
+import co.csadev.kellocharts.model.LineChartData
+import co.csadev.kellocharts.model.PointValue
+import co.csadev.kellocharts.model.ValueShape
+import co.csadev.kellocharts.model.copy
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.view.Chart
 import co.csadev.kellocharts.view.LineChartView
@@ -210,7 +220,7 @@ class LineChartActivity : AppCompatActivity() {
 
         /**
          * Adds lines to data, after that data should be set again with
-         * [LineChartView.setLineChartData]. Last 4th line has non-monotonically x values.
+         * [LineChartView.lineChartData]. Last 4th line has non-monotonically x values.
          */
         private fun addLineToData() {
             if (data!!.lines.size >= maxNumberOfLines) {

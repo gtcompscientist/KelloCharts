@@ -17,6 +17,7 @@ import co.csadev.kellocharts.renderer.ChartRenderer
  * ViewGroup class. It can be any java class for example chart that only draw on in-memory bitmap and saves it on sd
  * card.
  */
+@Suppress("TooManyFunctions") // TODO: Refactor in next version to fix this
 interface Chart {
 
     /**

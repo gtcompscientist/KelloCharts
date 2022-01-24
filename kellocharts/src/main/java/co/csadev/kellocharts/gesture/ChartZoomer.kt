@@ -57,10 +57,14 @@ class ChartZoomer(var zoomType: ZoomType?) {
             return false
         }
 
-        val left =
-            viewportFocus.x - (focusX - computator.contentRectMinusAllMargins.left) * (newWidth / computator.contentRectMinusAllMargins.width())
-        val top =
-            viewportFocus.y + (focusY - computator.contentRectMinusAllMargins.top) * (newHeight / computator.contentRectMinusAllMargins.height())
+        val focusLeft = focusX - computator.contentRectMinusAllMargins.left
+        val focusWidth = newWidth / computator.contentRectMinusAllMargins.width()
+        val left = viewportFocus.x - (focusLeft * focusWidth)
+
+        val focusTop = focusY - computator.contentRectMinusAllMargins.top
+        val focusHeight = newHeight / computator.contentRectMinusAllMargins.height()
+        val top = viewportFocus.y + (focusTop * focusHeight)
+
         val right = left + newWidth
         val bottom = top - newHeight
         setCurrentViewport(computator, left, top, right, bottom)

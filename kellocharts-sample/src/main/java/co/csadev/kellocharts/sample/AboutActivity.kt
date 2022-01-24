@@ -63,13 +63,14 @@ class AboutActivity : AppCompatActivity() {
         }
 
         fun launchWebBrowser(context: Context?, u: String): Boolean {
-            var url = u
-            try {
-                url = url.lowercase(Locale.getDefault())
-                if (!url.startsWith("http://") || !url.startsWith("https://")) {
-                    url = "https://$url"
+            val url = u.lowercase(Locale.getDefault()).run {
+                if (!startsWith("http://") || !startsWith("https://")) {
+                    "https://$this"
+                } else {
+                    this
                 }
-
+            }
+            return try {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(url)
                 val resolveInfo = context!!.packageManager.resolveActivity(
@@ -78,14 +79,15 @@ class AboutActivity : AppCompatActivity() {
                 )
                 if (null == resolveInfo) {
                     Log.e(TAG, "No activity to handle web intent")
-                    return false
+                    false
+                } else {
+                    context.startActivity(intent)
+                    Log.i(TAG, "Launching browser with url: $url")
+                    true
                 }
-                context.startActivity(intent)
-                Log.i(TAG, "Launching browser with url: $url")
-                return true
             } catch (e: Exception) {
                 Log.e(TAG, "Could not start web browser", e)
-                return false
+                false
             }
         }
     }

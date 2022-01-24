@@ -53,10 +53,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    enum class ChartType {
-        LINE_CHART, COLUMN_CHART, PIE_CHART, BUBBLE_CHART, PREVIEW_LINE_CHART, PREVIEW_COLUMN_CHART, OTHER
-    }
-
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -71,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             savedInstanceState: Bundle?
         ): View? {
             val rootView = inflater.inflate(R.layout.fragment_main, container, false)
-            adapter = ChartSamplesAdapter(requireContext(), 0, generateSamplesDescriptions())
+            adapter = ChartSamplesAdapter(requireContext(), 0, ChartSamples.values())
             listView = rootView.findViewById<ListView>(android.R.id.list).also {
                 it.adapter = adapter
                 it.onItemClickListener = this
@@ -147,78 +143,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        private fun generateSamplesDescriptions(): List<ChartSampleDescription> {
-            val list = mutableListOf<ChartSampleDescription>()
-
-            list.add(ChartSampleDescription("Line Chart", "", ChartType.LINE_CHART))
-            list.add(ChartSampleDescription("Column Chart", "", ChartType.COLUMN_CHART))
-            list.add(ChartSampleDescription("Pie Chart", "", ChartType.PIE_CHART))
-            list.add(ChartSampleDescription("Bubble Chart", "", ChartType.BUBBLE_CHART))
-            list.add(
-                ChartSampleDescription(
-                    "Preview Line Chart",
-                    "Control line chart viewport with another line chart.",
-                    ChartType.PREVIEW_LINE_CHART
-                )
-            )
-            list.add(
-                ChartSampleDescription(
-                    "Preview Column Chart",
-                    "Control column chart viewport with another column chart.",
-                    ChartType.PREVIEW_COLUMN_CHART
-                )
-            )
-            list.add(
-                ChartSampleDescription(
-                    "Combo Line/Column Chart", "Combo chart with lines and columns.",
-                    ChartType.OTHER
-                )
-            )
-            list.add(
-                ChartSampleDescription(
-                    "Line/Column Chart Dependency",
-                    "LineChart responds(with animation) to column chart value selection.",
-                    ChartType.OTHER
-                )
-            )
-            list.add(
-                ChartSampleDescription(
-                    "Tempo Chart",
-                    "Presents tempo and height values on a single chart. Example of multiple axes and reverted Y axis with time format [mm:ss].",
-                    ChartType.OTHER
-                )
-            )
-            list.add(
-                ChartSampleDescription(
-                    "Speed Chart",
-                    "Presents speed and height values on a single chart. Example of multiple axes inside chart area.",
-                    ChartType.OTHER
-                )
-            )
-            list.add(
-                ChartSampleDescription(
-                    "Good/Bad Chart",
-                    "Example of filled area line chart with custom labels", ChartType.OTHER
-                )
-            )
-            list.add(
-                ChartSampleDescription(
-                    "ViewPager with Charts",
-                    "Interactive charts within ViewPager. Each chart can be zoom/scroll except pie chart.",
-                    ChartType.OTHER
-                )
-            )
-
-            return list
-        }
     }
 
     class ChartSamplesAdapter(
         context: Context,
         resource: Int,
-        objects: List<ChartSampleDescription>
-    ) : ArrayAdapter<ChartSampleDescription>(context, resource, objects) {
+        objects: Array<ChartSamples>
+    ) : ArrayAdapter<ChartSamples>(context, resource, objects) {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val chartView = convertView ?: View.inflate(context, R.layout.list_item_sample, null).apply {
@@ -235,10 +166,10 @@ class MainActivity : AppCompatActivity() {
 
             chartLayout.visibility = View.VISIBLE
             chartLayout.removeAllViews()
-            if (item?.chartType == null) {
+            if (item?.type == null) {
                 chartLayout.visibility = View.GONE
             } else {
-                val chart = when (item.chartType) {
+                val chart = when (item.type) {
                     ChartType.LINE_CHART, ChartType.OTHER -> LineChartView(context)
                     ChartType.COLUMN_CHART -> ColumnChartView(context)
                     ChartType.PIE_CHART -> PieChartView(context)
@@ -256,16 +187,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         private inner class ViewHolder {
-
             var text1: TextView? = null
             var text2: TextView? = null
             var chartLayout: FrameLayout? = null
         }
     }
-
-    class ChartSampleDescription(
-        internal var text1: String,
-        internal var text2: String,
-        internal var chartType: ChartType
-    )
 }

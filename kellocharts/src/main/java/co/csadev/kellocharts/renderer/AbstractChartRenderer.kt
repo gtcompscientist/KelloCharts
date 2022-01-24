@@ -11,6 +11,7 @@ import android.graphics.Typeface
 import co.csadev.kellocharts.computator.ChartComputator
 import co.csadev.kellocharts.model.SelectedValue
 import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.util.BUFFER_SIZE
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.view.Chart
@@ -60,7 +61,7 @@ abstract class AbstractChartRenderer(context: Context, protected var chart: Char
     protected var density: Float = context.resources.displayMetrics.density
     protected var scaledDensity: Float = context.resources.displayMetrics.scaledDensity
     override var selectedValue = SelectedValue()
-    protected var labelBuffer = CharArray(64)
+    protected var labelBuffer = CharArray(BUFFER_SIZE)
     protected var labelMargin: Int = DEFAULT_LABEL_MARGIN_DP.dp2px(density)
     protected var labelOffset: Int = labelMargin
     private var isValueLabelBackgroundEnabled: Boolean = false

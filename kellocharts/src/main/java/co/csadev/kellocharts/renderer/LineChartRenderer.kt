@@ -16,7 +16,9 @@ import co.csadev.kellocharts.model.Viewport
 import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.LineChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils.dp2px
+import co.csadev.kellocharts.util.FORTY_FIVE_DEGREES
 import co.csadev.kellocharts.view.Chart
+import kotlin.math.abs
 
 /**
  * Renderer for line chart. Can draw lines, cubic lines, filled area chart and scattered chart.
@@ -387,7 +389,7 @@ open class LineChartRenderer(
                 } else if (MODE_HIGHLIGHT == mode) {
                     highlightPoint(canvas, line, pointValue, rawX, rawY, lineIndex, valueIndex)
                 } else {
-                    throw IllegalStateException("Cannot process points in mode: " + mode)
+                    throw IllegalStateException("Cannot process points in mode: $mode")
                 }
             }
             ++valueIndex
@@ -409,7 +411,7 @@ open class LineChartRenderer(
             ValueShape.CIRCLE -> canvas.drawCircle(rawX, rawY, pointRadius, pointPaint)
             ValueShape.DIAMOND -> {
                 canvas.save()
-                canvas.rotate(45f, rawX, rawY)
+                canvas.rotate(FORTY_FIVE_DEGREES, rawX, rawY)
                 canvas.drawRect(
                     rawX - pointRadius, rawY - pointRadius, rawX + pointRadius, rawY + pointRadius,
                     pointPaint
@@ -473,7 +475,7 @@ open class LineChartRenderer(
         }
 
         val labelWidth = labelPaint.measureText(labelBuffer, labelBuffer.size - numChars, numChars)
-        val labelHeight = Math.abs(fontMetrics.ascent)
+        val labelHeight = abs(fontMetrics.ascent)
         var left = rawX - labelWidth / 2 - labelMargin.toFloat()
         var right = rawX + labelWidth / 2 + labelMargin.toFloat()
 

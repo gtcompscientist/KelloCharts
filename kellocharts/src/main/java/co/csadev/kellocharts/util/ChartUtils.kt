@@ -9,6 +9,7 @@ import kotlin.math.roundToInt
 
 const val THREE_SIXTY = 360
 const val THREE_SIXTY_F = 360f
+private const val COLOR_SEGMENTS = 3
 
 object ChartUtils {
 
@@ -60,7 +61,7 @@ object ChartUtils {
     }
 
     fun Int.darken(): Int {
-        val hsv = FloatArray(3)
+        val hsv = FloatArray(COLOR_SEGMENTS)
         val alpha = Color.alpha(this)
         Color.colorToHSV(this, hsv)
         hsv[1] = (hsv[1] * DARKEN_SATURATION).coerceAtMost(1.0f)

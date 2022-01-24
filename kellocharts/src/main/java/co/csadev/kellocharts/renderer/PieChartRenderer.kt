@@ -22,6 +22,7 @@ import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.PieChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils
 import co.csadev.kellocharts.util.ChartUtils.dp2px
+import co.csadev.kellocharts.util.NINETY_DEGREES
 import co.csadev.kellocharts.util.THREE_SIXTY
 import co.csadev.kellocharts.util.THREE_SIXTY_F
 import co.csadev.kellocharts.view.Chart
@@ -191,11 +192,10 @@ class PieChartRenderer(
 
         sliceVector.set(touchX - centerX, touchY - centerY)
         // Check if touch is on circle area, if not return false;
-        if (sliceVector.length() > circleRadius + touchAdditional) {
-            return false
-        }
-        // Check if touch is not in center circle, if yes return false;
-        if (data.hasCenterCircle && sliceVector.length() < circleRadius * data.centerCircleScale) {
+        // Or if touch is not in center circle, if yes return false;
+        if ((sliceVector.length() > circleRadius + touchAdditional) ||
+            (data.hasCenterCircle && sliceVector.length() < circleRadius * data.centerCircleScale)
+        ) {
             return false
         }
 
@@ -462,7 +462,7 @@ class PieChartRenderer(
 
         var angle = (Math.toDegrees(radian).toFloat() + THREE_SIXTY) % THREE_SIXTY
         // Add 90 because atan2 returns 0 degrees at 6 o'clock.
-        angle += 90f
+        angle += NINETY_DEGREES
         return angle
     }
 

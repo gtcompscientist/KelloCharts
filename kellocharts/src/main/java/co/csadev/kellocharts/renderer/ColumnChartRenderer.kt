@@ -6,8 +6,12 @@ import android.graphics.Paint
 import android.graphics.Paint.Cap
 import android.graphics.PointF
 import android.graphics.RectF
-import co.csadev.kellocharts.model.*
+import co.csadev.kellocharts.model.Column
+import co.csadev.kellocharts.model.ColumnChartData
 import co.csadev.kellocharts.model.SelectedValue.SelectedValueType
+import co.csadev.kellocharts.model.SubcolumnValue
+import co.csadev.kellocharts.model.Viewport
+import co.csadev.kellocharts.model.set
 import co.csadev.kellocharts.provider.ColumnChartDataProvider
 import co.csadev.kellocharts.util.ChartUtils.dp2px
 import co.csadev.kellocharts.util.HALF
@@ -183,8 +187,7 @@ open class ColumnChartRenderer(
     private fun drawColumnsForSubcolumns(canvas: Canvas, isHorizontal: Boolean) {
         val data = dataProvider.columnChartData
         val columnWidth = calculateColumnWidth(isHorizontal)
-        var columnIndex = 0
-        for (column in data.columns) {
+        for ((columnIndex, column) in data.columns.withIndex()) {
             processColumnForSubcolumns(
                 canvas,
                 column,
@@ -193,7 +196,6 @@ open class ColumnChartRenderer(
                 MODE_DRAW,
                 isHorizontal
             )
-            ++columnIndex
         }
     }
 
@@ -367,13 +369,17 @@ open class ColumnChartRenderer(
                 mostNegativeValue += columnValue.value
             }
             val rawBaseY =
-                if (isHorizontal) computator.computeRawX(subcolumnBaseValue) else computator.computeRawY(
-                    subcolumnBaseValue
-                )
+                if (isHorizontal) {
+                    computator.computeRawX(subcolumnBaseValue)
+                } else {
+                    computator.computeRawY(subcolumnBaseValue)
+                }
             val rawY =
-                if (isHorizontal) computator.computeRawX(subcolumnBaseValue + columnValue.value) else computator.computeRawY(
-                    subcolumnBaseValue + columnValue.value
-                )
+                if (isHorizontal) {
+                    computator.computeRawX(subcolumnBaseValue + columnValue.value)
+                } else {
+                    computator.computeRawY(subcolumnBaseValue + columnValue.value)
+                }
             calculateRectToDraw(
                 isHorizontal,
                 columnValue,
@@ -389,7 +395,7 @@ open class ColumnChartRenderer(
                 else ->
                     // There no else, every case should be handled or exception will
                     // be thrown
-                    throw IllegalStateException("Cannot process column in mode: " + mode)
+                    throw IllegalStateException("Cannot process column in mode: $mode")
             }
             ++valueIndex
         }
@@ -439,12 +445,9 @@ open class ColumnChartRenderer(
         // columnWidth should be at least 2 px
         val rawRect = computator.contentRectMinusAllMargins
         val rawViewport = computator.visibleViewport
-        var columnWidth =
-            fillRatio * (if (isHorizontal) rawRect.height() else rawRect.width()) / if (isHorizontal) rawViewport.height() else rawViewport.width()
-        if (columnWidth < 2) {
-            columnWidth = 2f
-        }
-        return columnWidth
+        val dim1 = if (isHorizontal) rawRect.height() else rawRect.width()
+        val dim2 = if (isHorizontal) rawViewport.height() else rawViewport.width()
+        return (fillRatio * dim1 / dim2).coerceAtLeast(2f)
     }
 
     private fun calculateRectToDraw(
