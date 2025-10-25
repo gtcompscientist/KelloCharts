@@ -257,9 +257,9 @@ class ComposeColumnChartRenderer(
         }
     }
 
-    override fun getValueAtPosition(position: Offset): SelectedValue? {
+    override fun getValueAtPosition(position: Offset, viewport: Viewport): SelectedValue? {
         data.columns.forEachIndexed { columnIndex, column ->
-            val columnCenterX = indexToX(columnIndex, Viewport(), size) // TODO: Use actual viewport
+            val columnCenterX = indexToX(columnIndex, viewport, size)
 
             column.values.forEachIndexed { subcolumnIndex, subcolumnValue ->
                 val subcolumnOffset = if (data.isStacked) {
@@ -271,8 +271,8 @@ class ComposeColumnChartRenderer(
                 val left = columnCenterX + subcolumnOffset - subcolumnWidth / 2f
                 val right = columnCenterX + subcolumnOffset + subcolumnWidth / 2f
 
-                val valueY = valueToY(subcolumnValue.value, Viewport(), size) // TODO: Use actual viewport
-                val baseY = valueToY(data.baseValue, Viewport(), size)
+                val valueY = valueToY(subcolumnValue.value, viewport, size)
+                val baseY = valueToY(data.baseValue, viewport, size)
 
                 val top = min(valueY, baseY)
                 val bottom = max(valueY, baseY)

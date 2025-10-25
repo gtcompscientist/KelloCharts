@@ -106,11 +106,11 @@ class ComposeBubbleChartRenderer(
         return maxOf(minRadius, scaledRadius)
     }
 
-    override fun getValueAtPosition(position: Offset): SelectedValue? {
+    override fun getValueAtPosition(position: Offset, viewport: Viewport): SelectedValue? {
         // Check bubbles in reverse order (last drawn = on top)
         data.values.asReversed().forEachIndexed { reverseIndex, bubble ->
             val index = data.values.size - 1 - reverseIndex
-            val bubbleCenter = bubbleToOffset(bubble, Viewport(), size) // TODO: Use actual viewport
+            val bubbleCenter = bubbleToOffset(bubble, viewport, size)
             val radius = calculateBubbleRadius(bubble.z)
 
             val dx = position.x - bubbleCenter.x
@@ -130,7 +130,7 @@ class ComposeBubbleChartRenderer(
     /**
      * Convert a BubbleValue to screen coordinates.
      */
-    private fun DrawScope.bubbleToOffset(bubble: BubbleValue, viewport: Viewport, size: Size): Offset {
+    private fun bubbleToOffset(bubble: BubbleValue, viewport: Viewport, size: Size): Offset {
         val x = valueToX(bubble.x, viewport, size)
         val y = valueToY(bubble.y, viewport, size)
         return Offset(x, y)

@@ -148,7 +148,7 @@ fun PieChart(
                         },
                         onValueDeselected = onValueDeselected,
                         getValueAtPosition = { offset ->
-                            renderer.getValueAtPosition(offset)
+                            renderer.getValueAtPosition(offset, Viewport()) // Pie chart doesn't use viewport
                         }
                     )
                 } else {

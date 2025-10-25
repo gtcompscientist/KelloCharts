@@ -143,7 +143,7 @@ fun LineChart(
                 onValueSelected = onValueSelected,
                 onValueDeselected = onValueDeselected,
                 getValueAtPosition = { offset ->
-                    renderer.getValueAtPosition(offset)
+                    renderer.getValueAtPosition(offset, viewportState.currentViewport)
                 }
             )
     ) {

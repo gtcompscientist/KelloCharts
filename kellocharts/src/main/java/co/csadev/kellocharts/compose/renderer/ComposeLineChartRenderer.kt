@@ -322,12 +322,12 @@ class ComposeLineChartRenderer(
         }
     }
 
-    override fun getValueAtPosition(position: Offset): SelectedValue? {
+    override fun getValueAtPosition(position: Offset, viewport: Viewport): SelectedValue? {
         val touchTolerance = 24.dp.toPx() // 24dp touch target
 
         data.lines.forEachIndexed { lineIndex, line ->
             line.values.forEachIndexed { pointIndex, point ->
-                val pointOffset = pointToOffset(point, Viewport(), size) // TODO: Use actual viewport
+                val pointOffset = pointToOffset(point, viewport, size)
                 val distance = sqrt(
                     (position.x - pointOffset.x) * (position.x - pointOffset.x) +
                     (position.y - pointOffset.y) * (position.y - pointOffset.y)
