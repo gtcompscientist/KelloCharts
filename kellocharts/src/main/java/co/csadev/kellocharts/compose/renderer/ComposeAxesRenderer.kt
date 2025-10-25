@@ -130,7 +130,7 @@ class ComposeAxesRenderer(
                     drawAxisLabel(
                         text = axisValue.label?.concatToString() ?: axisValue.value.toString(),
                         x = x,
-                        y = y + 16.dp.toPx(),
+                        y = y + ChartRenderingConstants.AXIS_LABEL_OFFSET_Y_DP.dp.toPx(),
                         color = Color(axis.textColor)
                     )
                 }
@@ -160,7 +160,7 @@ class ComposeAxesRenderer(
                 if (y in contentRect.top..contentRect.bottom) {
                     drawAxisLabel(
                         text = axisValue.label?.concatToString() ?: axisValue.value.toString(),
-                        x = x - 8.dp.toPx(),
+                        x = x - ChartRenderingConstants.AXIS_LABEL_OFFSET_X_DP.dp.toPx(),
                         y = y,
                         color = Color(axis.textColor),
                         alignRight = true

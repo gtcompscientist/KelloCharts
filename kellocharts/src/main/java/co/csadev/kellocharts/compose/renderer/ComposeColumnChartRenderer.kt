@@ -173,7 +173,7 @@ class ComposeColumnChartRenderer(
      * Draw a single column rectangle.
      */
     private fun DrawScope.drawColumn(rect: Rect, subcolumnValue: SubcolumnValue) {
-        val cornerRadius = 2.dp.toPx()
+        val cornerRadius = ChartRenderingConstants.COLUMN_CORNER_RADIUS_DP.dp.toPx()
 
         drawRoundRect(
             color = ColorCache.get(subcolumnValue.color),
