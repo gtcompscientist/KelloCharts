@@ -10,7 +10,7 @@
 
 - [x] Phase 1: Update Build Configuration & Dependencies
 - [x] Phase 2: Migrate Core Chart Rendering to Compose Canvas
-- [ ] Phase 3: Implement Material 3 Theme System
+- [x] Phase 3: Implement Material 3 Theme System
 - [ ] Phase 4: Convert Chart Data Models to Compose State
 - [ ] Phase 5: Migrate Gesture Handling to Compose Modifiers
 - [ ] Phase 6: Implement Compose Animations
@@ -143,41 +143,41 @@
 ## Phase 3: Implement Material 3 Theme System
 
 ### 3.1 Main Theme
-- [ ] Create package: `co.csadev.kellocharts.compose.theme`
-- [ ] Create `KelloChartsTheme.kt`
-- [ ] Implement ThemeMode enum (Light/Dark/System)
-- [ ] Support system dark theme detection
-- [ ] Support dynamic color (Android 12+)
-- [ ] Define light color scheme
-- [ ] Define dark color scheme
-- [ ] Integrate Material 3 typography
-- [ ] Test theme switching
+- [x] Create package: `co.csadev.kellocharts.compose.theme`
+- [x] Create `KelloChartsTheme.kt`
+- [x] Implement ThemeMode enum (Light/Dark/System)
+- [x] Support system dark theme detection
+- [x] Support dynamic color (Android 12+)
+- [x] Define light color scheme
+- [x] Define dark color scheme
+- [x] Integrate Material 3 typography
+- [x] Test theme switching
 
 ### 3.2 Chart-Specific Colors
-- [ ] Create `ChartColors.kt`
-- [ ] Define line chart color palette from Material 3
-- [ ] Define column chart color palette
-- [ ] Define pie chart color palette
-- [ ] Define bubble chart color palette
-- [ ] Define axis colors (onSurfaceVariant)
-- [ ] Define grid colors (surfaceVariant)
-- [ ] Define selection colors
-- [ ] Define label background colors
-- [ ] Test colors in light/dark modes
+- [x] Create `ChartColors.kt`
+- [x] Define line chart color palette from Material 3
+- [x] Define column chart color palette
+- [x] Define pie chart color palette
+- [x] Define bubble chart color palette
+- [x] Define axis colors (onSurfaceVariant)
+- [x] Define grid colors (surfaceVariant)
+- [x] Define selection colors
+- [x] Define label background colors
+- [x] Test colors in light/dark modes
 
 ### 3.3 Typography
-- [ ] Create `KelloChartsTypography.kt`
-- [ ] Define axis label text styles
-- [ ] Define value label text styles
-- [ ] Define chart title text styles
-- [ ] Map to Material 3 typography tokens
+- [x] Create `KelloChartsTypography.kt`
+- [x] Define axis label text styles
+- [x] Define value label text styles
+- [x] Define chart title text styles
+- [x] Map to Material 3 typography tokens
 
 ### 3.4 Theme Persistence
-- [ ] Create `ThemePreferences.kt`
-- [ ] Implement DataStore for theme storage
-- [ ] Create `rememberThemeMode()` composable
-- [ ] Support theme mode changes
-- [ ] Test persistence across app restarts
+- [x] Create `ThemePreferences.kt`
+- [x] Implement DataStore for theme storage
+- [x] Create `rememberThemeMode()` composable
+- [x] Support theme mode changes
+- [x] Test persistence across app restarts
 
 ---
 
