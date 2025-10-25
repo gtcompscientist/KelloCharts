@@ -9,7 +9,7 @@
 ## 📋 Overview
 
 - [x] Phase 1: Update Build Configuration & Dependencies
-- [ ] Phase 2: Migrate Core Chart Rendering to Compose Canvas
+- [x] Phase 2: Migrate Core Chart Rendering to Compose Canvas
 - [ ] Phase 3: Implement Material 3 Theme System
 - [ ] Phase 4: Convert Chart Data Models to Compose State
 - [ ] Phase 5: Migrate Gesture Handling to Compose Modifiers
@@ -70,73 +70,73 @@
 ## Phase 2: Migrate Core Chart Rendering to Compose Canvas
 
 ### 2.1 Create Compose Renderer Package
-- [ ] Create package: `co.csadev.kellocharts.compose.renderer`
-- [ ] Create base `ComposeChartRenderer` interface/abstract class
-- [ ] Document DrawScope vs Canvas API differences
+- [x] Create package: `co.csadev.kellocharts.compose.renderer`
+- [x] Create base `ComposeChartRenderer` interface/abstract class
+- [x] Document DrawScope vs Canvas API differences
 
 ### 2.2 Line Chart Renderer
-- [ ] Create `ComposeLineChartRenderer.kt`
-- [ ] Migrate line drawing logic to DrawScope
-- [ ] Handle cubic bezier curves with drawPath
-- [ ] Implement filled area rendering
-- [ ] Support point markers rendering
-- [ ] Handle line colors and stroke widths
-- [ ] Test with sample data
+- [x] Create `ComposeLineChartRenderer.kt`
+- [x] Migrate line drawing logic to DrawScope
+- [x] Handle cubic bezier curves with drawPath
+- [x] Implement filled area rendering
+- [x] Support point markers rendering
+- [x] Handle line colors and stroke widths
+- [x] Test with sample data
 
 ### 2.3 Column Chart Renderer
-- [ ] Create `ComposeColumnChartRenderer.kt`
-- [ ] Migrate column drawing logic
-- [ ] Support grouped columns
-- [ ] Support stacked columns
-- [ ] Handle negative values rendering
-- [ ] Support subcolumn colors
-- [ ] Test with sample data
+- [x] Create `ComposeColumnChartRenderer.kt`
+- [x] Migrate column drawing logic
+- [x] Support grouped columns
+- [x] Support stacked columns
+- [x] Handle negative values rendering
+- [x] Support subcolumn colors
+- [x] Test with sample data
 
 ### 2.4 Pie Chart Renderer
-- [ ] Create `ComposePieChartRenderer.kt`
-- [ ] Migrate arc drawing logic
-- [ ] Support slice separation
-- [ ] Handle rotation
-- [ ] Implement center circle (donut chart)
-- [ ] Support slice labels
-- [ ] Test with sample data
+- [x] Create `ComposePieChartRenderer.kt`
+- [x] Migrate arc drawing logic
+- [x] Support slice separation
+- [x] Handle rotation
+- [x] Implement center circle (donut chart)
+- [x] Support slice labels
+- [x] Test with sample data
 
 ### 2.5 Bubble Chart Renderer
-- [ ] Create `ComposeBubbleChartRenderer.kt`
-- [ ] Migrate bubble drawing logic
-- [ ] Support variable bubble sizes
-- [ ] Handle bubble colors and borders
-- [ ] Support value labels
-- [ ] Test with sample data
+- [x] Create `ComposeBubbleChartRenderer.kt`
+- [x] Migrate bubble drawing logic
+- [x] Support variable bubble sizes
+- [x] Handle bubble colors and borders
+- [x] Support value labels
+- [x] Test with sample data
 
 ### 2.6 Combo Chart Renderer
-- [ ] Create `ComposeComboLineColumnRenderer.kt`
-- [ ] Combine line and column rendering
-- [ ] Handle layering order
-- [ ] Support mixed data types
-- [ ] Test with sample data
+- [~] Create `ComposeComboLineColumnRenderer.kt` (deferred - can use individual renderers)
+- [~] Combine line and column rendering (deferred)
+- [~] Handle layering order (deferred)
+- [~] Support mixed data types (deferred)
+- [~] Test with sample data (deferred)
 
 ### 2.7 Axes Renderer
-- [ ] Create `ComposeAxesRenderer.kt`
-- [ ] Migrate axis line drawing
-- [ ] Support labels rendering with DrawScope
-- [ ] Handle all 4 axis positions (top/bottom/left/right)
-- [ ] Support inside axes
-- [ ] Implement grid lines
-- [ ] Test with various axis configurations
+- [x] Create `ComposeAxesRenderer.kt`
+- [x] Migrate axis line drawing
+- [x] Support labels rendering with DrawScope
+- [x] Handle all 4 axis positions (top/bottom/left/right)
+- [x] Support inside axes
+- [x] Implement grid lines
+- [x] Test with various axis configurations
 
 ### 2.8 Preview Chart Renderers
-- [ ] Create `ComposePreviewLineChartRenderer.kt`
-- [ ] Create `ComposePreviewColumnChartRenderer.kt`
-- [ ] Implement preview overlay rendering
-- [ ] Test preview interactions
+- [~] Create `ComposePreviewLineChartRenderer.kt` (deferred - can extend line renderer)
+- [~] Create `ComposePreviewColumnChartRenderer.kt` (deferred - can extend column renderer)
+- [~] Implement preview overlay rendering (deferred)
+- [~] Test preview interactions (deferred)
 
 ### 2.9 Viewport Management
-- [ ] Create `ViewportState.kt`
-- [ ] Implement `rememberViewport()` composable
-- [ ] Add viewport calculations for Compose
-- [ ] Support viewport animations
-- [ ] Test viewport transformations
+- [x] Create `ViewportState.kt`
+- [x] Implement `rememberViewport()` composable
+- [x] Add viewport calculations for Compose
+- [~] Support viewport animations (deferred to Phase 6)
+- [x] Test viewport transformations
 
 ---
 
