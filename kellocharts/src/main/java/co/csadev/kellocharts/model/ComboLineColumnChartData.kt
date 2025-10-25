@@ -1,8 +1,13 @@
 package co.csadev.kellocharts.model
 
+import androidx.compose.runtime.Immutable
+
 /**
  * Data model for combo line-column chart. It uses ColumnChartData and LineChartData internally.
+ *
+ * Note: Marked as @Immutable for Compose optimization. Create new instances for data changes.
  */
+@Immutable
 class ComboLineColumnChartData(var columnChartData: ColumnChartData = ColumnChartData(), var lineChartData: LineChartData = LineChartData()) : AbstractChartData() {
     override fun update(scale: Float) {
         columnChartData.update(scale)

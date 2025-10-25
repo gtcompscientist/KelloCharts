@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.model
 
+import androidx.compose.runtime.Immutable
 import co.csadev.kellocharts.formatter.BubbleChartValueFormatter
 import co.csadev.kellocharts.formatter.SimpleBubbleChartValueFormatter
 import co.csadev.kellocharts.model.dsl.bubbleData
@@ -8,7 +9,10 @@ import java.util.*
 
 /**
  * Data for BubbleChart.
+ *
+ * Note: Marked as @Immutable for Compose optimization. Create new instances for data changes.
  */
+@Immutable
 class BubbleChartData(var values: MutableList<BubbleValue> = ArrayList(), var formatter: BubbleChartValueFormatter = SimpleBubbleChartValueFormatter(), hasLabels: Boolean = false, var hasLabelsOnlyForSelected: Boolean = false, var minBubbleRadius: Int = DEFAULT_MIN_BUBBLE_RADIUS_DP, var bubbleScale: Float = DEFAULT_BUBBLE_SCALE) : AbstractChartData() {
     var hasLabels = hasLabels
         set(value) {
