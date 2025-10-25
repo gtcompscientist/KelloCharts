@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.compose.renderer
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -46,6 +47,10 @@ class ComposeBubbleChartRenderer(
     private var contentRect: Rect = Rect.Zero
     private var maxBubbleZ: Float = 0f
 
+    companion object {
+        private const val TAG = "BubbleChartRenderer"
+    }
+
     /**
      * Update the chart data.
      * Call this when the data changes to trigger a redraw.
@@ -70,6 +75,11 @@ class ComposeBubbleChartRenderer(
     }
 
     override fun draw(drawScope: DrawScope, size: Size, viewport: Viewport) {
+        if (data.values.isEmpty()) {
+            Log.w(TAG, "Attempted to draw bubble chart with no data")
+            return
+        }
+
         with(drawScope) {
             // Viewport culling: only draw visible bubbles
             data.values.filter { isBubbleInViewport(it, viewport) }.forEach { bubble ->

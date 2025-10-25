@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.compose.renderer
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -60,6 +61,10 @@ class ComposeLineChartRenderer(
     private var size: Size = Size.Zero
     private var contentRect: Rect = Rect.Zero
 
+    companion object {
+        private const val TAG = "LineChartRenderer"
+    }
+
     /**
      * Update the chart data.
      * Call this when the data changes to trigger a redraw.
@@ -106,10 +111,20 @@ class ComposeLineChartRenderer(
     }
 
     /**
-     * Draw a straight line connecting all points.
+     * Draw a straight line connecting points.
+     *
+     * Validates that the line has at least 2 points before drawing.
+     * Logs warnings for edge cases like empty or single-point lines.
      */
     private fun DrawScope.drawStraightLine(line: Line, viewport: Viewport, size: Size) {
-        if (line.values.size < 2) return
+        if (line.values.isEmpty()) {
+            Log.w(TAG, "Attempted to draw straight line with no values")
+            return
+        }
+        if (line.values.size < 2) {
+            Log.d(TAG, "Line has only one point, skipping line drawing (will draw point marker only)")
+            return
+        }
 
         val path = Path()
         val strokeWidth = line.strokeWidth.dp.toPx()
@@ -145,9 +160,19 @@ class ComposeLineChartRenderer(
 
     /**
      * Draw a smooth cubic bezier line.
+     *
+     * Uses cubic bezier curves to create smooth transitions between points.
+     * Validates that the line has at least 2 points before drawing.
      */
     private fun DrawScope.drawSmoothLine(line: Line, viewport: Viewport, size: Size) {
-        if (line.values.size < 2) return
+        if (line.values.isEmpty()) {
+            Log.w(TAG, "Attempted to draw smooth line with no values")
+            return
+        }
+        if (line.values.size < 2) {
+            Log.d(TAG, "Line has only one point, skipping line drawing (will draw point marker only)")
+            return
+        }
 
         val path = Path()
         val strokeWidth = line.strokeWidth.dp.toPx()
@@ -198,9 +223,19 @@ class ComposeLineChartRenderer(
 
     /**
      * Draw a square (step) line.
+     *
+     * Creates a step pattern with horizontal then vertical segments.
+     * Validates that the line has at least 2 points before drawing.
      */
     private fun DrawScope.drawSquareLine(line: Line, viewport: Viewport, size: Size) {
-        if (line.values.size < 2) return
+        if (line.values.isEmpty()) {
+            Log.w(TAG, "Attempted to draw square line with no values")
+            return
+        }
+        if (line.values.size < 2) {
+            Log.d(TAG, "Line has only one point, skipping line drawing (will draw point marker only)")
+            return
+        }
 
         val path = Path()
         val strokeWidth = line.strokeWidth.dp.toPx()

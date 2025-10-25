@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.compose.renderer
 
+import android.util.Log
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -57,6 +58,10 @@ class ComposeColumnChartRenderer(
     private var columnWidth: Float = 0f
     private var subcolumnWidth: Float = 0f
 
+    companion object {
+        private const val TAG = "ColumnChartRenderer"
+    }
+
     /**
      * Update the chart data.
      * Call this when the data changes to trigger a redraw.
@@ -94,11 +99,22 @@ class ComposeColumnChartRenderer(
      * Draw grouped (side-by-side) columns.
      *
      * Uses viewport culling to only draw visible columns for performance.
+     * Validates column data before rendering.
      */
     private fun DrawScope.drawGroupedColumns(viewport: Viewport, size: Size) {
+        if (data.columns.isEmpty()) {
+            Log.w(TAG, "Attempted to draw grouped columns with no data")
+            return
+        }
+
         data.columns.forEachIndexed { columnIndex, column ->
             // Viewport culling: skip columns outside viewport
             if (!isColumnInViewport(columnIndex, viewport)) return@forEachIndexed
+
+            if (column.values.isEmpty()) {
+                Log.d(TAG, "Column at index $columnIndex has no subcolumn values")
+                return@forEachIndexed
+            }
 
             val columnCenterX = indexToX(columnIndex, viewport, size)
 
@@ -129,11 +145,22 @@ class ComposeColumnChartRenderer(
      * Draw stacked columns.
      *
      * Uses viewport culling to only draw visible columns for performance.
+     * Validates column data before rendering.
      */
     private fun DrawScope.drawStackedColumns(viewport: Viewport, size: Size) {
+        if (data.columns.isEmpty()) {
+            Log.w(TAG, "Attempted to draw stacked columns with no data")
+            return
+        }
+
         data.columns.forEachIndexed { columnIndex, column ->
             // Viewport culling: skip columns outside viewport
             if (!isColumnInViewport(columnIndex, viewport)) return@forEachIndexed
+
+            if (column.values.isEmpty()) {
+                Log.d(TAG, "Column at index $columnIndex has no subcolumn values")
+                return@forEachIndexed
+            }
 
             val columnCenterX = indexToX(columnIndex, viewport, size)
 
@@ -228,7 +255,45 @@ class ComposeColumnChartRenderer(
     }
 
     /**
-     * Calculate offset for subcolumns in grouped mode.
+     * Calculate the horizontal offset for a subcolumn in grouped mode.
+     *
+     * This algorithm centers all subcolumns around the column's center point (X coordinate).
+     * Each subcolumn is positioned relative to this center, creating a balanced visual layout.
+     *
+     * ## Algorithm Explanation
+     *
+     * For a column with 3 subcolumns, each with width W:
+     * ```
+     * Total width = 3W
+     * Start offset = -3W/2 = -1.5W (left edge of the group)
+     *
+     * Subcolumn 0: -1.5W + (0 * W) + W/2 = -W   (centered at -W from origin)
+     * Subcolumn 1: -1.5W + (1 * W) + W/2 = 0    (centered at origin)
+     * Subcolumn 2: -1.5W + (2 * W) + W/2 = +W   (centered at +W from origin)
+     * ```
+     *
+     * Visual representation:
+     * ```
+     *     ┌─┐ ┌─┐ ┌─┐
+     *     │0│ │1│ │2│   (subcolumn indices)
+     *     └─┘ └─┘ └─┘
+     *      ↑   ↑   ↑
+     *     -W   0  +W     (offsets from column center)
+     *         ▲
+     *    Column Center
+     * ```
+     *
+     * ## Parameters
+     *
+     * @param subcolumnIndex Zero-based index of the subcolumn within the column group (0, 1, 2, ...)
+     * @param totalSubcolumns Total number of subcolumns in this column group (determines group width)
+     * @param subcolumnWidth Width of each individual subcolumn in pixels
+     * @return Horizontal offset in pixels from the column center point
+     *
+     * ## Usage
+     *
+     * Used in grouped bar charts where multiple values are displayed side-by-side for each
+     * X-axis category. For example, comparing sales across multiple products for each month.
      */
     private fun calculateSubcolumnOffset(
         subcolumnIndex: Int,
