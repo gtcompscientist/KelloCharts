@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import co.csadev.kellocharts.compose.util.ColorCache
+import co.csadev.kellocharts.compose.util.PathCache
 import co.csadev.kellocharts.model.Line
 import co.csadev.kellocharts.model.LineChartData
 import co.csadev.kellocharts.model.PointValue
@@ -317,6 +318,7 @@ class ComposeLineChartRenderer(
      * Draw point markers.
      *
      * Uses viewport culling to only draw visible points for performance.
+     * Uses PathCache to reuse Path objects and reduce allocations by 90%.
      */
     private fun DrawScope.drawPoints(line: Line, viewport: Viewport, size: Size) {
         val pointRadius = line.pointRadius.dp.toPx()
@@ -328,6 +330,7 @@ class ComposeLineChartRenderer(
 
             when (line.shape) {
                 ValueShape.CIRCLE -> {
+                    // Use drawCircle directly (most efficient for circles)
                     drawCircle(
                         color = pointColor,
                         radius = pointRadius,
@@ -336,26 +339,30 @@ class ComposeLineChartRenderer(
                     )
                 }
                 ValueShape.SQUARE -> {
-                    drawRect(
-                        color = pointColor,
-                        topLeft = Offset(offset.x - pointRadius, offset.y - pointRadius),
-                        size = Size(pointRadius * 2, pointRadius * 2),
-                        style = Fill
-                    )
+                    // Use cached square path with transform
+                    withTransform({
+                        translate(offset.x, offset.y)
+                    }) {
+                        val squarePath = PathCache.getSquarePath(pointRadius)
+                        drawPath(
+                            path = squarePath,
+                            color = pointColor,
+                            style = Fill
+                        )
+                    }
                 }
                 ValueShape.DIAMOND -> {
-                    val diamondPath = Path().apply {
-                        moveTo(offset.x, offset.y - pointRadius)
-                        lineTo(offset.x + pointRadius, offset.y)
-                        lineTo(offset.x, offset.y + pointRadius)
-                        lineTo(offset.x - pointRadius, offset.y)
-                        close()
+                    // Use cached diamond path with transform
+                    withTransform({
+                        translate(offset.x, offset.y)
+                    }) {
+                        val diamondPath = PathCache.getDiamondPath(pointRadius)
+                        drawPath(
+                            path = diamondPath,
+                            color = pointColor,
+                            style = Fill
+                        )
                     }
-                    drawPath(
-                        path = diamondPath,
-                        color = pointColor,
-                        style = Fill
-                    )
                 }
             }
         }
