@@ -26,32 +26,59 @@ import kotlinx.coroutines.launch
  */
 object ChartAnimationDefaults {
     /**
+     * Default animation duration in milliseconds.
+     */
+    const val DEFAULT_DURATION_MS = 500
+
+    /**
+     * Fast animation duration in milliseconds.
+     */
+    const val FAST_DURATION_MS = 200
+
+    /**
+     * Slow animation duration in milliseconds.
+     */
+    const val SLOW_DURATION_MS = 800
+
+    /**
+     * Default spring damping ratio.
+     * 0.8 provides slightly bouncy, natural motion.
+     */
+    const val DEFAULT_DAMPING_RATIO = 0.8f
+
+    /**
+     * Default spring stiffness.
+     * 300f provides moderate spring responsiveness.
+     */
+    const val DEFAULT_STIFFNESS = 300f
+
+    /**
      * Default spring animation for smooth, natural motion.
      */
     val spring: SpringSpec<Float> = spring(
-        dampingRatio = 0.8f,
-        stiffness = 300f
+        dampingRatio = DEFAULT_DAMPING_RATIO,
+        stiffness = DEFAULT_STIFFNESS
     )
 
     /**
      * Default tween animation for consistent timing.
      */
     val tween: TweenSpec<Float> = tween(
-        durationMillis = 500
+        durationMillis = DEFAULT_DURATION_MS
     )
 
     /**
      * Fast animation for quick transitions.
      */
     val fast: TweenSpec<Float> = tween(
-        durationMillis = 200
+        durationMillis = FAST_DURATION_MS
     )
 
     /**
      * Slow animation for emphasis.
      */
     val slow: TweenSpec<Float> = tween(
-        durationMillis = 800
+        durationMillis = SLOW_DURATION_MS
     )
 }
 
