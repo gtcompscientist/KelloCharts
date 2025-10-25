@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.compose
 
+import co.csadev.kellocharts.compose.common.ChartLayoutConstants
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -215,10 +216,10 @@ private fun calculateColumnChartViewport(data: ColumnChartData): Viewport {
  * Calculate the content rectangle (chart drawing area excluding margins).
  */
 private fun calculateContentRect(size: Size, data: ColumnChartData): Rect {
-    val marginLeft = if (data.axisYLeft != null) 60f else 10f
-    val marginRight = if (data.axisYRight != null) 60f else 10f
-    val marginTop = if (data.axisXTop != null) 40f else 10f
-    val marginBottom = if (data.axisXBottom != null) 40f else 10f
+    val marginLeft = if (data.axisYLeft != null) ChartLayoutConstants.MARGIN_WITH_AXIS else ChartLayoutConstants.MARGIN_WITHOUT_AXIS
+    val marginRight = if (data.axisYRight != null) ChartLayoutConstants.MARGIN_WITH_AXIS else ChartLayoutConstants.MARGIN_WITHOUT_AXIS
+    val marginTop = if (data.axisXTop != null) ChartLayoutConstants.MARGIN_TOP_WITH_AXIS else ChartLayoutConstants.MARGIN_WITHOUT_AXIS
+    val marginBottom = if (data.axisXBottom != null) ChartLayoutConstants.MARGIN_BOTTOM_WITH_AXIS else ChartLayoutConstants.MARGIN_WITHOUT_AXIS
 
     return Rect(
         left = marginLeft,

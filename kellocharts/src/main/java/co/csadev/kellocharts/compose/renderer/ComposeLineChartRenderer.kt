@@ -327,7 +327,7 @@ class ComposeLineChartRenderer(
     }
 
     override fun getValueAtPosition(position: Offset, viewport: Viewport): SelectedValue? {
-        val touchTolerance = 24.dp.toPx() // 24dp touch target
+        val touchTolerance = ChartRenderingConstants.TOUCH_TOLERANCE_DP.dp.toPx()
 
         data.lines.forEachIndexed { lineIndex, line ->
             // Viewport culling: only check visible points for selection

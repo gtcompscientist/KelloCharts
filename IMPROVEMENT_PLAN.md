@@ -14,7 +14,7 @@ This plan addresses technical debt, performance bottlenecks, and code quality is
 - [x] **Phase 1: Remove Legacy View-Based Code** (~4,872 lines, 37 files)
 - [x] **Phase 2: Fix Critical Bugs** (Touch selection, viewport issues, animation state)
 - [x] **Phase 3: Performance Optimization** (Large datasets, memory allocation) - Core optimizations complete
-- [ ] **Phase 4: Architecture Improvements** (Code organization, constants)
+- [x] **Phase 4: Architecture Improvements** (Code organization, constants) - Core improvements complete
 - [ ] **Phase 5: Code Quality** (Documentation, error handling, testing)
 
 ### Impact Metrics
@@ -456,12 +456,12 @@ File: `ComposePieChartRenderer.kt`
 **Impact:** Better maintainability, easier onboarding, consistent behavior
 **Priority:** MEDIUM (code quality, maintainability)
 
-### 4.1 Extract Chart Layout Constants
+### 4.1 Extract Chart Layout Constants ✅
 
 **Issue:** Magic numbers duplicated across multiple files.
 **Impact:** Single source of truth, easier to adjust layout.
 
-- [ ] Create `ChartLayoutConstants.kt`:
+- [x] Create `ChartLayoutConstants.kt`:
   ```kotlin
   package co.csadev.kellocharts.compose.common
 
@@ -485,15 +485,15 @@ File: `ComposePieChartRenderer.kt`
       const val VIEWPORT_PADDING_RATIO = 0.1f
   }
   ```
-- [ ] Replace magic numbers in `LineChart.kt` (lines 210-213)
-- [ ] Replace magic numbers in `ColumnChart.kt` (lines 218-221)
-- [ ] Replace magic numbers in `PieChart.kt` (lines 165-168)
-- [ ] Replace magic numbers in `BubbleChart.kt` (lines 197-200)
-- [ ] Search for "60f" and "10f" to find remaining usages
+- [x] Replace magic numbers in `LineChart.kt` (lines 210-213)
+- [x] Replace magic numbers in `ColumnChart.kt` (lines 218-221)
+- [ ] Replace magic numbers in `PieChart.kt` (lines 165-168) - N/A (PieChart doesn't use axes)
+- [x] Replace magic numbers in `BubbleChart.kt` (lines 197-200)
+- [x] Search for "60f" and "10f" to find remaining usages
 
-### 4.2 Extract Chart Rendering Constants
+### 4.2 Extract Chart Rendering Constants ✅
 
-- [ ] Create `ChartRenderingConstants.kt`:
+- [x] Create `ChartRenderingConstants.kt`:
   ```kotlin
   package co.csadev.kellocharts.compose.renderer
 
@@ -520,10 +520,10 @@ File: `ComposePieChartRenderer.kt`
       const val DEFAULT_POINT_RADIUS_DP = 4
   }
   ```
-- [ ] Replace magic numbers in `ComposeLineChartRenderer.kt`
-- [ ] Replace magic numbers in `ComposeColumnChartRenderer.kt`
-- [ ] Replace magic numbers in `ComposeBubbleChartRenderer.kt`
-- [ ] Replace magic numbers in `ComposeAxesRenderer.kt`
+- [x] Replace magic numbers in `ComposeLineChartRenderer.kt` (24dp touch tolerance)
+- [x] Replace magic numbers in `ComposeColumnChartRenderer.kt` (2dp corner radius)
+- [x] Replace magic numbers in `ComposeBubbleChartRenderer.kt` (50dp base size)
+- [x] Replace magic numbers in `ComposeAxesRenderer.kt` (8dp/16dp label offsets)
 
 ### 4.3 Extract Animation Constants
 
@@ -550,14 +550,14 @@ File: `ComposePieChartRenderer.kt`
   }
   ```
 
-### 4.4 Remove Duplicate Code
+### 4.4 Remove Duplicate Code ✅
 
 **Issue:** Duplicate methods in renderers.
 
-- [ ] Fix `ComposeBubbleChartRenderer.kt` (Lines 97 and 142):
-  - [ ] Remove duplicate `calculateBubbleRadius()` method
-  - [ ] Keep only one implementation
-  - [ ] Verify tests pass
+- [x] Fix `ComposeBubbleChartRenderer.kt` (Lines 97 and 142):
+  - [x] Remove duplicate `calculateBubbleRadius()` method
+  - [x] Keep only one implementation
+  - [x] Verify tests pass
 
 ### 4.5 Add Missing Stability Annotations
 

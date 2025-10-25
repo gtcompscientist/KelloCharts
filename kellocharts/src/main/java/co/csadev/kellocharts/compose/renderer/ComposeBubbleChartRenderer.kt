@@ -103,7 +103,7 @@ class ComposeBubbleChartRenderer(
 
         // Scale radius based on Z value relative to max
         val normalizedZ = z / maxBubbleZ
-        val scaledRadius = normalizedZ * data.bubbleScale * 50.dp.toPx() // Base max size
+        val scaledRadius = normalizedZ * data.bubbleScale * ChartRenderingConstants.BUBBLE_BASE_SIZE_DP.dp.toPx()
 
         return maxOf(minRadius, scaledRadius)
     }
@@ -157,21 +157,6 @@ class ComposeBubbleChartRenderer(
         val x = valueToX(bubble.x, viewport, size)
         val y = valueToY(bubble.y, viewport, size)
         return Offset(x, y)
-    }
-
-    /**
-     * Convert bubble radius to screen scale.
-     */
-    private fun DrawScope.calculateBubbleRadius(z: Float): Float {
-        val minRadius = data.minBubbleRadius.dp.toPx()
-
-        if (maxBubbleZ == 0f) return minRadius
-
-        // Scale radius based on Z value relative to max
-        val normalizedZ = z / maxBubbleZ
-        val scaledRadius = normalizedZ * data.bubbleScale * 50.dp.toPx()
-
-        return maxOf(minRadius, scaledRadius)
     }
 
     /**
