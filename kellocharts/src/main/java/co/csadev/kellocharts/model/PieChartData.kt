@@ -2,6 +2,7 @@ package co.csadev.kellocharts.model
 
 import android.graphics.Color
 import android.graphics.Typeface
+import androidx.compose.runtime.Immutable
 import co.csadev.kellocharts.formatter.PieChartValueFormatter
 import co.csadev.kellocharts.formatter.SimplePieChartValueFormatter
 import co.csadev.kellocharts.model.dsl.pieData
@@ -10,7 +11,10 @@ import java.util.*
 
 /**
  * Data for PieChart, by default it doesn't have axes.
+ *
+ * Note: Marked as @Immutable for Compose optimization. Create new instances for data changes.
  */
+@Immutable
 class PieChartData(var values: MutableList<SliceValue> = ArrayList(),
                    override var axisXBottom: Axis? = null,
                    override var axisYLeft: Axis? = null,

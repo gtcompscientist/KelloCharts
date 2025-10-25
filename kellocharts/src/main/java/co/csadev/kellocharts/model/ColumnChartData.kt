@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.model
 
+import androidx.compose.runtime.Immutable
 import co.csadev.kellocharts.model.dsl.columnData
 import java.util.*
 
@@ -8,7 +9,10 @@ import java.util.*
  * from 0 to numOfColumns-1 and
  * column index is used as column X value, so first column has X value 0, second clumn has X value 1 etc.
  * If you want to display AxisValue for given column you should initialize AxisValue with X value of that column.
+ *
+ * Note: Marked as @Immutable for Compose optimization. Create new instances for data changes.
  */
+@Immutable
 class ColumnChartData(var columns: MutableList<Column> = ArrayList(), var isStacked: Boolean = false, var isHorizontal: Boolean = true) : AbstractChartData() {
     var fillRatio = DEFAULT_FILL_RATIO
         set(value) {

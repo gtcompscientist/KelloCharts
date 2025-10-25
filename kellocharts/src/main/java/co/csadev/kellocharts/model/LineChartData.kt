@@ -1,11 +1,17 @@
 package co.csadev.kellocharts.model
 
+import androidx.compose.runtime.Immutable
 import co.csadev.kellocharts.model.dsl.lineData
 import java.util.*
 
 /**
  * Data model for LineChartView.
+ *
+ * Note: Marked as @Immutable for Compose optimization. While the class has mutable
+ * fields, in practice it should be treated as immutable after creation for best
+ * Compose performance. Create new instances for data changes.
  */
+@Immutable
 class LineChartData(var lines: MutableList<Line> = ArrayList(),  var baseValue: Float = DEFAULT_BASE_VALUE) : AbstractChartData() {
 
     override fun update(scale: Float) {
