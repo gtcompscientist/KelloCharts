@@ -1,24 +1,32 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.71'
+    // Version definitions
+    ext {
+        kotlin_version = '2.0.21'
+        agp_version = '8.5.2'
+        compose_bom_version = '2024.08.00'
+        coroutines_version = '1.8.1'
+        compose_compiler_version = '1.5.14'
+    }
+
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "com.android.tools.build:gradle:$agp_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.github.triplet.gradle:play-publisher:1.2.2'
+        // Removed deprecated Bintray and Maven plugins
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        // Removed jcenter (deprecated)
     }
 }
 
