@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.compose.common
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -163,7 +164,10 @@ fun ChartLegend(
 
 /**
  * Data class for legend items.
+ *
+ * Marked as @Immutable for Compose optimization to prevent unnecessary recomposition.
  */
+@Immutable
 data class LegendItemData(
     val label: String,
     val color: Color

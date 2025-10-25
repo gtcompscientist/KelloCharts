@@ -435,12 +435,46 @@ class ComposeLineChartRenderer(
 
     /**
      * Convert Android PathEffect to Compose PathEffect.
-     * Note: This is a simplified conversion. Full implementation may need more sophisticated mapping.
+     *
+     * Note: Android PathEffect doesn't expose its internal values, so this provides
+     * sensible defaults for common cases. For more control, use Compose PathEffect directly.
+     *
+     * ## Supported Effects
+     *
+     * - **DashPathEffect**: Converts to dashed lines with typical 10px dash, 5px gap pattern
+     * - **CornerPathEffect**: Converts to rounded corners with 10px radius
+     * - **Other effects**: Returns null (not yet implemented)
+     *
+     * ## Recommendation
+     *
+     * For full control over dashed lines, modify the Line model to use Compose PathEffect directly
+     * instead of android.graphics.PathEffect.
+     *
+     * @param effect The Android PathEffect to convert
+     * @return Compose PathEffect or null if conversion not supported
      */
     private fun convertPathEffect(effect: android.graphics.PathEffect): PathEffect? {
-        // This would need proper implementation based on the type of PathEffect
-        // For now, return null as a placeholder
-        // TODO: Implement proper PathEffect conversion
-        return null
+        // Android PathEffect is sealed and doesn't expose its values
+        // We can detect the type but can't extract the exact parameters
+        // Providing sensible defaults for common use cases
+
+        return when (effect) {
+            is android.graphics.DashPathEffect -> {
+                // Default dash pattern: 10px on, 5px off
+                PathEffect.dashPathEffect(
+                    intervals = floatArrayOf(10f, 5f),
+                    phase = 0f
+                )
+            }
+            is android.graphics.CornerPathEffect -> {
+                // Default corner radius: 10px
+                PathEffect.cornerPathEffect(radius = 10f)
+            }
+            else -> {
+                // Other effects (ComposePathEffect, etc.) not yet supported
+                Log.d(TAG, "Unsupported PathEffect type: ${effect.javaClass.simpleName}")
+                null
+            }
+        }
     }
 }
