@@ -1,5 +1,6 @@
 package co.csadev.kellocharts.compose.renderer
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -55,6 +56,10 @@ class ComposePieChartRenderer(
     private var centerY: Float = 0f
     private var radius: Float = 0f
 
+    companion object {
+        private const val TAG = "PieChartRenderer"
+    }
+
     /**
      * Update the chart data.
      * Call this when the data changes to trigger a redraw.
@@ -87,10 +92,16 @@ class ComposePieChartRenderer(
 
     override fun draw(drawScope: DrawScope, size: Size, viewport: Viewport) {
         with(drawScope) {
-            if (data.values.isEmpty()) return@with
+            if (data.values.isEmpty()) {
+                Log.w(TAG, "Attempted to draw pie chart with no slices")
+                return@with
+            }
 
             val total = data.values.sumOf { it.value.toDouble() }.toFloat()
-            if (total == 0f) return@with
+            if (total == 0f) {
+                Log.w(TAG, "Attempted to draw pie chart with total value of 0")
+                return@with
+            }
 
             var currentAngle = rotation - 90f // Start at top (12 o'clock)
 
