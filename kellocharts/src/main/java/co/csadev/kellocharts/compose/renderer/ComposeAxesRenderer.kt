@@ -250,7 +250,7 @@ class ComposeAxesRenderer(
         alignRight: Boolean = false
     ) {
         val paint = android.graphics.Paint().apply {
-            this.color = color.hashCode()
+            this.color = color.toArgb()
             textSize = labelTextSize.toPx()
             isAntiAlias = true
             textAlign = if (alignRight) android.graphics.Paint.Align.RIGHT else android.graphics.Paint.Align.CENTER
@@ -259,7 +259,7 @@ class ComposeAxesRenderer(
         drawContext.canvas.nativeCanvas.drawText(text, x, y, paint)
     }
 
-    override fun getValueAtPosition(position: Offset): SelectedValue? {
+    override fun getValueAtPosition(position: Offset, viewport: Viewport): SelectedValue? {
         // Axes don't typically have selectable values
         return null
     }

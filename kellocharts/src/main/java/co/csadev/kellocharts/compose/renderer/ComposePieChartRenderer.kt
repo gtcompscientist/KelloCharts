@@ -178,8 +178,9 @@ class ComposePieChartRenderer(
         radius -= sliceSpacing
     }
 
-    override fun getValueAtPosition(position: Offset): SelectedValue? {
+    override fun getValueAtPosition(position: Offset, viewport: Viewport): SelectedValue? {
         // Calculate distance from center
+        // Note: Pie charts don't use viewport for selection (polar coordinates from center)
         val dx = position.x - centerX
         val dy = position.y - centerY
         val distance = sqrt(dx * dx + dy * dy)

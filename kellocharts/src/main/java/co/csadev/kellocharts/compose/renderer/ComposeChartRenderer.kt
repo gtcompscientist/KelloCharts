@@ -82,8 +82,9 @@ interface ComposeChartRenderer {
      * Calculate which value (if any) is at the given position.
      * Used for touch/click handling.
      *
-     * @param position The position to check
+     * @param position The position to check (in screen coordinates)
+     * @param viewport The current viewport (for coordinate transformation)
      * @return SelectedValue if a value is found, null otherwise
      */
-    fun getValueAtPosition(position: Offset): SelectedValue?
+    fun getValueAtPosition(position: Offset, viewport: Viewport): SelectedValue?
 }

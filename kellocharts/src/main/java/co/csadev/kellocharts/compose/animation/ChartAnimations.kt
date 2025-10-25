@@ -127,14 +127,12 @@ fun animateViewport(
         label = "ViewportBottom"
     )
 
-    return remember(animatedLeft.value, animatedTop.value, animatedRight.value, animatedBottom.value) {
-        mutableStateOf(
-            Viewport(
-                animatedLeft.value,
-                animatedTop.value,
-                animatedRight.value,
-                animatedBottom.value
-            )
+    return derivedStateOf {
+        Viewport(
+            animatedLeft.value,
+            animatedTop.value,
+            animatedRight.value,
+            animatedBottom.value
         )
     }
 }
